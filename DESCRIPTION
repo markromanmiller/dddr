@@ -1,0 +1,18 @@
+Package: vrmvrm
+Type: Package
+Title: VectoR Manager for Virtual Reality and Motion
+Version: 0.1.0
+Author: Mark Roman Miller <mrmillr@stanford.edu>
+Maintainer: Mark Roman Miller <mrmillr@stanford.edu>
+Description: Provides a tidy-style interface for working with 
+    three-dimensional position and rotation data.
+License: GNU LGPLv3
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    magrittr
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

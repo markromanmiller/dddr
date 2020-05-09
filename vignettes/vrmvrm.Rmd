@@ -1,0 +1,45 @@
+---
+title: "vrmvrm"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vrmvrm}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tidyverse)
+library(vrmvrm)
+```
+
+what if i modify mutate to see if the top level right side is a vrm function, if so, do my fancy eval, else do dplyr's eval. it's a 
+
+v 0.1:
+vrm functions only take symbols, not expressions
+create vectors
+add vectors
+
+v 0.2:
+vrm functions do fancier NSE stuff
+- create singular vectors
+
+can I use attrs to refer to these list-of-vectors
+
+```{r}
+
+some_data %>%
+  mutate(
+    mything = vadd(head, left),
+    notmything = 4
+  )
+
+```
+
+
