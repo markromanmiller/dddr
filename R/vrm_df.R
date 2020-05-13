@@ -14,7 +14,7 @@ mutate.vrm_df <- function(.data, ...) {
   envir <- rlang::caller_env()
   collations <- attr(.data, "collations")
   for (i in seq_along(collations)) {
-    #TODO: save masked objects
+    # TODO: save masked objects
     envir[[names(collations)[[i]] ]] <- collations[[i]]
   }
 
