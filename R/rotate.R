@@ -1,16 +1,20 @@
 
-rotate.vrm_vector3(...) {
+rotate <- function(...) {
+  UseMethod("rotate")
+}
+
+rotate.vrm_vector3 <- function(...) {
   rotate.vrm_(...)
 }
 
-rotate.vrm_quat(...) {
+rotate.vrm_quat <- function(...) {
   rotate.vrm_(...)
 }
 
 #' rotand = dividend / addend
 #'
 #'
-rotate.vrm_(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=NULL, from=NULL, to=NULL) {
+rotate.vrm_ <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=NULL, from=NULL, to=NULL) {
   # TODO: what if there's a second from-to option, constraining two axes?
   # TODO: What order makes the most sense?
   # signatures:
