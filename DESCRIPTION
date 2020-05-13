@@ -11,8 +11,11 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
-    magrittr
+    rlang,
+    magrittr,
+    ggplot2
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr

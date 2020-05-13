@@ -19,27 +19,293 @@ library(tidyverse)
 library(vrmvrm)
 ```
 
-what if i modify mutate to see if the top level right side is a vrm function, if so, do my fancy eval, else do dplyr's eval. it's a 
 
-v 0.1:
-vrm functions only take symbols, not expressions
-create vectors
-add vectors
+## philosopshy
 
-v 0.2:
-vrm functions do fancier NSE stuff
-- create singular vectors
+todyverse ontology (column per variable)
 
-can I use attrs to refer to these list-of-vectors
+but then 3d vector types are difficult to work with
 
-```{r}
+instead of 3 lines per op
 
-some_data %>%
-  mutate(
-    mything = vadd(head, left),
-    notmything = 4
-  )
+speak how you think about these operations
+
+requring ggplot - that's a philosophy choice that this package is 50% more valuable if you can see what is being 
+
+## math
+
+
+add(addend_a, addend_b) (collides with magrittr::add)
+subtract(minuend, subtrahend) (collides with magrittr::subtract)
+multiply(quat_a, quat_b),
+conjugate(quat)
+
+cross(points_a, points_b, handedness=c("right", "left")) (collides with purrr:cross of the tidyverse)
+
+dot(points_a, points_b)
+
+angle_between(points_a, points_b, origin=c(0, 0, 0))
+
+normalize(points, length=1)
+
+distance(to=points_a, from=c(0,0,0))
+
+
+
+## rotations
+
+rotate (rotand, rotator=NULL, origin=NULL, axis=NULL, angle=NULL, from=NULL, to=NULL)
+
+> dividend, divisor,
+
+rotand from Loci rotandi (points to be rotated)
+
+(addend - addendum (addo) - rotare, rotandum)
+
+rotandi is 'things to be rotated' - can be points or quats
+
+> should this be 'rotator'? or 'by'?
+> 'by' is ambiguous (by q or by 50 degrees), rotator is not.
+
+## projections
+
+project(points, onto=vec)
+
+reject(points, from=vec)
+
+## other useful ones
+
+extend(initial, direction, target_normal, target_point=c(0,0,0), include_backwards=F)
+
+extend a point+direction onto a target plane
+
+- starting at initinal, go in direction until you hit the target plane defined by position and normal vector
+- if you want to include vectors traversing backwards, say T, otherwise we get NAs.
+
+get yaw pitch rool (Again in stettngs)
+
+## time and motion
+
+
+differentiate(points, times=NULL, emthdo=("forward", "backward"))
+
+difference_quotient
+
+  > do you want velocity or displacement?
+  > is it a misnomer to call it differentiate when it really should be first-ordder difference?
+  
+ get the finite difference between lines
+ 
+[rename] integrate(deltas, times=NULL ) # works like cumsum ? specify initial values?
+
+## settings 
+
+settings module - ways to specify front / back / left / right ? look_at_front
+
+handedness (left or right)
+interpretations of front / back / left / right etc,
+can also make plots of x / y / z, etc.
+
+also show the positive axes (x=red, y=green, z=blue)
+
+_px, _py, _pz settings
+
+## todos:
+
+error handling when the function isn't called from mutate
+
+example dataframes: spiral and axes
+
+```{r eval=FALSE}
+
+# one approach - add entries in the tibble that become useful in the variable.
+
+library(rlang)
+
+foobar <- tribble(~foo, ~bar, 1, 2, 3, 4)
+
+env <- as_data_mask(foobar)
+
+get("foo", envir = env) #(it's a lazy env)
+
+foobar$mat <- matrix(data=c(5,6,7,8), nrow=2)
+
+foobar %>% 
+  mutate(doink = foo + bar)
+
+print(foobar$doink)
+
+
+attributes(foobar)
+
+foobar$l
+
+attr(foobar, "names") <- c(attr(foobar, "names"), "poink")
 
 ```
+
+Options to have the right behavior:
+
+
+1) 3d point / vec C data type, that adds to the types tibbles are OK with
+
+2) Morphing the mutate functions into standard mutate syntax (Drawback: where do temporary variables get saved?)
+- if I have mutate, can I put things into a temporary environment?
+  - no, because all I can do before calling the dataframe mutate is 
+- can I add in a -select in between? yes!!!
+
+3) Include the standard mutate raw code (with minor changes) and have custom dispatches for vrm methods
+
+4) Use something like dplyr_col_modify maybe?
+
+5) because things are included in the caller environment, can't I use a little bit of sandwich magic to expand / unexpand things?
+- when called on a vrm_df, mutate.vrm_df adds into the middle environment the names of known point/quat columns.
+- these objects can have reasonable errors
+- the `[<-` function can be overridden when the result is a v3 or quat (yay)
+
+```{r}
+foobar <- tribble(~foo, ~bar, 1, 2, 3, 4)
+
+attr(foobar, "class") <- c("vrm_df", attr(foobar, "class"))
+
+mutate.vrm_df <- function(.data, ...) {
+  dots <- list2(...)
+  boink <- 5
+  fin <- 10
+  envir <- environment()
+  print(envir$fin)
+  envir$fin <- 11
+  envir$boink <- 6
+  
+  evalq(NextMethod("mutate", .data, ...), envir)
+}
+
+wop <- 7
+foo <- 12
+boink <- 9
+
+foobar %>%
+  mutate(baz = boink)
+
+```
+
+```{r}
+library(tidyverse)
+
+as_vrm_df <- function(x) {
+  # register it as a vrm_df
+  attr(x, "class") <- c("vrm_df", attr(x, "class"))
+
+  # TODO: in this method register conventions and stuff
+  # add a slot for points and quats.
+  attr(x, "collations") <- list()
+  
+  x
+}
+
+mutate.vrm_df <- function(.data, ...) {
+  # do an ugly fake masking of the calling environment... oi.
+  # where else might that be necessary? in summarize and group by? that would be nice...
+  envir <- rlang::caller_env()
+  collations <- attr(.data, "collations")
+  for (i in seq_along(collations)) {
+    envir[[names(collations)[[i]] ]] <- collations[[i]]
+  }
+
+  NextMethod("mutate", .data, ...)
+}
+
+`+.collation` <- function(a, b) {
+  print(attr(a, "source_df"))
+}
+
+dplyr_col_modify.vrm_df <- function(data, cols) {
+  print("VRM VRM")
+  print(cols)
+  NextMethod()
+}
+
+simple_axes_tbl <- tribble(
+  ~foo_px, ~foo_py, ~foo_pz,
+  1,       0,       0,
+  0,       1,       0,
+  0,       0,       1
+) %>%
+  as_vrm_df()
+
+collate.vrm_df <- function(vrm_df, ...) {
+  # register this collation in the
+
+  # TODO: if it's unnamed one, look in 'settings' and ensure all those _px's match.
+  args <- as.list(match.call(expand.dots = FALSE))$`...`
+  n_args <- length(args)
+
+  for (i in seq_along(args)) {
+    a <- args[[i]]
+
+    attr(a, "class") <- c("collation", attr(a, "class"))
+    attr(a, "source_df") <- vrm_df
+
+    attr(vrm_df, "collations")[[ names(args)[[i]] ]] <- a
+  }
+
+  print(attr(vrm_df, "collations"))
+  vrm_df
+}
+
+collate <- function(...) {
+  UseMethod("collate")
+}
+
+
+
+a <- simple_axes_tbl %>%
+  collate(foo = list(x=foo_px, y=foo_py, z=foo_pz)) %>%
+  mutate(
+    bar = foo + foo,
+    baz = bar + bar,
+    hoc = bar$foo_px + bar$foo_py
+  )
+
+a
+
+myfhc <- function(x) {
+  class(x) <- c("myfhc", class(x))
+  x
+}
+
+print.myfhc <- function(x) {
+  "fpo"
+}
+
+format.myfhc <- function(x) {
+  "aoefh"
+}
+
+string.myfhc <- function(x){
+  "Aef"
+}
+
+a <- simple_axes_tbl %>%
+  crossing(x=1:10) %>%
+  mutate(
+    foo = tibble(foo_px=foo_px, foo_py=foo_py) %>% myfhc,
+    wop = foo$foo_px + foo$foo_py,
+    foo = foo %>% mutate(whoa = foo_pz * x),
+    whoa = foo$whoa
+  )
+
+a
+
+a$foo %>% print.default()
+
+  # my biggest reservation i that tibble or whatever doesn't have a nice print method.
+
+print(simple_axes_tbl)
+```
+
+
+
+
 
 

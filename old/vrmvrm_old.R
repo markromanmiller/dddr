@@ -4,6 +4,15 @@ get_col <- function(symed, suffix, envir) {
   symed %>% rlang::as_string() %>% paste(suffix, sep="") %>% sym %>% eval(envir=envir)
 }
 
+#' Add numeric vectors representing points together
+#'
+#' @param addend_a,addend_b 3-vector specifications, either a name that can be
+#'   expanded into three columns of the data.frame, or a 3-element R vector
+#'   representing a constant
+#' @return The vector sum of the addends as entries in the mutated data.frame
+#'   using the assigned name
+#' @example vrm_axes %>% mutate(vadd())
+#' @example vrm_spiral %>% mutate(vadd(c(0,0,1), spiral))
 vadd <- function(a, b) {
   envir <- rlang::caller_env()
 
