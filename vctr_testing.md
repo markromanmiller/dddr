@@ -1,0 +1,93 @@
+---
+title: "vctrs_test"
+author: "Mark Roman Miller"
+date: "5/13/2020"
+output: html_document
+---
+
+
+```r
+library(tidyverse)
+library(vctrs)
+library(zeallot)
+
+# what's the vector ontology?
+new_vector3 <- function(x=double(), y=double(), z=double()) {
+  vec_assert(x, ptype=double())
+  vec_assert(y, ptype=double())
+  vec_assert(z, ptype=double())
+  new_rcrd(list(x=x, y=y, z=z), class="vrm_vector3")
+}
+
+vector3 <- function(x, y, z) {
+  c(x, y, z) %<-% vec_cast_common(x, y, z, .to=double())
+  c(x, y, z) %<-% vec_recycle_common(x, y, z)
+  new_vector3(x, y, z)
+}
+
+format.vrm_vector3 <- function(v, ...) {
+  # TODO: keep width, etc in mind.
+  x <- field(v, "x")
+  y <- field(v, "y")
+  z <- field(v, "z")
+
+  out <- paste0("(", x, ", ", y, ", ", z, ")")
+  out[is.na(x) | is.na(y) | is.na(z)] <- NA
+
+  out
+}
+
+as.character.vrm_vector3 <- function(x, ...) {
+  format(x, ...)
+}
+
+paged_table_obj_sum.vrm_vector3 <- function(x) {
+  format(x)
+}
+
+type_sum.vrm_vector3 <- function(x) {
+  format(x)
+}
+
+knit_print.vrm_vector3 <- function(x, ...) {
+  "foo"
+}
+
+vec_ptype_abbr.vrm_vector3 <- function(x, ...) {
+  "vector3"
+}
+
+s3_register("tibble::type_sum", "vrm_vector3")
+
+sqrt_1_3 <- sqrt(1/3)
+
+sample_table <- tibble(pos = vector3(c(1, 0, 0, sqrt_1_3), c(0, 1, 0, sqrt_1_3), c(0, 0, 1, sqrt_1_3)))
+
+print(rmarkdown::paged_table(sample_table))
+```
+
+```
+## [1] "paged_table"
+##                                                         pos
+## 1                                                 (1, 0, 0)
+## 2                                                 (0, 1, 0)
+## 3                                                 (0, 0, 1)
+## 4 (0.577350269189626, 0.577350269189626, 0.577350269189626)
+```
+
+```r
+sample_table
+```
+
+```
+## # A tibble: 4 x 1
+##                                                         pos
+##                                                 <(1, 0, 0)>
+##                                                 <(1, 0, 0)>
+##                                                 <(1, 0, 0)>
+##                                                 <(1, 0, 0)>
+## 1                                                 (1, 0, 0)
+## 2                                                 (0, 1, 0)
+## 3                                                 (0, 0, 1)
+## 4 (0.577350269189626, 0.577350269189626, 0.577350269189626)
+```

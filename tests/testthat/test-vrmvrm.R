@@ -2,122 +2,78 @@ context("everything")
 library(tidyverse)
 library(vrmvrm)
 
-simple_axes_tbl <- tribble(
-  ~foo_px, ~foo_py, ~foo_pz,
-        1,       0,       0,
-        0,       1,       0,
-        0,       0,       1
-) %>% as_vrm_df()
+sqrt_1_3 <- sqrt(1/3)
 
-doubled <- tribble(
-  ~foo_px, ~foo_py, ~foo_pz, ~bar_px, ~bar_py, ~bar_pz,
-        1,       0,       0,       2,       0,       0,
-        0,       1,       0,       0,       2,       0,
-        0,       0,       1,       0,       0,       2
-) %>%
-  as_vrm_df %>%
-  collate(
-    foo = list(px=foo_px, py=foo_py, pz=foo_pz)
-  )
+foo_px <- c(1, 0, 0, sqrt_1_3)
+foo_py <- c(0, 1, 0, sqrt_1_3)
+foo_pz <- c(0, 0, 1, sqrt_1_3)
 
+simple_axes_tbl <- tibble(foo = vector3(x=foo_px, y=foo_py, z=foo_pz))
 
-test_that("addition", {
-  expect_equal(
-    doubled,
-    simple_axes_tbl %>%
-      collate(foo = list(px=foo_px, py=foo_py, pz=foo_pz)) %>%
-      mutate(bar = foo + foo)
-  )
+test_that("Vector3 entries can be extracted", {
+  extracted <- simple_axes_tbl %>%
+    mutate(
+      foo_px = foo$x,
+      foo_py = foo$y,
+      foo_pz = foo$z
+    )
+  expect_equal(extracted$foo_px, foo_px)
+  expect_equal(extracted$foo_py, foo_py)
+  expect_equal(extracted$foo_pz, foo_pz)
 })
 
-test_that("vector3 call", {
-  expect_equal(
-    doubled,
-    simple_axes_tbl %>%
-      mutate(
-        foo = vector3(px=foo_px, py=foo_py, pz=foo_pz),
-        bar = foo + foo
-      )
-  )
+test_that("Vector3 entries can be added", {
+  doubled <- simple_axes_tbl %>%
+    mutate(
+      bar = foo + foo,
+      bar_px = bar$x,
+      bar_py = bar$y,
+      bar_pz = bar$z
+    )
+
+  bar_px <- c(2, 0, 0, 2*sqrt_1_3)
+  bar_py <- c(0, 2, 0, 2*sqrt_1_3)
+  bar_pz <- c(0, 0, 2, 2*sqrt_1_3)
+
+  expect_equal(doubled$bar_px, bar_px)
+  expect_equal(doubled$bar_py, bar_py)
+  expect_equal(doubled$bar_pz, bar_pz)
 })
 
-test_that("vector3 call, two separate mutates", {
-  expect_equal(
-    doubled,
-    simple_axes_tbl %>%
-      mutate(foo = vector3(px=foo_px, py=foo_py, pz=foo_pz)) %>%
-      mutate(bar = foo + foo)
-  )
+test_that("Vector3 entries can be added to numeric vectors of length 3", {
+  translated_z <- simple_axes_tbl %>%
+    mutate(
+      bar = foo + c(0, 0, 1),
+      bar_px = bar$x,
+      bar_py = bar$y,
+      bar_pz = bar$z
+    )
+  expect_equal(translated_z$bar_px, foo_px)
+  expect_equal(translated_z$bar_py, foo_py)
+  expect_equal(translated_z$bar_pz, c(1, 1, 2, 1+sqrt_1_3))
+
+  translated_x <- simple_axes_tbl %>%
+    mutate(
+      bar = c(1, 0, 0) + foo,
+      bar_px = bar$x,
+      bar_py = bar$y,
+      bar_pz = bar$z
+    )
+  expect_equal(translated_x$bar_px, c(2, 1, 1, 1+sqrt_1_3))
+  expect_equal(translated_x$bar_py, foo_py)
+  expect_equal(translated_x$bar_pz, foo_pz)
+
 })
 
-tripled <- tribble(
-  ~foo_px, ~foo_py, ~foo_pz, ~bar_px, ~bar_py, ~bar_pz, ~baz_px, ~baz_py, ~baz_pz,
-  1,       0,       0,       2,       0,       0,       3,       0,       0,
-  0,       1,       0,       0,       2,       0,       0,       3,       0,
-  0,       0,       1,       0,       0,       2,       0,       0,       3
-) %>%
-  as_vrm_df %>%
-  collate(
-    foo = list(px=foo_px, py=foo_py, pz=foo_pz)
-  )
+test_that("Vector3 entries can't be added to numeric vectors of various non-3 sizes", {
+  error_class = "dplyr_error"
+  message = "the numeric adding to a vector3 must have length 3"
 
-test_that("cascading additions", {
-  expect_equal(
-    tripled,
-    simple_axes_tbl %>%
-      collate(foo = list(px=foo_px, py=foo_py, pz=foo_pz)) %>%
-      mutate(
-        bar = foo + foo,
-        baz = bar + foo
-      )
-  )
+  expect_error(simple_axes_tbl %>% mutate(bar = foo + c(0, 0, 1, 0)), class = error_class, regexp = message)
+  expect_error(simple_axes_tbl %>% mutate(bar = c(0)+ foo), class = error_class, regexp = message)
+  expect_error(simple_axes_tbl %>% mutate(bar = foo + c(0, 0)), class = error_class, regexp = message)
+  expect_error(simple_axes_tbl %>% mutate(bar = rep(1, 15) + foo), class = error_class, regexp = message)
 })
-
-test_that("cascading additions, two mutates", {
-  expect_equal(
-    tripled,
-    simple_axes_tbl %>%
-      collate(foo = list(px=foo_px, py=foo_py, pz=foo_pz)) %>%
-      mutate(bar = foo + foo) %>%
-      mutate(baz = bar + foo)
-  )
-})
-
-modified <- tribble(
-  ~foo_px, ~foo_py, ~foo_pz, ~bar_px, ~bar_py, ~bar_pz,
-  1,       0,       1,       2,       0,       2,
-  0,       1,       1,       0,       2,       2,
-  0,       0,       1,       0,       0,       2
-) %>%
-  as_vrm_df %>%
-  collate(
-    foo = list(px=foo_px, py=foo_py, pz=foo_pz)
-  )
-
-test_that("calls use the most recent version of the values", {
-  expect_equal(
-    modified,
-    simple_axes_tbl %>%
-      collate(foo = list(px=foo_px, py=foo_py, pz=foo_pz)) %>%
-      mutate(
-        foo_pz = 1,
-        bar = foo + foo
-      )
-  )
-})
-
-test_that("calls use the most recent version of the values", {
-  expect_equal(
-    modified,
-    simple_axes_tbl %>%
-      collate(foo = list(px=foo_px, py=foo_py, pz=foo_pz)) %>%
-      mutate(foo_pz = 1) %>%
-      mutate(bar = foo + foo)
-  )
-})
-
-
-
 
 
 

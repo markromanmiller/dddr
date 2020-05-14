@@ -1,0 +1,65 @@
+---
+title: "tbl_test"
+author: "Mark Roman Miller"
+date: "5/13/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(DT)
+library(pillar)
+library(vctrs)
+
+special_cars <- mtcars %>%
+  mutate(foo = mtcars %>% select(disp, gear))
+
+special_cars 
+
+format(special_cars)
+
+format.default(special_cars)
+
+
+a <- structure(list(px=3, py=1, pz=4))
+
+class(a) <- c("foobar") #, class(a))
+
+
+`pillar::pillar_shaft.foobar` <- function(x) {
+  print("I AM GETTING CALLED.")
+  strs <- rep("foobar this", x)
+  print(strs)
+  new_pillar_shaft(strs)
+}
+
+mtcars %>%
+  select(mpg) %>%
+  mutate(
+    foo = a
+  )
+
+pillar_shaft(c(a))
+
+pillar_shaft(list(a,a,a))
+
+vec_ptype_abbr.foobar <- function(x) {
+  "foabaef"
+}
+
+vctrs::s3_register("pillar::pillar_shaft", "foobar")
+vctrs::s3_register("vctrs::vec_ptype_abbr", "foobar")
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
