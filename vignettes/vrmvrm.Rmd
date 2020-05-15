@@ -27,6 +27,8 @@ The R package `vrmvrm` is a tidyverse-style toolset for working with spatial dat
 
 # Quick Overview
 
+(sections, be snazzy)
+
 # Philosophy
 
 The tidyverse 
@@ -41,21 +43,30 @@ speak how you think about these operations
 
 requring ggplot - that's a philosophy choice that this package is 50% more valuable if you can see what is being 
 
+# Display
+
+semantic (front, left, right, etc)
+uses cowplot to make top / right / front type diagrams
+can do projective stuff too!
+stereograms?
+
+
 # Mathematics
 
 we have standard vector mathematics operations.
 
 ```{R}
-spiral <- tibble(
-  i = seq(0, 4*pi, 0.01),
-  circular_part = vector3(x=cos(5*i), y=sin(5*i), z=0),
-  forward_part = vector3(x=0, y=0, z=i),
-  spiral_part = circular_part * i / 4 + forward_part
-)
+spiral <- data.frame(i = seq(0, 4*pi, 0.01)) %>%
+  mutate(
+    circular_part = vector3(x=cos(5*i), y=sin(5*i), z=0),
+    forward_part = vector3(x=0, y=0, z=i),
+    spiral_part = circular_part * i / 4 + forward_part
+  )
 
-spiral %>% 
+spiral %>%
   ggplot(aes(x=spiral_part$x, y=spiral_part$y, size=spiral_part$z)) +
   geom_point() + coord_equal()
+
 
 spiral %>% 
   ggplot(aes(x=spiral_part$z, y=spiral_part$x, color=spiral_part$y)) +
@@ -81,11 +92,6 @@ anim
 
 
 # Plotting
-
-semantic (front, left, right, etc)
-uses cowplot to make top / right / front type diagrams
-can do projective stuff too!
-stereograms?
 
 # Rotations
 
