@@ -1,0 +1,42 @@
+---
+title: "vrmvrm"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# About
+
+The R package `vrmvrm` (pronouced "vroom-vroom") is a tidyverse-style toolset for working with spatial data. Unlike most packages working with spatial data in R, we have focused on small-scale data rather than geographic data. This is because the package creator has a background in behavioral data collected virtual and augmented reality studies.
+
+# Quick View
+
+```{r}
+library(tidyverse)
+library(vrmvrm)
+```
+
+```{R}
+spiral <- tibble(i = seq(0, 10*pi, 0.05)) %>%
+  mutate(
+    # vector3s are created using three numeric vector arguments,
+    # and thanks to dplyr, can refer to other columns in the dataframe
+    circular_part = vector3(x=cos(i), y=sin(i), z=0),
+    forward_part = vector3(x=0, y=0, z=i/15),
+    # vector3s can be added together and multiplied by numerics
+    spiral_part = circular_part * i / 30 + forward_part
+  )
+
+spiral %>% head(10)
+
+spiral %>%
+  # field access uses the $ operator
+  ggplot(aes(x=spiral_part$x, y=spiral_part$y)) +
+  geom_point() +
+  geom_path() +
+  coord_equal()
+```
+
+# Contributions
+
+Contributions are welcome! The interest is not sufficiently large to be a bandwidth issue for me, so the issue tracker can be used for bug reports, feature requests, and questions - whatever you might need.

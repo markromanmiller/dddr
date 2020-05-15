@@ -44,7 +44,6 @@ vec_ptype_abbr.quat <- function(x, ...) {
   "quat"
 }
 
-# TODO: is there some nice way to enable casting?
 upgrade_quat <- function(v) {
   stopifnot(length(v) == 4)
 
