@@ -24,7 +24,8 @@ vector3 <- function(x, y, z) {
   }
 }
 
-format.vrm_vector3 <- function(v, ...) {
+format.vrm_vector3 <- function(x, ...) {
+  v <- x # don't overwrite the name
   # TODO: keep width, etc in mind.
   x <- vctrs::field(v, "x")
   y <- vctrs::field(v, "y")
@@ -40,6 +41,9 @@ vec_ptype_abbr.vrm_vector3 <- function(x, ...) {
   "vector3"
 }
 
+upgrade_vector3 <- function(v) {
+  stopifnot(length(v) == 3)
 
-
+  new_vector3(x = v[[1]], y = v[[2]], z = v[[3]])
+}
 

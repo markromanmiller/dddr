@@ -1,6 +1,6 @@
-context("everything")
-library(tidyverse)
+context("vector3 basics")
 library(vrmvrm)
+library(dplyr)
 
 sqrt_1_3 <- sqrt(1/3)
 
@@ -8,7 +8,7 @@ foo_px <- c(1, 0, 0, sqrt_1_3)
 foo_py <- c(0, 1, 0, sqrt_1_3)
 foo_pz <- c(0, 0, 1, sqrt_1_3)
 
-simple_axes_tbl <- tibble(foo = vector3(x=foo_px, y=foo_py, z=foo_pz))
+simple_axes_tbl <- data.frame(foo = vector3(x=foo_px, y=foo_py, z=foo_pz))
 
 test_that("Vector3 entries can be extracted", {
   extracted <- simple_axes_tbl %>%
@@ -75,5 +75,5 @@ test_that("Vector3 entries can't be added to numeric vectors of various non-3 si
   expect_error(simple_axes_tbl %>% mutate(bar = rep(1, 15) + foo), class = error_class, regexp = message)
 })
 
-
+# multiplication test with scalar and vector of scalars
 

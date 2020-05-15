@@ -10,7 +10,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width=8,
+  fig.height=5
 )
 ```
 
@@ -42,6 +44,48 @@ requring ggplot - that's a philosophy choice that this package is 50% more valua
 # Mathematics
 
 we have standard vector mathematics operations.
+
+```{R}
+spiral <- tibble(
+  i = seq(0, 4*pi, 0.01),
+  circular_part = vector3(x=cos(5*i), y=sin(5*i), z=0),
+  forward_part = vector3(x=0, y=0, z=i),
+  spiral_part = circular_part * i / 4 + forward_part
+)
+
+spiral %>% 
+  ggplot(aes(x=spiral_part$x, y=spiral_part$y, size=spiral_part$z)) +
+  geom_point() + coord_equal()
+
+spiral %>% 
+  ggplot(aes(x=spiral_part$z, y=spiral_part$x, color=spiral_part$y)) +
+  geom_point() + coord_equal()
+
+```
+
+```{r}
+# animated spiral because fun.
+
+anim <- spiral %>% 
+  crossing(angle_of_rotation = seq(0, 2*pi-0.01, by=2*pi/10)) %>%
+  mutate(spiral_part = rotate(spiral_part, axis=c(1, 0, 0), angle=angle_of_rotation)) %>%
+  ggplot(aes(x=spiral_part$z, y=spiral_part$x, color=spiral_part$y)) +
+  geom_point() + 
+  coord_equal() +
+  gganimate::transition_states(angle_of_rotation, state_length=0)
+
+anim
+
+#gganimate::anim_save("goo.gif", anim)
+```
+
+
+# Plotting
+
+semantic (front, left, right, etc)
+uses cowplot to make top / right / front type diagrams
+can do projective stuff too!
+stereograms?
 
 # Rotations
 
