@@ -1,4 +1,8 @@
 
+angle_between <- function(a, b, origin=c(0, 0, 0)) {
+  stop("Not Implemented Yet")
+}
+
 
 project <- function(points, onto){
   stop("Not Implemented Yet")

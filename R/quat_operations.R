@@ -1,0 +1,79 @@
+
+vec_arith.vrm_quat <- function(op, x, y, ...) {
+  UseMethod("vec_arith.vrm_quat", y)
+}
+vec_arith.vrm_quat.default <- function(op, x, y, ...) {
+  vctrs::stop_incompatible_op(op, x, y)
+}
+
+vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
+  switch(
+    op,
+    "*" = {
+      a <- x # better naming
+      b <- y
+
+      new_quat(
+        w = a$w * b$w - a$x * b$x - a$y * b$y - a$z * b$z,
+        x = a$w * b$x + a$x * b$w + a$y * b$z - a$z * b$y,
+        y = a$w * b$y - a$x * b$z + a$y * b$w + a$z * b$x,
+        z = a$w * b$z + a$x * b$y - a$y * b$x + a$z * b$w
+      )
+    },
+    vctrs::stop_incompatible_op(op, x, y)
+  )
+}
+
+vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
+  switch(
+    op,
+    "*" = {
+      vec_arith.vrm_quat.vrm_quat(op, x, upgrade_quat(y), ...)
+      },
+    vctrs::stop_incompatible_op(op, x, y)
+  )
+}
+
+vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
+  switch(
+    op,
+    "*" = {
+      vec_arith.vrm_quat.vrm_quat(op, upgrade_quat(x), y, ...)
+    },
+    vctrs::stop_incompatible_op(op, x, y)
+  )
+}
+
+`Conj.vrm_quat` <- function(z) {
+  new_quat(
+    w =  z$w,
+    x = -z$x,
+    y = -z$y,
+    z = -z$z
+  )
+}
+
+`all.equal.vrm_quat` <- function(target, current, ...) {
+  # should this be done by the quats function, i.e, where it sends two basis vectors?
+  a <- target
+  b <- current
+  x_basis <- quat(w=0, x=1, y=0, z=0)
+  y_basis <- quat(w=0, x=0, y=1, z=0)
+
+  # TODO: convert this to an internal rotation function call
+  a_x <- a * x_basis * Conj(a)
+  b_x <- b * x_basis * Conj(b)
+  a_y <- a * y_basis * Conj(a)
+  b_y <- b * y_basis * Conj(b)
+
+  # w's are dropped when converting back to vector
+  # TODO: maybe make this more clear how different they are?
+  isTRUE(all.equal(a_x$x, b_x$x, ...)) &&
+    isTRUE(all.equal(a_x$y, b_x$y, ...)) &&
+    isTRUE(all.equal(a_x$z, b_x$z, ...)) &&
+    isTRUE(all.equal(a_y$x, b_y$x, ...)) &&
+    isTRUE(all.equal(a_y$y, b_y$y, ...)) &&
+    isTRUE(all.equal(a_y$z, b_y$z, ...))
+}
+
+

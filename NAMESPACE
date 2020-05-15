@@ -1,2 +1,11 @@
 exportPattern("^[[:alpha:]]+")
+
+#S3method(vec_arith.vrm_vector3, default)
+S3method(format, vrm_vector3)
+S3method(`$`, vrm_vector3)
+
+#S3method(vec_arith.vrm_quat, default)
+S3method(format, vrm_quat)
+S3method(`$`, vrm_quat)
+
 importFrom(magrittr,"%>%")

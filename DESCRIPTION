@@ -11,9 +11,9 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
-    rlang,
+    ggplot2,
     magrittr,
-    ggplot2
+    vctrs
 Suggests: 
     knitr,
     rmarkdown,
