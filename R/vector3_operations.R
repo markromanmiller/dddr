@@ -57,12 +57,15 @@ vec_arith.numeric.vrm_vector3 <- function(op, x, y, ...) {
   )
 }
 
-normalize <- function(v, length=1) {
-  v / sqrt(v$x^2 + v$y^2 + v$z^2)
+distance <- function(to, from=NULL) {
+  if (!is.null(from)) {
+    to <- to - from
+  }
+  sqrt(to$x^2 + to$y^2 + to$z^2)
 }
 
-distance <- function(to, from=c(0, 0, 0)) {
-  stop("Not Implemented Yet")
+normalize <- function(v, length=1) {
+  length * v / distance(v)
 }
 
 cross <- function(pointer, middle, handedness="settings") {
