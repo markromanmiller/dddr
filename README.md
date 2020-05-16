@@ -3,40 +3,19 @@ vrmvrm
 
 # About
 
-The R package `vrmvrm` (pronouced “vroom-vroom”) is a tidyverse-style
+The R package `vrmvrm` (pronouced *vroom-vroom*) is a tidyverse-style
 toolset for working with spatial data. Unlike most packages working with
 spatial data in R, we have focused on small-scale data rather than
 geographic data. This is because the package creator has a background in
-behavioral data collected virtual and augmented reality
-    studies.
+behavioral data collected virtual and augmented reality studies.
 
 # Quick View
 
 ``` r
 library(tidyverse)
-```
-
-    ## ── Attaching packages ─────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
-
-    ## ✓ ggplot2 3.3.0           ✓ purrr   0.3.4      
-    ## ✓ tibble  3.0.1           ✓ dplyr   0.8.99.9002
-    ## ✓ tidyr   1.0.2           ✓ stringr 1.4.0      
-    ## ✓ readr   1.3.1           ✓ forcats 0.5.0
-
-    ## ── Conflicts ────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-    ## x dplyr::filter() masks stats::filter()
-    ## x dplyr::lag()    masks stats::lag()
-
-``` r
+library(gganimate)
 library(vrmvrm)
 ```
-
-    ## 
-    ## Attaching package: 'vrmvrm'
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     cross
 
 ``` r
 spiral <- tibble(i = seq(0, 10*pi, 0.05)) %>%
@@ -45,7 +24,7 @@ spiral <- tibble(i = seq(0, 10*pi, 0.05)) %>%
     # and thanks to dplyr, can refer to other columns in the dataframe
     circular_part = vector3(x=cos(i), y=sin(i), z=0),
     forward_part = vector3(x=0, y=0, z=i/15),
-    # vector3s can be added together and multiplied by numerics
+    # vector3s can be added together and multiplied by numerics 
     spiral_part = circular_part * i / 30 + forward_part
   )
 
@@ -72,11 +51,25 @@ spiral %>%
   # field access uses the $ operator
   ggplot(aes(x=spiral_part$x, y=spiral_part$y)) +
   geom_point() +
-  #geom_path() +
+  geom_path() +
   coord_equal()
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+``` r
+spiral %>%
+  mutate(
+    # rotations can be specified using quaternions, axis / angle, or even from / to vectors
+    spiral_rotated = rotate(spiral_part, axis=c(0, 1, 0), angle=pi/4)
+  ) %>% 
+  ggplot(aes(x=spiral_rotated$x, y=spiral_rotated$y)) +
+  geom_point() +
+  geom_path() +
+  coord_equal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 # Contributions
 
