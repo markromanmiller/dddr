@@ -75,5 +75,42 @@ test_that("Vector3 entries can't be added to numeric vectors of various non-3 si
   expect_error(simple_axes_tbl %>% mutate(bar = rep(1, 15) + foo), class = error_class, regexp = message)
 })
 
-# multiplication test with scalar and vector of scalars
+test_that("Vector3 can be multiplied both left and right by numeric of length 1", {
+  doubled <- simple_axes_tbl %>%
+    mutate(
+      bar = foo * 2,
+      baz = 3 * foo
+    )
+
+  expect_equal(doubled$bar$x, c(2, 0, 0, 2*sqrt_1_3))
+  expect_equal(doubled$bar$y, c(0, 2, 0, 2*sqrt_1_3))
+  expect_equal(doubled$bar$z, c(0, 0, 2, 2*sqrt_1_3))
+
+  expect_equal(doubled$baz$x, c(3, 0, 0, 3*sqrt_1_3))
+  expect_equal(doubled$baz$y, c(0, 3, 0, 3*sqrt_1_3))
+  expect_equal(doubled$baz$z, c(0, 0, 3, 3*sqrt_1_3))
+
+})
+
+test_that("Vector3 can be multiplied both left and right by numeric vector the same length as the vector3 vector", {
+  doubled <- simple_axes_tbl %>%
+    mutate(
+      fac = seq(1, 7, by=2),
+      bar = foo * c(1, 2, 3, 4),
+      baz = fac * foo
+    )
+
+  expect_equal(doubled$bar$x, c(1, 0, 0, 4*sqrt_1_3))
+  expect_equal(doubled$bar$y, c(0, 2, 0, 4*sqrt_1_3))
+  expect_equal(doubled$bar$z, c(0, 0, 3, 4*sqrt_1_3))
+
+  expect_equal(doubled$baz$x, c(1, 0, 0, 7*sqrt_1_3))
+  expect_equal(doubled$baz$y, c(0, 3, 0, 7*sqrt_1_3))
+  expect_equal(doubled$baz$z, c(0, 0, 5, 7*sqrt_1_3))
+
+})
+
+
+
+
 
