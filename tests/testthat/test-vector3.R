@@ -110,6 +110,70 @@ test_that("Vector3 can be multiplied both left and right by numeric vector the s
 
 })
 
+test_that("Vector3 distances are correctly computed", {
+  distances <- data.frame(
+    foo = vector3(
+      x = c(-.5, .5, sqrt(2)/2, 3),
+      y = c(-.5, -sqrt(2)/2, .5, 4),
+      z = c(sqrt(2)/2, .5, -.5, 0)
+    )
+  ) %>%
+    mutate(
+      distance = distance(foo)
+    )
+
+  expect_equal(distances$distance, c(1, 1, 1, 5))
+})
+
+test_that("Vector3 distances are correctly computed from an offset", {
+  distances <- data.frame(
+    foo = vector3(
+      x = c( 1, -4,  4, 3),
+      y = c( 0, -3,  5, 4),
+      z = c(-2,  5, -7, 0)
+    )
+  ) %>%
+    mutate(
+      distance = distance(foo, from=c(0, 2, -3))
+    )
+
+  expect_equal(distances$distance, c(sqrt(6), sqrt(105), sqrt(41), sqrt(22)))
+})
+
+test_that("Vector3 can be normalized", {
+  normalized <- data.frame(
+    foo = vector3(
+      x = c( 1, 0,  4, 3),
+      y = c( 0, 0,  5, 4),
+      z = c(-1, 5, -7, 0)
+    )
+  ) %>%
+    mutate(
+      unit = normalize(foo),
+      normalized_distance = normalize(foo) %>% distance,
+      normalized_distance_of_5 = normalize(foo, length=5) %>% distance
+    )
+
+  expect_equal(normalized$unit$x %>% head(2), c(sqrt(2)/2, 0))
+  expect_equal(normalized$unit$y %>% head(2), c(0, 0))
+  expect_equal(normalized$unit$z %>% head(2), c(-sqrt(2)/2, 1))
+
+  expect_equal(normalized$normalized_distance, c(1, 1, 1, 1))
+  expect_equal(normalized$normalized_distance_of_5, c(5, 5, 5, 5))
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

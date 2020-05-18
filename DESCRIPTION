@@ -14,7 +14,7 @@ Imports:
     ggplot2,
     magrittr,
     vctrs
-Suggests: 
+Suggests:
     knitr,
     rmarkdown,
     testthat
