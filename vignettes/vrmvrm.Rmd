@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, eval=FALSE}
 #library(tidyverse)
 library(dplyr)
 library(ggplot2)
@@ -58,7 +58,7 @@ stereograms?
 
 we have standard vector mathematics operations.
 
-```{R}
+```{R eval=FALSE}
 spiral <- data.frame(i = seq(0, 4*pi, 0.01)) %>%
   mutate(
     circular_part = vector3(x=cos(5*i), y=sin(5*i), z=0),
@@ -77,7 +77,7 @@ spiral %>%
 
 ```
 
-```{r}
+```{r eval=FALSE}
 # animated spiral because fun.
 
 anim <- spiral %>% 
