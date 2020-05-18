@@ -9,6 +9,9 @@ spatial data in R, we have focused on small-scale data rather than
 geographic data. This is because the package creator has a background in
 behavioral data collected virtual and augmented reality studies.
 
+[![Build
+Status](https://travis-ci.com/MrMallIronmaker/vrmvrm.svg?branch=master)](https://travis-ci.com/MrMallIronmaker/vrmvrm)
+
 # Quick View
 
 ``` r

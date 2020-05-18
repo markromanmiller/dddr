@@ -10,12 +10,13 @@ License: GNU LGPLv3
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr,
     gganimate,
     ggplot2,
     magrittr,
     tidyr,
     vctrs
+Remotes:
+    tidyverse/dplyr
 Suggests:
     knitr,
     rmarkdown,
