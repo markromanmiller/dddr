@@ -10,8 +10,7 @@ foo_pz <- c(0, 0, 1, sqrt_1_3)
 simple_axes_tbl <- data.frame(foo = vector3(x=foo_px, y=foo_py, z=foo_pz))
 
 test_that("Vector3 entries can be extracted", {
-  extracted <- dplyr::mutate(simple_axes_tbl %>%
-    mutate(
+  extracted <- dplyr::mutate(simple_axes_tbl,
       foo_px = foo$x,
       foo_py = foo$y,
       foo_pz = foo$z
