@@ -78,13 +78,13 @@ format.vrm_vector3_pillar <- function(x, width, ...) {
     claim_rate <- need_to_claim / total_to_claim
     claimed <- claim_rate * to_claim
 
-    claimed_int <- floor(claimed) %>% as.integer()
+    claimed_int <- as.integer(floor(claimed))
     claimed_frac <- claimed - claimed_int
 
     remaining <- round(sum(claimed_frac))
     additions <- rank(claimed_frac, ties.method="random") > (3 - remaining)
 
-    min_width <- lapply(l, function(a) {attr(a, "min_width")}) %>% unlist
+    min_width <- unlist(lapply(l, function(a) {attr(a, "min_width")}))
 
     total_spaces <- additions + claimed_int + min_width
 

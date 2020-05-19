@@ -6,15 +6,13 @@ Author: Mark Roman Miller <mrmillr@stanford.edu>
 Maintainer: Mark Roman Miller <mrmillr@stanford.edu>
 Description: Provides a tidy-style interface for working with 
     three-dimensional position and rotation data.
-License: GNU LGPLv3
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
-    gganimate,
     ggplot2,
-    magrittr,
-    tidyr,
+    pillar,
     vctrs
 Remotes:
     tidyverse/dplyr
