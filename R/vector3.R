@@ -1,5 +1,5 @@
 
-
+#' @export
 new_vector3 <- function(x=double(), y=double(), z=double()) {
   vctrs::vec_assert(x, ptype=double())
   vctrs::vec_assert(y, ptype=double())
@@ -7,13 +7,14 @@ new_vector3 <- function(x=double(), y=double(), z=double()) {
   vctrs::new_rcrd(list(x=x, y=y, z=z), class="vrm_vector3")
 }
 
+#' @export
 vector3 <- function(x, y, z) {
   l <- vctrs::vec_cast_common(x, y, z, .to=double())
   l <- vctrs::vec_recycle_common(l[[1]], l[[2]], l[[3]])
   new_vector3(l[[1]], l[[2]], l[[3]])
 }
 
-
+#' @export
 `$.vrm_vector3` <- function(v, name) {
   # should xyz conventions be a setting?
   # should all fields be accessible?
@@ -24,6 +25,7 @@ vector3 <- function(x, y, z) {
   }
 }
 
+#' @export
 format.vrm_vector3 <- function(x, ...) {
   v <- x # don't overwrite the name
   # TODO: keep width, etc in mind.
@@ -37,6 +39,7 @@ format.vrm_vector3 <- function(x, ...) {
   out
 }
 
+#' @export
 vec_ptype_abbr.vrm_vector3 <- function(x, ...) {
   "vector3"
 }
@@ -54,6 +57,7 @@ format_and_align_right <- function(x, width) {
   paste0(strrep(" ", spaces), x)
 }
 
+#' @export
 format.vrm_vector3_pillar <- function(x, width, ...) {
   # if width is maximum, everyone gets the width they request.
   if (width >= attr(x, "width")) {
@@ -105,6 +109,7 @@ format.vrm_vector3_pillar <- function(x, width, ...) {
   out
 }
 
+#' @export
 pillar_shaft.vrm_vector3 <- function(v) {
 
   # format the three numbers as pillars
@@ -113,10 +118,10 @@ pillar_shaft.vrm_vector3 <- function(v) {
   pillar_z <- pillar::pillar_shaft(v$z)
 
   # the 6 represents 2 parens, 2 spaces, and 2 commas.
-  width <- sum(attr(pillar_x, "width"), attr(pillar_y, "width"), attr(pillar_z, "width"), 6) %>% as.integer()
+  width <- as.integer(sum(attr(pillar_x, "width"), attr(pillar_y, "width"), attr(pillar_z, "width"), 6))
 
   # specify min_width
-  min_width <- sum(attr(pillar_x, "min_width"), attr(pillar_y, "min_width"), attr(pillar_z, "min_width"), 6) %>% as.integer()
+  min_width <- as.integer(sum(attr(pillar_x, "min_width"), attr(pillar_y, "min_width"), attr(pillar_z, "min_width"), 6))
 
   out <- list(pillar_x=pillar_x, pillar_y=pillar_y, pillar_z=pillar_z)
   class(out) <- c("vrm_vector3_pillar", class(out))

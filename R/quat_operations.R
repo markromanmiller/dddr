@@ -1,13 +1,18 @@
+
+#' @importFrom vctrs vec_arith
+#' @method vec_arith vrm_quat
 #' @export
 vec_arith.vrm_quat <- function(op, x, y, ...) {
   UseMethod("vec_arith.vrm_quat", y)
 }
 
+#' @method vec_arith.vrm_quat default
 #' @export
 vec_arith.vrm_quat.default <- function(op, x, y, ...) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
+#' @method vec_arith.vrm_quat vrm_quat
 #' @export
 vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
   switch(
@@ -27,6 +32,7 @@ vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
   )
 }
 
+#' @method vec_arith.vrm_quat numeric
 #' @export
 vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
   switch(
@@ -38,6 +44,8 @@ vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
   )
 }
 
+#' @importFrom vctrs vec_arith.numeric
+#' @method vec_arith.numeric vrm_quat
 #' @export
 vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
   switch(

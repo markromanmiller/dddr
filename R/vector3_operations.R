@@ -1,11 +1,19 @@
 
+#' @importFrom vctrs vec_arith
+#' @method vec_arith vrm_vector3
+#' @export
 vec_arith.vrm_vector3 <- function(op, x, y, ...) {
   UseMethod("vec_arith.vrm_vector3", y)
 }
+
+#' @method vec_arith.vrm_vector3 default
+#' @export
 vec_arith.vrm_vector3.default <- function(op, x, y, ...) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
+#' @method vec_arith.vrm_vector3 vrm_vector3
+#' @export
 vec_arith.vrm_vector3.vrm_vector3 <- function(op, x, y, ...) {
   switch(
     op,
@@ -20,6 +28,8 @@ vec_arith.vrm_vector3.vrm_vector3 <- function(op, x, y, ...) {
   )
 }
 
+#' @method vec_arith.vrm_vector3 numeric
+#' @export
 vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
   switch(
     op,
@@ -47,6 +57,9 @@ vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
   )
 }
 
+#' @importFrom vctrs vec_arith.numeric
+#' @method vec_arith.numeric vrm_vector3
+#' @export
 vec_arith.numeric.vrm_vector3 <- function(op, x, y, ...) {
   switch(
     op,
@@ -57,6 +70,7 @@ vec_arith.numeric.vrm_vector3 <- function(op, x, y, ...) {
   )
 }
 
+#' @export
 distance <- function(to, from=NULL) {
   if (!is.null(from)) {
     to <- to - from
@@ -64,16 +78,23 @@ distance <- function(to, from=NULL) {
   sqrt(to$x^2 + to$y^2 + to$z^2)
 }
 
+#' @export
 normalize <- function(v, length=1) {
   length * v / distance(v)
 }
 
+#' @export
 cross <- function(pointer, middle, handedness="settings") {
   # use settings default, or left or right.
   # TODO: how to get "handedness" to show up as settings, right, left in the documentation
   stop("Not Implemented Yet")
 }
 
+#' @export
 dot <- function(a, b) {
   stop("Not Implemented Yet")
 }
+
+
+
+
