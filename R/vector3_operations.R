@@ -1,6 +1,7 @@
 
 #' @importFrom vctrs vec_arith
 #' @method vec_arith vrm_vector3
+#' @export vec_arith.vrm_vector3
 #' @export
 vec_arith.vrm_vector3 <- function(op, x, y, ...) {
   UseMethod("vec_arith.vrm_vector3", y)
@@ -57,6 +58,16 @@ vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
   )
 }
 
+#' @method vec_arith.vrm_vector3 MISSING
+#' @export
+vec_arith.vrm_vector3.MISSING <- function(op, x, y, ...) {
+  switch(
+    op,
+    "-" = new_vector3(x=-x$x, y=-x$y, z=-x$z),
+    vctrs::stop_incompatible_op(op, x, y)
+  )
+}
+
 #' @importFrom vctrs vec_arith.numeric
 #' @method vec_arith.numeric vrm_vector3
 #' @export
@@ -67,6 +78,31 @@ vec_arith.numeric.vrm_vector3 <- function(op, x, y, ...) {
     "*" = vec_arith.vrm_vector3.numeric(op, y, x, ...),
     #"-" = vec_arith.vrm_vector3.numeric("+", y, -x, ...),
     vctrs::stop_incompatible_op(op, x, y)
+  )
+}
+
+#' @importFrom vctrs vec_math
+#' @method vec_math vrm_vector3
+#' @export
+vec_math.vrm_vector3 <- function(.fn, .x, ...) {
+  switch(
+    .fn,
+    "sum" = new_vector3(
+      x = sum(.x$x),
+      y = sum(.x$y),
+      z = sum(.x$z)
+    ),
+    "cumsum" = new_vector3(
+      x = cumsum(.x$x),
+      y = cumsum(.x$y),
+      z = cumsum(.x$z)
+    ),
+    "mean" = new_vector3(
+      x = mean(.x$x),
+      y = mean(.x$y),
+      z = mean(.x$z)
+    ),
+    stop("Incompatible summary generic")
   )
 }
 

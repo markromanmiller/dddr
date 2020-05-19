@@ -148,7 +148,44 @@ test_that("Vector3 can be normalized", {
   expect_equal(normalized$normalized_distance_of_5, c(5, 5, 5, 5))
 })
 
+test_that("Vector3 can have a unary negative", {
+  negated <- dplyr::mutate(
+    simple_axes_tbl,
+    neg = -foo,
+    cancel = foo + neg
+  )
 
+  expect_equal(negated$neg$x, -foo_px)
+  expect_equal(negated$neg$y, -foo_py)
+  expect_equal(negated$neg$z, -foo_pz)
+  expect_equal(negated$cancel, rep(vector3(0, 0, 0), 4))
+})
+
+test_that("Vector3 can have sums, cumsums, and means", {
+  sum_test <- dplyr::mutate(
+    data.frame(foo = vector3(
+      x=c(1, 0, -1, 5),
+      y=c(4, -2, 0, 1),
+      z=c(-1, 2, 4, 3)
+    )),
+    sum_foo = sum(foo),
+    cumsum_foo = cumsum(foo),
+    mean_foo = mean(foo)
+  )
+
+  expect_equal(sum_test$sum_foo$x, rep(5, 4))
+  expect_equal(sum_test$sum_foo$y, rep(3, 4))
+  expect_equal(sum_test$sum_foo$z, rep(8, 4))
+
+  expect_equal(sum_test$cumsum_foo$x, c(1, 1, 0, 5))
+  expect_equal(sum_test$cumsum_foo$y, c(4, 2, 2, 3))
+  expect_equal(sum_test$cumsum_foo$z, c(-1, 1, 5, 8))
+
+  expect_equal(sum_test$mean_foo$x, rep(5/4, 4))
+  expect_equal(sum_test$mean_foo$y, rep(3/4, 4))
+  expect_equal(sum_test$mean_foo$z, rep(8/4, 4))
+
+})
 
 
 
