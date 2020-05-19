@@ -1,11 +1,14 @@
-
+#' @export
 vec_arith.vrm_quat <- function(op, x, y, ...) {
   UseMethod("vec_arith.vrm_quat", y)
 }
+
+#' @export
 vec_arith.vrm_quat.default <- function(op, x, y, ...) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
+#' @export
 vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
   switch(
     op,
@@ -24,6 +27,7 @@ vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
   )
 }
 
+#' @export
 vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
   switch(
     op,
@@ -34,6 +38,7 @@ vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
   )
 }
 
+#' @export
 vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
   switch(
     op,
@@ -44,6 +49,7 @@ vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
   )
 }
 
+#' @export
 `Conj.vrm_quat` <- function(z) {
   new_quat(
     w =  z$w,
@@ -53,6 +59,7 @@ vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
   )
 }
 
+#' @export
 `all.equal.vrm_quat` <- function(target, current, ...) {
   # should this be done by the quats function, i.e, where it sends two basis vectors?
   a <- target
