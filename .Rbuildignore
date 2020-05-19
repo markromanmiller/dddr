@@ -2,4 +2,6 @@
 ^\.Rproj\.user$
 ^doc$
 ^Meta$
-^\.travis\.yml
+^\.travis\.yml$
+^README.Rmd$
+^README_files$

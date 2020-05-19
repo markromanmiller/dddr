@@ -1,5 +1,4 @@
 context("vector3 basics")
-library(dplyr)
 
 sqrt_1_3 <- sqrt(1/3)
 
