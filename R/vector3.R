@@ -47,16 +47,23 @@ upgrade_vector3 <- function(v) {
   new_vector3(x = v[[1]], y = v[[2]], z = v[[3]])
 }
 
+format_and_align_right <- function(x, width) {
+  x <- format(x, width=width)
+  extent <- pillar::get_extent(x)
+  spaces <- pmax(width - extent, 0L)
+  paste0(strrep(" ", spaces), x)
+}
+
 format.vrm_vector3_pillar <- function(x, width, ...) {
   # if width is maximum, everyone gets the width they request.
   if (width >= attr(x, "width")) {
     out <- paste0(
       "(",
-      format(x$pillar_x, width=attr(x$pillar_x, "width")),
+      format_and_align_right(x$pillar_x, width=attr(x$pillar_x, "width")),
       ", ",
-      format(x$pillar_y, width=attr(x$pillar_y, "width")),
+      format_and_align_right(x$pillar_y, width=attr(x$pillar_y, "width")),
       ", ",
-      format(x$pillar_z, width=attr(x$pillar_z, "width")),
+      format_and_align_right(x$pillar_z, width=attr(x$pillar_z, "width")),
       ")"
     )
   } else if (width < attr(x, "min_width")){
@@ -64,52 +71,30 @@ format.vrm_vector3_pillar <- function(x, width, ...) {
   } else {
     # well this is ugly.
     l <- list(x$pillar_x, x$pillar_y, x$pillar_z)
-    print(l)
-
     to_claim <- unlist(lapply(l, function(a) {attr(a, "width") - attr(a, "min_width")}))
-    print(to_claim)
-
     total_to_claim <- sum(to_claim)
-    print(total_to_claim)
 
     need_to_claim <- (width - attr(x, "min_width"))
-    print(need_to_claim)
-
     claim_rate <- need_to_claim / total_to_claim
-    print(claim_rate)
-
     claimed <- claim_rate * to_claim
-    print(claimed)
 
     claimed_int <- floor(claimed) %>% as.integer()
-    print(claimed_int)
-
     claimed_frac <- claimed - claimed_int
-    print(claimed_frac)
 
     remaining <- round(sum(claimed_frac))
-    print(remaining)
-
-    # if 0, we want none
-    # if 2, we want the bigger two
-    # if 1, we want the bigger one
     additions <- rank(claimed_frac, ties.method="random") > (3 - remaining)
-    print(additions)
 
     min_width <- lapply(l, function(a) {attr(a, "min_width")}) %>% unlist
-    print(min_width)
 
     total_spaces <- additions + claimed_int + min_width
-    print(total_spaces)
-
 
     out <- paste0(
       "(",
-      format(x$pillar_x, width=total_spaces[[1]]),
+      format_and_align_right(x$pillar_x, width=total_spaces[[1]]),
       ", ",
-      format(x$pillar_y, width=total_spaces[[2]]),
+      format_and_align_right(x$pillar_y, width=total_spaces[[2]]),
       ", ",
-      format(x$pillar_z, width=total_spaces[[3]]),
+      format_and_align_right(x$pillar_z, width=total_spaces[[3]]),
       ")"
     )
 
