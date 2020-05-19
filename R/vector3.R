@@ -109,6 +109,8 @@ format.vrm_vector3_pillar <- function(x, width, ...) {
   out
 }
 
+#' @importFrom pillar pillar_shaft
+#' @method pillar_shaft vrm_vector3
 #' @export
 pillar_shaft.vrm_vector3 <- function(v) {
 

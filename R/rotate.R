@@ -1,20 +1,23 @@
 
+#' @export
 rotate <- function(rotand, ...) {
   UseMethod("rotate", rotand)
 }
 
+#' @method rotate vrm_vector3
+#' @export
 rotate.vrm_vector3 <- function(rotand, ...) {
-  rotate.vrm_(rotand, ...)
+  rotate.vrm_object(rotand, ...)
 }
 
+#' @method rotate vrm_quat
+#' @export
 rotate.vrm_quat <- function(rotand, ...) {
-  rotate.vrm_(rotand, ...)
+  rotate.vrm_object(rotand, ...)
 }
 
-#' rotand = dividend / addend
-#'
-#'
-rotate.vrm_ <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle="NULL", from=NULL, to=NULL, ...) {
+#' @export
+rotate.vrm_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle="NULL", from=NULL, to=NULL, ...) {
   # TODO: what order makes the most sense? what would make the most sense without context?
   if (is.null(rotator)) {
     # try to make the rotator.

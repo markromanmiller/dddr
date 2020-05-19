@@ -15,7 +15,6 @@ The R package `vrmvrm` (pronouced *vroom-vroom*) is a tidyverse-style toolset fo
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
-library(gganimate)
 library(vrmvrm)
 ```
 
@@ -56,4 +55,4 @@ spiral %>%
 
 # Contributions
 
-Contributions are welcome! The interest is not sufficiently large to be a bandwidth issue for me, so the issue tracker can be used for bug reports, feature requests, and questions - whatever you might need.
+Contributions are welcome! The issue tracker in this repo can be used for bug reports, feature requests, and questions - whatever you might need.
