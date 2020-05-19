@@ -47,3 +47,96 @@ upgrade_vector3 <- function(v) {
   new_vector3(x = v[[1]], y = v[[2]], z = v[[3]])
 }
 
+format.vrm_vector3_pillar <- function(x, width, ...) {
+  # if width is maximum, everyone gets the width they request.
+  if (width >= attr(x, "width")) {
+    out <- paste0(
+      "(",
+      format(x$pillar_x, width=attr(x$pillar_x, "width")),
+      ", ",
+      format(x$pillar_y, width=attr(x$pillar_y, "width")),
+      ", ",
+      format(x$pillar_z, width=attr(x$pillar_z, "width")),
+      ")"
+    )
+  } else if (width < attr(x, "min_width")){
+    stop("Width smaller than min_width")
+  } else {
+    # well this is ugly.
+    l <- list(x$pillar_x, x$pillar_y, x$pillar_z)
+    print(l)
+
+    to_claim <- unlist(lapply(l, function(a) {attr(a, "width") - attr(a, "min_width")}))
+    print(to_claim)
+
+    total_to_claim <- sum(to_claim)
+    print(total_to_claim)
+
+    need_to_claim <- (width - attr(x, "min_width"))
+    print(need_to_claim)
+
+    claim_rate <- need_to_claim / total_to_claim
+    print(claim_rate)
+
+    claimed <- claim_rate * to_claim
+    print(claimed)
+
+    claimed_int <- floor(claimed) %>% as.integer()
+    print(claimed_int)
+
+    claimed_frac <- claimed - claimed_int
+    print(claimed_frac)
+
+    remaining <- round(sum(claimed_frac))
+    print(remaining)
+
+    # if 0, we want none
+    # if 2, we want the bigger two
+    # if 1, we want the bigger one
+    additions <- rank(claimed_frac, ties.method="random") > (3 - remaining)
+    print(additions)
+
+    min_width <- lapply(l, function(a) {attr(a, "min_width")}) %>% unlist
+    print(min_width)
+
+    total_spaces <- additions + claimed_int + min_width
+    print(total_spaces)
+
+
+    out <- paste0(
+      "(",
+      format(x$pillar_x, width=total_spaces[[1]]),
+      ", ",
+      format(x$pillar_y, width=total_spaces[[2]]),
+      ", ",
+      format(x$pillar_z, width=total_spaces[[3]]),
+      ")"
+    )
+
+  }
+
+  #class(out) <- c("pillar_shaft", class(out))
+  attr(out, "align") <- "right"
+  out
+}
+
+pillar_shaft.vrm_vector3 <- function(v) {
+
+  # format the three numbers as pillars
+  pillar_x <- pillar::pillar_shaft(v$x)
+  pillar_y <- pillar::pillar_shaft(v$y)
+  pillar_z <- pillar::pillar_shaft(v$z)
+
+  # the 6 represents 2 parens, 2 spaces, and 2 commas.
+  width <- sum(attr(pillar_x, "width"), attr(pillar_y, "width"), attr(pillar_z, "width"), 6) %>% as.integer()
+
+  # specify min_width
+  min_width <- sum(attr(pillar_x, "min_width"), attr(pillar_y, "min_width"), attr(pillar_z, "min_width"), 6) %>% as.integer()
+
+  out <- list(pillar_x=pillar_x, pillar_y=pillar_y, pillar_z=pillar_z)
+  class(out) <- c("vrm_vector3_pillar", class(out))
+  attr(out, "width") <- width
+  attr(out, "min_width") <- min_width
+  out
+}
+
