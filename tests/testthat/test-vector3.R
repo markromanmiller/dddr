@@ -61,7 +61,7 @@ test_that("Vector3 entries can be added to numeric vectors of length 3", {
 
 test_that("Vector3 entries can't be added to numeric vectors of various non-3 sizes", {
   error_class = "dplyr_error"
-  message = "the numeric adding to a vector3 must have length 3"
+  message = "To add or subtract a numeric and a vector3,"
 
   expect_error(dplyr::mutate(simple_axes_tbl, bar = foo + c(0, 0, 1, 0)), class = error_class, regexp = message)
   expect_error(dplyr::mutate(simple_axes_tbl, bar = c(0)+ foo), class = error_class, regexp = message)

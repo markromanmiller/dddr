@@ -77,7 +77,7 @@ vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
       if (length(y) != 3) {
         vctrs::stop_incompatible_op(
           op, x, y,
-          details=paste0(
+          details=paste(
             "To add or subtract a numeric and a vector3,",
             "the numeric must have length 3.",
             vector3_help_message
@@ -94,7 +94,7 @@ vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
       if (length(y) != 1 && length(y) != length(x)) {
         vctrs::stop_incompatible_op(
           op, x, y,
-          details=paste0(
+          details=paste(
             "To multiply or divide a numeric and a vector3,",
             "the numeric must be either length 1",
             "or the same length as the vector3.",
@@ -175,10 +175,11 @@ vec_math.vrm_vector3 <- function(.fn, .x, ...) {
       y = mean(.x$y),
       z = mean(.x$z)
     ),
-    vctrs::stop_incompatible_op(
-      op, x, y,
-      details="See `?vector3_math` for more information on vector mathematics."
-    )
+    stop(paste0(
+      "Mathematical functio not permitted on <vector3>: `",
+      .fn,
+      "`. See `?vector3_math` for more information on vector mathematics."
+    ))
   )
 }
 

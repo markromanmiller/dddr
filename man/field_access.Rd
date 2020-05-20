@@ -7,6 +7,11 @@
 \usage{
 \method{$}{vrm_vector3}(x, name)
 }
+\arguments{
+\item{x}{Vector3 whose fields to access}
+
+\item{name}{Field name to access; should be one of "x", "y", or "z"}
+}
 \description{
 In order to access fields within each vector, the `$` operator is used.
 }

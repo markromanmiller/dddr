@@ -30,6 +30,9 @@ vector3 <- function(x, y, z) {
 #'
 #' In order to access fields within each vector, the `$` operator is used.
 #'
+#' @param x Vector3 whose fields to access
+#' @param name Field name to access; should be one of "x", "y", or "z"
+#'
 #' @name field_access
 #' @examples
 #' vector3(x=1:4, y=2:5, z=3:6)$y
@@ -61,9 +64,6 @@ format.vrm_vector3 <- function(x, ...) {
   out
 }
 
-#' A vector3 represennts a 3-dimensional vector from the `vrmvrm` package.
-#'
-#' These functions interface with the `vctrs` library
 #' @importFrom vctrs vec_ptype_abbr
 #' @method vec_ptype_abbr vrm_vector3
 #' @export
