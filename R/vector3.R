@@ -13,6 +13,11 @@ new_vector3 <- function(x=double(), y=double(), z=double()) {
   vctrs::new_rcrd(list(x=x, y=y, z=z), class="vrm_vector3")
 }
 
+#' Create a 3D vector
+#'
+#' Creates a three-dimensional vector given three vectors representing Cartesian coordinates.
+#'
+#' @param x,y,z Numeric vectors representing the the vector's coordinates in the specified dimension.
 #'
 #' @export
 vector3 <- function(x, y, z) {
@@ -21,7 +26,16 @@ vector3 <- function(x, y, z) {
   new_vector3(l[[1]], l[[2]], l[[3]])
 }
 
+#' Vector field access
 #'
+#' In order to access fields within each vector, the `$` operator is used.
+#'
+#' @name field_access
+#' @examples
+#' vector3(x=1:4, y=2:5, z=3:6)$y
+NULL
+
+#' @rdname field_access
 #' @export
 `$.vrm_vector3` <- function(x, name) {
   # should xyz conventions be a setting?
