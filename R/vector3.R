@@ -31,7 +31,8 @@ vector3 <- function(x, y, z) {
 #' In order to access fields within each vector, the `$` operator is used.
 #'
 #' @param x Vector3 whose fields to access
-#' @param name Field name to access; should be one of "x", "y", or "z"
+#' @param name Field name to access. For vectors, this should be one of "x",
+#'   "y", or "z". For quaternions, this can include "w" as well.
 #'
 #' @name field_access
 #' @examples

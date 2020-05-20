@@ -1,4 +1,23 @@
+#' Arithmetic operations on quaternions
+#'
+#' Quaternions can be multiplied and conjugated. This can be done with vectors
+#' of type `quat` or with numeric vectors of reasonable lengths.
+#'
+#' For multiplication, if a numeric vector is used, it can only be length 4. The
+#' entries of this vector are interpreted as `w,x,y,z` values of a quaternion. Then, the created quaternion is broadcast across all elements of the original quaternion vector.
+#'
+#' Note that quaternion multiplication is not communative.
+#'
+#' @param op Arithmetic operation, i.e, `"*"` only
+#' @param x,y,z Operands
+#' @param ... Unused; present for extensibility
+#'
+#' @seealso vector3_math
+#'
+#' @name quat_arith
+NULL
 
+#' @rdname quat_arith
 #' @importFrom vctrs vec_arith
 #' @method vec_arith vrm_quat
 #' @export
@@ -6,12 +25,14 @@ vec_arith.vrm_quat <- function(op, x, y, ...) {
   UseMethod("vec_arith.vrm_quat", y)
 }
 
+#' @rdname quat_arith
 #' @method vec_arith.vrm_quat default
 #' @export
 vec_arith.vrm_quat.default <- function(op, x, y, ...) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
+#' @rdname quat_arith
 #' @method vec_arith.vrm_quat vrm_quat
 #' @export
 vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
@@ -32,6 +53,7 @@ vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
   )
 }
 
+#' @rdname quat_arith
 #' @method vec_arith.vrm_quat numeric
 #' @export
 vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
@@ -44,6 +66,7 @@ vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
   )
 }
 
+#' @rdname quat_arith
 #' @importFrom vctrs vec_arith.numeric
 #' @method vec_arith.numeric vrm_quat
 #' @export
@@ -57,6 +80,7 @@ vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
   )
 }
 
+#' @rdname quat_arith
 #' @export
 `Conj.vrm_quat` <- function(z) {
   new_quat(
