@@ -50,6 +50,8 @@ format.vrm_vector3 <- function(x, ...) {
 #' A vector3 represennts a 3-dimensional vector from the `vrmvrm` package.
 #'
 #' These functions interface with the `vctrs` library
+#' @importFrom vctrs vec_ptype_abbr
+#' @method vec_ptype_abbr vrm_vector3
 #' @export
 vec_ptype_abbr.vrm_vector3 <- function(x, ...) {
   "vector3"

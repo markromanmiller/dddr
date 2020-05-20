@@ -2,15 +2,17 @@
 % Please edit documentation in R/vector3_operations.R
 \name{normalize}
 \alias{normalize}
-\title{Normalize the length of the vectors to 1 (or a given length)}
+\title{Normalize vector length}
 \usage{
 normalize(v, length = 1)
 }
 \arguments{
 \item{v}{The vectors to normalize}
 
-\item{length}{Optional. All output vectors will have this length.}
+\item{length}{(Optional) Normalized vectors will have this length. Both length-1 and length-N numerics are accepted here.}
 }
 \description{
-All output vectors will have the same direction as the input vectors, but only their lengths will change.
+`normalize` scales vectors so that direction is preserved but length can be varied.
+The primary usage is to convert a vector to unit length, i.e, a length of 1. This function accepts a second argument, `length`,
+to set a certain value for the magnitude of the vector.
 }
