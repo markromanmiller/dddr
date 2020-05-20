@@ -7,6 +7,8 @@
 distance(to, from = NULL)
 }
 \arguments{
+\item{to}{Vector to measure the distance of}
+
 \item{from}{Optional. Instead of length being calculated from the origin, it is
 calculated from this point instead.}
 }
