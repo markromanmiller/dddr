@@ -28,6 +28,9 @@
 #' @name vector3_arith
 NULL
 
+vector3_help_message <-
+  "See `?vector3_arith` for more information on vector arithmetic."
+
 #' @rdname vector3_arith
 #'
 #' @importFrom vctrs vec_arith
@@ -43,7 +46,7 @@ vec_arith.vrm_vector3 <- function(op, x, y, ...) {
 #' @method vec_arith.vrm_vector3 default
 #' @export
 vec_arith.vrm_vector3.default <- function(op, x, y, ...) {
-  vctrs::stop_incompatible_op(op, x, y)
+  vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
 }
 
 #' @rdname vector3_arith
@@ -59,7 +62,7 @@ vec_arith.vrm_vector3.vrm_vector3 <- function(op, x, y, ...) {
         y = vctrs::vec_arith_base(op, x$y, y$y),
         z = vctrs::vec_arith_base(op, x$z, y$z)
       ),
-    vctrs::stop_incompatible_op(op, x, y)
+    vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
 
@@ -72,7 +75,14 @@ vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
     "+" = ,
     "-" = {
       if (length(y) != 3) {
-        vctrs::stop_incompatible_op(op, x, y, details="To add or subtract a numeric and a vector3, the numeric must have length 3. See `?vector3_arith` for more information on vector arithmetic.")
+        vctrs::stop_incompatible_op(
+          op, x, y,
+          details=paste0(
+            "To add or subtract a numeric and a vector3,",
+            "the numeric must have length 3.",
+            vector3_help_message
+          )
+        )
       }
       new_vector3(
         x = vctrs::vec_arith_base(op, x$x, y[1]),
@@ -82,14 +92,22 @@ vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
     "*" = ,
     "/" = {
       if (length(y) != 1 && length(y) != length(x)) {
-        vctrs::stop_incompatible_op(op, x, y, details="To multiply or divide a numeric and a vector3, the numeric must be either length 1 or the same length as the vector3. See `?vector3_arith` for more information on vector arithmetic.")
+        vctrs::stop_incompatible_op(
+          op, x, y,
+          details=paste0(
+            "To multiply or divide a numeric and a vector3,",
+            "the numeric must be either length 1",
+            "or the same length as the vector3.",
+            vector3_help_message
+          )
+        )
       }
       new_vector3(
         x = vctrs::vec_arith_base(op, x$x, y),
         y = vctrs::vec_arith_base(op, x$y, y),
         z = vctrs::vec_arith_base(op, x$z, y)
       )},
-    vctrs::stop_incompatible_op(op, x, y, details="See `?vector3_arith` for more information on vector arithmetic.")
+    vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
 
@@ -100,7 +118,7 @@ vec_arith.vrm_vector3.MISSING <- function(op, x, y, ...) {
   switch(
     op,
     "-" = new_vector3(x=-x$x, y=-x$y, z=-x$z),
-    vctrs::stop_incompatible_op(op, x, y, details="See `?vector3_arith` for more information on vector arithmetic.")
+    vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
 
@@ -113,7 +131,7 @@ vec_arith.numeric.vrm_vector3 <- function(op, x, y, ...) {
     op,
     "+" = ,
     "*" = vec_arith.vrm_vector3.numeric(op, y, x, ...),
-    vctrs::stop_incompatible_op(op, x, y, details="See `?vector3_arith` for more information on vector arithmetic.")
+    vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
 
@@ -133,6 +151,9 @@ vec_arith.numeric.vrm_vector3 <- function(op, x, y, ...) {
 #' cumsum(vector3(x=1:4, y=2:5, z=3:6))
 #'
 #' @name vector3_math
+NULL
+
+#' @rdname vector3_math
 #' @importFrom vctrs vec_math
 #' @method vec_math vrm_vector3
 #' @export
@@ -154,7 +175,10 @@ vec_math.vrm_vector3 <- function(.fn, .x, ...) {
       y = mean(.x$y),
       z = mean(.x$z)
     ),
-    vctrs::stop_incompatible_op(op, x, y, details="See `?vector3_math` for more information on vector mathematics.")
+    vctrs::stop_incompatible_op(
+      op, x, y,
+      details="See `?vector3_math` for more information on vector mathematics."
+    )
   )
 }
 
@@ -190,18 +214,30 @@ normalize <- function(v, length=1) {
   length * v / distance(v)
 }
 
+#' Vector (cross) and scalar (dot) products
+#'
+#' Compute the vector and scalar products, also known as the cross and dot
+#' products.
+#'
+#' The cross product of two vectors is a vector perpendicular to both inputs and
+#' with the same length as the area of a parallelogram constructed by both
+#' inputs. The dot product returns a scalar value that is the largest (and the
+#' product of the lengths) when the two input vectors are aligned, smallest when
+#' they are 180 degrees apart, and zero when they are perpendicular.
+#'
+#' @param a,b Vectors to be multiplied
+#'
+#' @name vector3_prod
+NULL
+
+#' @rdname vector3_prod
 #' @export
-cross <- function(pointer, middle, handedness="settings") {
-  # use settings default, or left or right.
-  # TODO: how to get "handedness" to show up as settings, right, left in the documentation
+cross <- function(a, b) {
   stop("Not Implemented Yet")
 }
 
+#' @rdname vector3_prod
 #' @export
 dot <- function(a, b) {
-  stop("Not Implemented Yet")
+  a$x * b$x + a$y * b$y + a$z * b$z
 }
-
-
-
-
