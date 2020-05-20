@@ -1,4 +1,4 @@
-vrmvrm
+vrmvrm: VectoR Manager for Virtual Reality Motion
 ================
 
 # About
@@ -9,11 +9,11 @@ with three-diensional spatial data. It gives points, velocities, and
 rotations first-class vector status in R, enabling usage as column types
 within `data.frame`s and `tibble`s.
 
-In contrast to most spatial R packages like `sf` that work with
-geographic, 2-dimensional data, `vrmvrm` works best with 3-dimensional
-data. The origin of this package was to analyze behavioral data (e.g,
-hand motion, head direction) in studies of virtual and augmented
-reality.
+In contrast to most spatial R packages like `sf` ir `rspatial` that work
+with geographic, 2-dimensional data, `vrmvrm` works best with
+3-dimensional data. The origin of this package was to analyze behavioral
+data (e.g, hand motion, head direction) in studies of virtual and
+augmented reality.
 
 [![Build
 Status](https://travis-ci.com/MrMallIronmaker/vrmvrm.svg?branch=master)](https://travis-ci.com/MrMallIronmaker/vrmvrm)
@@ -41,7 +41,7 @@ spiral %>% head(10)
 
     ## # A tibble: 10 x 4
     ##        i      circular_part    forward_part                   spiral_part
-    ##    <dbl>         <vrm_vct3>      <vrm_vct3>                    <vrm_vct3>
+    ##    <dbl>             <vct3>          <vct3>                        <vct3>
     ##  1  0    (1    , 0     , 0) (0, 0, 0      ) (0      , 0        , 0      )
     ##  2  0.05 (0.999, 0.0500, 0) (0, 0, 0.00333) (0.00166, 0.0000833, 0.00333)
     ##  3  0.1  (0.995, 0.0998, 0) (0, 0, 0.00667) (0.00332, 0.000333 , 0.00667)

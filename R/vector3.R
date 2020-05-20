@@ -54,7 +54,7 @@ format.vrm_vector3 <- function(x, ...) {
 #' @method vec_ptype_abbr vrm_vector3
 #' @export
 vec_ptype_abbr.vrm_vector3 <- function(x, ...) {
-  "vector3"
+  "vct3"
 }
 
 #' Internal helper function for creating a new vector3 from a length-3 numeric vector.
