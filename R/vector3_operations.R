@@ -1,4 +1,6 @@
 
+#' @describeIn vector3_arith
+#'
 #' @importFrom vctrs vec_arith
 #' @method vec_arith vrm_vector3
 #' @export vec_arith.vrm_vector3
@@ -106,6 +108,14 @@ vec_math.vrm_vector3 <- function(.fn, .x, ...) {
   )
 }
 
+#' Determine the distance of a vector or between two vectors
+#'
+#' @param to
+#' @param from Optional. Instead of length being calculated from the origin, it is
+#' calculated from this point instead.
+#'
+#' @return A numeric vector of distances
+#'
 #' @export
 distance <- function(to, from=NULL) {
   if (!is.null(from)) {
@@ -114,6 +124,15 @@ distance <- function(to, from=NULL) {
   sqrt(to$x^2 + to$y^2 + to$z^2)
 }
 
+#' Normalize vector length
+#'
+#' `normalize` scales vectors so that direction is preserved but length can be varied.
+#' The primary usage is to convert a vector to unit length, i.e, a length of 1. This function accepts a second argument, `length`,
+#' to set a certain value for the magnitude of the vector.
+#'
+#' @param v The vectors to normalize
+#' @param length (Optional) Normalized vectors will have this length. Both length-1 and length-N numerics are accepted here.
+#'
 #' @export
 normalize <- function(v, length=1) {
   length * v / distance(v)

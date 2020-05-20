@@ -1,5 +1,11 @@
 
-#' @export
+#' Internal method for creating a new vector3
+#'
+#' This follows the pattern recommended in the `vctrs` documentation.
+#'
+#' @param x,y,z Vector entries, expected to be double vectors
+#'
+#' @keywords internal
 new_vector3 <- function(x=double(), y=double(), z=double()) {
   vctrs::vec_assert(x, ptype=double())
   vctrs::vec_assert(y, ptype=double())
@@ -7,6 +13,7 @@ new_vector3 <- function(x=double(), y=double(), z=double()) {
   vctrs::new_rcrd(list(x=x, y=y, z=z), class="vrm_vector3")
 }
 
+#'
 #' @export
 vector3 <- function(x, y, z) {
   l <- vctrs::vec_cast_common(x, y, z, .to=double())
@@ -14,12 +21,13 @@ vector3 <- function(x, y, z) {
   new_vector3(l[[1]], l[[2]], l[[3]])
 }
 
+#'
 #' @export
-`$.vrm_vector3` <- function(v, name) {
+`$.vrm_vector3` <- function(x, name) {
   # should xyz conventions be a setting?
   # should all fields be accessible?
   if (name %in% c("x", "y", "z")) {
-    return(vctrs::field(v, name))
+    return(vctrs::field(x, name))
   } else {
     return(NULL)
   }
@@ -39,11 +47,19 @@ format.vrm_vector3 <- function(x, ...) {
   out
 }
 
+#' A vector3 represennts a 3-dimensional vector from the `vrmvrm` package.
+#'
+#' These functions interface with the `vctrs` library
 #' @export
 vec_ptype_abbr.vrm_vector3 <- function(x, ...) {
   "vector3"
 }
 
+#' Internal helper function for creating a new vector3 from a length-3 numeric vector.
+#'
+#' @param v a length-3 numeric vector
+#'
+#' @keywords internal
 upgrade_vector3 <- function(v) {
   stopifnot(length(v) == 3)
 

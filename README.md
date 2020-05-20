@@ -3,11 +3,17 @@ vrmvrm
 
 # About
 
-The R package `vrmvrm` (pronouced *vroom-vroom*) is a tidyverse-style
-toolset for working with spatial data. Unlike most packages working with
-spatial data in R, we have focused on small-scale data rather than
-geographic data. This is because the package creator has a background in
-behavioral data collected virtual and augmented reality studies.
+The R package `vrmvrm` (pronouced *vroom-vroom*) is a
+[`vctrs`](https://github.com/r-lib/vctrs/)-based package for working
+with three-diensional spatial data. It gives points, velocities, and
+rotations first-class vector status in R, enabling usage as column types
+within `data.frame`s and `tibble`s.
+
+In contrast to most spatial R packages like `sf` that work with
+geographic, 2-dimensional data, `vrmvrm` works best with 3-dimensional
+data. The origin of this package was to analyze behavioral data (e.g,
+hand motion, head direction) in studies of virtual and augmented
+reality.
 
 [![Build
 Status](https://travis-ci.com/MrMallIronmaker/vrmvrm.svg?branch=master)](https://travis-ci.com/MrMallIronmaker/vrmvrm)
