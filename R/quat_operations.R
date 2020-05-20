@@ -1,20 +1,20 @@
 
 #' @importFrom vctrs vec_arith
-#' @method vec_arith vrm_quat
+#' @method vec_arith dddr_quat
 #' @export
-vec_arith.vrm_quat <- function(op, x, y, ...) {
-  UseMethod("vec_arith.vrm_quat", y)
+vec_arith.dddr_quat <- function(op, x, y, ...) {
+  UseMethod("vec_arith.dddr_quat", y)
 }
 
-#' @method vec_arith.vrm_quat default
+#' @method vec_arith.dddr_quat default
 #' @export
-vec_arith.vrm_quat.default <- function(op, x, y, ...) {
+vec_arith.dddr_quat.default <- function(op, x, y, ...) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
-#' @method vec_arith.vrm_quat vrm_quat
+#' @method vec_arith.dddr_quat dddr_quat
 #' @export
-vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
+vec_arith.dddr_quat.dddr_quat <- function(op, x, y, ...) {
   switch(
     op,
     "*" = {
@@ -32,33 +32,33 @@ vec_arith.vrm_quat.vrm_quat <- function(op, x, y, ...) {
   )
 }
 
-#' @method vec_arith.vrm_quat numeric
+#' @method vec_arith.dddr_quat numeric
 #' @export
-vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
+vec_arith.dddr_quat.numeric <- function(op, x, y, ...) {
   switch(
     op,
     "*" = {
-      vec_arith.vrm_quat.vrm_quat(op, x, upgrade_quat(y), ...)
+      vec_arith.dddr_quat.dddr_quat(op, x, upgrade_quat(y), ...)
       },
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
 
 #' @importFrom vctrs vec_arith.numeric
-#' @method vec_arith.numeric vrm_quat
+#' @method vec_arith.numeric dddr_quat
 #' @export
-vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
+vec_arith.numeric.dddr_quat<- function(op, x, y, ...) {
   switch(
     op,
     "*" = {
-      vec_arith.vrm_quat.vrm_quat(op, upgrade_quat(x), y, ...)
+      vec_arith.dddr_quat.dddr_quat(op, upgrade_quat(x), y, ...)
     },
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
 
 #' @export
-`Conj.vrm_quat` <- function(z) {
+`Conj.dddr_quat` <- function(z) {
   new_quat(
     w =  z$w,
     x = -z$x,
@@ -68,7 +68,7 @@ vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
 }
 
 #' @export
-`all.equal.vrm_quat` <- function(target, current, ...) {
+`all.equal.dddr_quat` <- function(target, current, ...) {
   # should this be done by the quats function, i.e, where it sends two basis vectors?
   a <- target
   b <- current

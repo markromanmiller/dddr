@@ -2,22 +2,22 @@
 #' @describeIn vector3_arith
 #'
 #' @importFrom vctrs vec_arith
-#' @method vec_arith vrm_vector3
-#' @export vec_arith.vrm_vector3
+#' @method vec_arith dddr_vector3
+#' @export vec_arith.dddr_vector3
 #' @export
-vec_arith.vrm_vector3 <- function(op, x, y, ...) {
-  UseMethod("vec_arith.vrm_vector3", y)
+vec_arith.dddr_vector3 <- function(op, x, y, ...) {
+  UseMethod("vec_arith.dddr_vector3", y)
 }
 
-#' @method vec_arith.vrm_vector3 default
+#' @method vec_arith.dddr_vector3 default
 #' @export
-vec_arith.vrm_vector3.default <- function(op, x, y, ...) {
+vec_arith.dddr_vector3.default <- function(op, x, y, ...) {
   vctrs::stop_incompatible_op(op, x, y)
 }
 
-#' @method vec_arith.vrm_vector3 vrm_vector3
+#' @method vec_arith.dddr_vector3 dddr_vector3
 #' @export
-vec_arith.vrm_vector3.vrm_vector3 <- function(op, x, y, ...) {
+vec_arith.dddr_vector3.dddr_vector3 <- function(op, x, y, ...) {
   switch(
     op,
     "+" = ,
@@ -31,9 +31,9 @@ vec_arith.vrm_vector3.vrm_vector3 <- function(op, x, y, ...) {
   )
 }
 
-#' @method vec_arith.vrm_vector3 numeric
+#' @method vec_arith.dddr_vector3 numeric
 #' @export
-vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
+vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
   switch(
     op,
     "+" = ,
@@ -60,9 +60,9 @@ vec_arith.vrm_vector3.numeric <- function(op, x, y, ...) {
   )
 }
 
-#' @method vec_arith.vrm_vector3 MISSING
+#' @method vec_arith.dddr_vector3 MISSING
 #' @export
-vec_arith.vrm_vector3.MISSING <- function(op, x, y, ...) {
+vec_arith.dddr_vector3.MISSING <- function(op, x, y, ...) {
   switch(
     op,
     "-" = new_vector3(x=-x$x, y=-x$y, z=-x$z),
@@ -71,22 +71,22 @@ vec_arith.vrm_vector3.MISSING <- function(op, x, y, ...) {
 }
 
 #' @importFrom vctrs vec_arith.numeric
-#' @method vec_arith.numeric vrm_vector3
+#' @method vec_arith.numeric dddr_vector3
 #' @export
-vec_arith.numeric.vrm_vector3 <- function(op, x, y, ...) {
+vec_arith.numeric.dddr_vector3 <- function(op, x, y, ...) {
   switch(
     op,
     "+" = ,
-    "*" = vec_arith.vrm_vector3.numeric(op, y, x, ...),
-    #"-" = vec_arith.vrm_vector3.numeric("+", y, -x, ...),
+    "*" = vec_arith.dddr_vector3.numeric(op, y, x, ...),
+    #"-" = vec_arith.dddr_vector3.numeric("+", y, -x, ...),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
 
 #' @importFrom vctrs vec_math
-#' @method vec_math vrm_vector3
+#' @method vec_math dddr_vector3
 #' @export
-vec_math.vrm_vector3 <- function(.fn, .x, ...) {
+vec_math.dddr_vector3 <- function(.fn, .x, ...) {
   switch(
     .fn,
     "sum" = new_vector3(

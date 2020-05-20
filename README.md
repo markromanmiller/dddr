@@ -1,28 +1,28 @@
-vrmvrm: VectoR Manager for Virtual Reality Motion
+dddr: Three-Dimensional Vector Operations in R
 ================
 
 # About
 
-The R package `vrmvrm` (pronouced *vroom-vroom*) is a
+The R package `dddr` is a
 [`vctrs`](https://github.com/r-lib/vctrs/)-based package for working
 with three-diensional spatial data. It gives points, velocities, and
 rotations first-class vector status in R, enabling usage as column types
-within `data.frame`s and `tibble`s.
+within `data.frame` and `tibble`.
 
-In contrast to most spatial R packages like `sf` ir `rspatial` that work
-with geographic, 2-dimensional data, `vrmvrm` works best with
+In contrast to most spatial R packages like `sf` or `rspatial` that work
+with geographic, 2-dimensional data, `dddr` works best with
 3-dimensional data. The origin of this package was to analyze behavioral
 data (e.g, hand motion, head direction) in studies of virtual and
 augmented reality.
 
 [![Build
-Status](https://travis-ci.com/MrMallIronmaker/vrmvrm.svg?branch=master)](https://travis-ci.com/MrMallIronmaker/vrmvrm)
+Status](https://travis-ci.com/MrMallIronmaker/dddr.svg?branch=master)](https://travis-ci.com/MrMallIronmaker/dddr)
 
 # Quick View
 
 ``` r
 library(tidyverse)
-library(vrmvrm)
+library(dddr)
 ```
 
 ``` r
