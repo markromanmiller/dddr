@@ -1,4 +1,4 @@
 library(testthat)
-library(vrmvrm)
+library(dddr)
 
-test_check("vrmvrm")
+test_check("dddr")

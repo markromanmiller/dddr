@@ -11,7 +11,7 @@ new_quat <- function(w=double(), x=double(), y=double(), z=double()) {
   vctrs::vec_assert(x, ptype=double())
   vctrs::vec_assert(y, ptype=double())
   vctrs::vec_assert(z, ptype=double())
-  vctrs::new_rcrd(list(w=w, x=x, y=y, z=z), class="vrm_quat")
+  vctrs::new_rcrd(list(w=w, x=x, y=y, z=z), class="dddr_quat")
 }
 
 #' Create a quaternion
@@ -34,7 +34,7 @@ quat <- function(w, x, y, z) {
 
 #' @rdname field_access
 #' @export
-`$.vrm_quat` <- function(x, name) {
+`$.dddr_quat` <- function(x, name) {
   # should xyz conventions be a setting?
   # should all fields be accessible?
   if (name %in% c("w", "x", "y", "z")) {
@@ -45,7 +45,7 @@ quat <- function(w, x, y, z) {
 }
 
 #' @export
-format.vrm_quat <- function(x, ...) {
+format.dddr_quat <- function(x, ...) {
   q <- x # don't overwrite the name
   # TODO: keep width, etc in mind.
 

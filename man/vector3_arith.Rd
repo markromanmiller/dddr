@@ -2,25 +2,25 @@
 % Please edit documentation in R/vector3_operations.R
 \name{vector3_arith}
 \alias{vector3_arith}
-\alias{vec_arith.vrm_vector3}
-\alias{vec_arith.vrm_vector3.default}
-\alias{vec_arith.vrm_vector3.vrm_vector3}
-\alias{vec_arith.vrm_vector3.numeric}
-\alias{vec_arith.vrm_vector3.MISSING}
-\alias{vec_arith.numeric.vrm_vector3}
+\alias{vec_arith.dddr_vector3}
+\alias{vec_arith.dddr_vector3.default}
+\alias{vec_arith.dddr_vector3.dddr_vector3}
+\alias{vec_arith.dddr_vector3.numeric}
+\alias{vec_arith.dddr_vector3.MISSING}
+\alias{vec_arith.numeric.dddr_vector3}
 \title{Arithmetic operations on vectors}
 \usage{
-\method{vec_arith}{vrm_vector3}(op, x, y, ...)
+\method{vec_arith}{dddr_vector3}(op, x, y, ...)
 
-\method{vec_arith.vrm_vector3}{default}(op, x, y, ...)
+\method{vec_arith.dddr_vector3}{default}(op, x, y, ...)
 
-\method{vec_arith.vrm_vector3}{vrm_vector3}(op, x, y, ...)
+\method{vec_arith.dddr_vector3}{dddr_vector3}(op, x, y, ...)
 
-\method{vec_arith.vrm_vector3}{numeric}(op, x, y, ...)
+\method{vec_arith.dddr_vector3}{numeric}(op, x, y, ...)
 
-\method{vec_arith.vrm_vector3}{MISSING}(op, x, y, ...)
+\method{vec_arith.dddr_vector3}{MISSING}(op, x, y, ...)
 
-\method{vec_arith.numeric}{vrm_vector3}(op, x, y, ...)
+\method{vec_arith.numeric}{dddr_vector3}(op, x, y, ...)
 }
 \arguments{
 \item{op}{Arithmetic operation, i.e, `"+"`, `"-"`, `"*"`, or `"/"`}

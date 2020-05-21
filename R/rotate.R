@@ -35,22 +35,22 @@ rotate <- function(rotand, ...) {
 }
 
 #' @rdname rotation
-#' @method rotate vrm_vector3
+#' @method rotate dddr_vector3
 #' @export
-rotate.vrm_vector3 <- function(rotand, ...) {
-  rotate.vrm_object(rotand, ...)
+rotate.dddr_vector3 <- function(rotand, ...) {
+  rotate.dddr_object(rotand, ...)
 }
 
 #' @rdname rotation
-#' @method rotate vrm_quat
+#' @method rotate dddr_quat
 #' @export
-rotate.vrm_quat <- function(rotand, ...) {
-  rotate.vrm_object(rotand, ...)
+rotate.dddr_quat <- function(rotand, ...) {
+  rotate.dddr_object(rotand, ...)
 }
 
 #' @rdname rotation
 #' @export
-rotate.vrm_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=NULL, from=NULL, to=NULL, ...) {
+rotate.dddr_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=NULL, from=NULL, to=NULL, ...) {
   # TODO: what order makes the most sense? what would make the most sense without context?
   if (is.null(rotator)) {
     # try to make the rotator.
@@ -62,7 +62,7 @@ rotate.vrm_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, 
     }
 
     # upgrade + normalize axis
-    if(!inherits(axis, "vrm_vector3")) {
+    if(!inherits(axis, "dddr_vector3")) {
       # assume it's a nuermic vector, if not, whine.
       axis <- normalize(upgrade_vector3(axis))
     }
@@ -78,7 +78,7 @@ rotate.vrm_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, 
 
   rotand_was_vector <- FALSE
 
-  if (inherits(rotand, "vrm_vector3")) {
+  if (inherits(rotand, "dddr_vector3")) {
     rotand_was_vector <- TRUE
     rotand <- quat(
       w = 0,
