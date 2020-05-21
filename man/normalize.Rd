@@ -9,10 +9,12 @@ normalize(v, length = 1)
 \arguments{
 \item{v}{The vectors to normalize}
 
-\item{length}{(Optional) Normalized vectors will have this length. Both length-1 and length-N numerics are accepted here.}
+\item{length}{(Optional) Normalized vectors will have this length. Both
+length-1 and length-N numerics are accepted here.}
 }
 \description{
-`normalize` scales vectors so that direction is preserved but length can be varied.
-The primary usage is to convert a vector to unit length, i.e, a length of 1. This function accepts a second argument, `length`,
-to set a certain value for the magnitude of the vector.
+`normalize` scales vectors so that direction is preserved but length can be
+varied. The primary usage is to convert a vector to unit length, i.e, a
+length of 1. This function accepts a second argument, `length`, to set a
+certain value for the magnitude of the vector.
 }

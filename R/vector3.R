@@ -13,6 +13,11 @@ new_vector3 <- function(x=double(), y=double(), z=double()) {
   vctrs::new_rcrd(list(x=x, y=y, z=z), class="dddr_vector3")
 }
 
+#' Create a 3D vector
+#'
+#' Creates a three-dimensional vector given three vectors representing Cartesian coordinates.
+#'
+#' @param x,y,z Numeric vectors representing the the vector's coordinates in the specified dimension.
 #'
 #' @export
 vector3 <- function(x, y, z) {
@@ -21,7 +26,20 @@ vector3 <- function(x, y, z) {
   new_vector3(l[[1]], l[[2]], l[[3]])
 }
 
+#' Vector field access
 #'
+#' In order to access fields within each vector, the `$` operator is used.
+#'
+#' @param x Vector3 whose fields to access
+#' @param name Field name to access. For vectors, this should be one of "x",
+#'   "y", or "z". For quaternions, this can include "w" as well.
+#'
+#' @name field_access
+#' @examples
+#' vector3(x=1:4, y=2:5, z=3:6)$y
+NULL
+
+#' @rdname field_access
 #' @export
 `$.dddr_vector3` <- function(x, name) {
   # should xyz conventions be a setting?
@@ -47,9 +65,6 @@ format.dddr_vector3 <- function(x, ...) {
   out
 }
 
-#' A vector3 represennts a 3-dimensional vector from the `dddr` package.
-#'
-#' These functions interface with the `vctrs` library
 #' @importFrom vctrs vec_ptype_abbr
 #' @method vec_ptype_abbr dddr_vector3
 #' @export

@@ -1,5 +1,11 @@
 
-#' @export
+#' Internal method for creating a new quat
+#'
+#' This follows the new / validate / user-facing pattern recommended in the `vctrs` documentation.
+#'
+#' @param w,x,y,z Quaternion entries, expected to be double vectors
+#'
+#' @keywords internal
 new_quat <- function(w=double(), x=double(), y=double(), z=double()) {
   vctrs::vec_assert(w, ptype=double())
   vctrs::vec_assert(x, ptype=double())
@@ -8,6 +14,16 @@ new_quat <- function(w=double(), x=double(), y=double(), z=double()) {
   vctrs::new_rcrd(list(w=w, x=x, y=y, z=z), class="dddr_quat")
 }
 
+#' Create a quaternion
+#'
+#' Creates a quaternion, a four-dimensional number that represents 3D rotation
+#' well. The values underneath the quaternions are not interpretable for the
+#' naive user; however, one can learn how to read these values. See the vignette
+#' [TODO: link vignette] for an explanation.
+#'
+#' @param w,x,y,z Numeric vectors of the quaternion values. It is rare to need
+#'   to access these fields.
+#'
 #' @export
 quat <- function(w, x, y, z) {
   # should empty arguments be the identity quaternion?
@@ -16,12 +32,13 @@ quat <- function(w, x, y, z) {
   new_quat(l[[1]], l[[2]], l[[3]], l[[4]])
 }
 
+#' @rdname field_access
 #' @export
-`$.dddr_quat` <- function(q, name) {
+`$.dddr_quat` <- function(x, name) {
   # should xyz conventions be a setting?
   # should all fields be accessible?
   if (name %in% c("w", "x", "y", "z")) {
-    return(vctrs::field(q, name))
+    return(vctrs::field(x, name))
   } else {
     return(NULL)
   }
