@@ -187,10 +187,62 @@ test_that("Vector3 can have sums, cumsums, and means", {
 
 })
 
+test_that("Vector3 dot product behaves correctly.", {
+  foo <- vector3(
+    x=c(1, 0, -1, 5),
+    y=c(4, -2, 0, 1),
+    z=c(-1, 2, 4, 3)
+  )
+  # simple
+  expect_equal(dot(foo, vector3(1, 0, 0)), c(1, 0, -1, 5))
+  # slightly more complex
+  expect_equal(dot(foo, vector3(-1, 2, 0)), c(7, -4, 1, -3))
+  # dot product with self is squared length
+  expect_equal(dot(foo, foo), distance(foo)^2)
 
+  # also do dots with length-3 numerics
+  expect_equal(dot(foo, c(1, 0, 0)), c(1, 0, -1, 5))
+})
 
+test_that("Vector3 cross product behaves correctly.", {
+  foo <- vector3(
+    x=c(1, 0, -1, 5),
+    y=c(4, -2, 0, 1),
+    z=c(-1, 2, 4, 3)
+  )
+  # simple
+  expect_equal(
+    cross(vector3(1, 0, 0), vector3(0, 1, 0)),
+    vector3(0, 0, 1)
+  )
+  # anticommutativity
+  expect_equal(
+    cross(vector3(0, 1, 0), vector3(1, 0, 0)),
+    vector3(0, 0, -1)
+  )
 
+  crossed_with_x <- vector3(
+    x = c(0, 0, 0, 0),   # 0,
+    y = c(-1, 2, 4, 3), # z,
+    z = c(-4, 2, 0, -1)  # -y
+  )
 
+  # slightly more complex
+  expect_equal(cross(foo, vector3(1, 0, 0)), crossed_with_x)
+
+  # also do dots with length-3 numerics
+  expect_equal(cross(foo, c(1, 0, 0)), crossed_with_x)
+
+  # dot between result and either input is 0
+  dot_test_vec <- vector3(-2.5, 4, 1)
+  crossed <- cross(foo, dot_test_vec)
+  expect_equal(dot(crossed, foo), rep(0, 4))
+  expect_equal(dot(crossed, dot_test_vec), rep(0, 4))
+})
+
+test_that("When multiplying vectors, the user gets an error and redirects to the operations page.", {
+  expect_error(vector3(1, 0, 0) * vector3(1, 0, 0), class="vctrs_error", regexp="vector3_prod")
+})
 
 
 

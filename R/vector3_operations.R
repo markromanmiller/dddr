@@ -62,6 +62,14 @@ vec_arith.vrm_vector3.vrm_vector3 <- function(op, x, y, ...) {
         y = vctrs::vec_arith_base(op, x$y, y$y),
         z = vctrs::vec_arith_base(op, x$z, y$z)
       ),
+    "*" = vctrs::stop_incompatible_op(
+      op, x, y,
+      details = paste(
+        vector3_help_message,
+        "Did you mean `dot` or `cross`?",
+        "Refer to `?vector3_prod` for vector multiplication."
+      )
+    ),
     vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
@@ -234,11 +242,24 @@ NULL
 #' @rdname vector3_prod
 #' @export
 cross <- function(a, b) {
-  stop("Not Implemented Yet")
+  if (!inherits(b, "vrm_vector3")) {
+    b <- upgrade_vector3(b)
+  }
+  new_vector3(
+    x = a$y * b$z - a$z * b$y,
+    y = a$z * b$x - a$x * b$z,
+    z = a$x * b$y - a$y * b$x
+  )
 }
 
 #' @rdname vector3_prod
 #' @export
 dot <- function(a, b) {
+  if (!inherits(b, "vrm_vector3")) {
+    b <- upgrade_vector3(b)
+  }
   a$x * b$x + a$y * b$y + a$z * b$z
 }
+
+
+
