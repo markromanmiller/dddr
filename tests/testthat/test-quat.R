@@ -93,25 +93,25 @@ test_that("Quats can be multiplied by a 4-element numeric representing an identi
 
 #  results <- tribble(
 #    ~names_left, ~names_right, ~names_expected, ~quats_expected,
-#    "1", "1", "1", upgrade_quat(c(1, 0, 0, 0)),
-#    "1", "i", "i", upgrade_quat(c(0, 1, 0, 0)),
-#    "1", "j", "j", upgrade_quat(c(0, 0, 1, 0)),
-#    "1", "k", "k", upgrade_quat(c(0, 0, 0, 1)),
+#    "1", "1", "1", upgrade_to_quat(c(1, 0, 0, 0)),
+#    "1", "i", "i", upgrade_to_quat(c(0, 1, 0, 0)),
+#    "1", "j", "j", upgrade_to_quat(c(0, 0, 1, 0)),
+#    "1", "k", "k", upgrade_to_quat(c(0, 0, 0, 1)),
 
-#   "i", "1", "i", upgrade_quat(c(0, 1, 0, 0)),
-#    "i", "i", "-1", upgrade_quat(c(-1, 0, 0, 0)),
-#    "i", "j", "k", upgrade_quat(c(0, 0, 0, 1)),
-#    "i", "k", "-j", upgrade_quat(c(0, 0, -1, 0)),
+#   "i", "1", "i", upgrade_to_quat(c(0, 1, 0, 0)),
+#    "i", "i", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
+#    "i", "j", "k", upgrade_to_quat(c(0, 0, 0, 1)),
+#    "i", "k", "-j", upgrade_to_quat(c(0, 0, -1, 0)),
 
-#    "j", "1", "j", upgrade_quat(c(0, 0, 1, 0)),
-#    "j", "i", "-k", upgrade_quat(c(0, 0, 0, -1)),
-#    "j", "j", "-1", upgrade_quat(c(-1, 0, 0, 0)),
-#    "j", "k", "i", upgrade_quat(c(0, 1, 0, 0)),
+#    "j", "1", "j", upgrade_to_quat(c(0, 0, 1, 0)),
+#    "j", "i", "-k", upgrade_to_quat(c(0, 0, 0, -1)),
+#    "j", "j", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
+#    "j", "k", "i", upgrade_to_quat(c(0, 1, 0, 0)),
 
-#    "k", "1", "k", upgrade_quat(c(0, 0, 0, 1)),
-#    "k", "i", "j", upgrade_quat(c(0, 0, 1, 0)),
-#    "k", "j", "-i", upgrade_quat(c(0, -1, 0, 0)),
-#    "k", "k", "-1", upgrade_quat(c(-1, 0, 0, 0)),
+#    "k", "1", "k", upgrade_to_quat(c(0, 0, 0, 1)),
+#    "k", "i", "j", upgrade_to_quat(c(0, 0, 1, 0)),
+#    "k", "j", "-i", upgrade_to_quat(c(0, -1, 0, 0)),
+#    "k", "k", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
 #  ) %>%
 #    unnest(quats_expected)
 

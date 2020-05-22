@@ -60,7 +60,7 @@ vec_arith.vrm_quat.numeric <- function(op, x, y, ...) {
   switch(
     op,
     "*" = {
-      vec_arith.vrm_quat.vrm_quat(op, x, upgrade_quat(y), ...)
+      vec_arith.vrm_quat.vrm_quat(op, x, upgrade_to_quat(y), ...)
       },
     vctrs::stop_incompatible_op(op, x, y)
   )
@@ -74,7 +74,7 @@ vec_arith.numeric.vrm_quat<- function(op, x, y, ...) {
   switch(
     op,
     "*" = {
-      vec_arith.vrm_quat.vrm_quat(op, upgrade_quat(x), y, ...)
+      vec_arith.vrm_quat.vrm_quat(op, upgrade_to_quat(x), y, ...)
     },
     vctrs::stop_incompatible_op(op, x, y)
   )

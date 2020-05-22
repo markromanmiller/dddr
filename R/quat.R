@@ -66,7 +66,7 @@ vec_ptype_abbr.quat <- function(x, ...) {
 }
 
 
-upgrade_quat <- function(v) {
+upgrade_to_quat <- function(v) {
   stopifnot(length(v) == 4)
 
   new_quat(w = v[[1]], x = v[[2]], y = v[[3]], z = v[[4]])

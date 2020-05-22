@@ -64,7 +64,7 @@ rotate.vrm_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, 
     # upgrade + normalize axis
     if(!inherits(axis, "vrm_vector3")) {
       # assume it's a nuermic vector, if not, whine.
-      axis <- normalize(upgrade_vector3(axis))
+      axis <- normalize(upgrade_to_vector3(axis))
     }
 
     # TODO: refactor to a separate axis / angle constructor?

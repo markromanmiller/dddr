@@ -77,7 +77,7 @@ vec_ptype_abbr.vrm_vector3 <- function(x, ...) {
 #' @param v a length-3 numeric vector
 #'
 #' @keywords internal
-upgrade_vector3 <- function(v) {
+upgrade_to_vector3 <- function(v) {
   stopifnot(length(v) == 3)
 
   new_vector3(x = v[[1]], y = v[[2]], z = v[[3]])

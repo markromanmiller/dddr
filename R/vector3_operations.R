@@ -243,7 +243,7 @@ NULL
 #' @export
 cross <- function(a, b) {
   if (!inherits(b, "vrm_vector3")) {
-    b <- upgrade_vector3(b)
+    b <- upgrade_to_vector3(b)
   }
   new_vector3(
     x = a$y * b$z - a$z * b$y,
@@ -256,7 +256,7 @@ cross <- function(a, b) {
 #' @export
 dot <- function(a, b) {
   if (!inherits(b, "vrm_vector3")) {
-    b <- upgrade_vector3(b)
+    b <- upgrade_to_vector3(b)
   }
   a$x * b$x + a$y * b$y + a$z * b$z
 }
