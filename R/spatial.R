@@ -1,6 +1,18 @@
 
+#' Cacluate angle between vectors
+#'
+#' Measure the angle between two points `a` and `b`, with optional argument
+#' `origin` to measure the angle around.
+#'
+#' @param a,b Points to measure the angle between
+#' @param origin (Optional) point to measure the rotation around
+#'
+#' @return Angle between `a` and `b` in terms of radians
 angle_between <- function(a, b, origin=c(0, 0, 0)) {
-  stop("Not Implemented Yet")
+  # angle between is dot divided by length.
+  a <- a - origin
+  b <- b - origin
+  acos(dot(a, b) / (distance(a) * distance(b)))
 }
 
 
