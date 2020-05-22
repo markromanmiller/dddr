@@ -2,10 +2,10 @@
 % Please edit documentation in R/vector3_operations.R
 \name{vector3_math}
 \alias{vector3_math}
-\alias{vec_math.vrm_vector3}
+\alias{vec_math.dddr_vector3}
 \title{Mathematical operations on vectors}
 \usage{
-\method{vec_math}{vrm_vector3}(.fn, .x, ...)
+\method{vec_math}{dddr_vector3}(.fn, .x, ...)
 }
 \arguments{
 \item{.fn}{Mathematical function to apply}

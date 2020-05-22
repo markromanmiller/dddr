@@ -3,18 +3,18 @@
 \name{rotation}
 \alias{rotation}
 \alias{rotate}
-\alias{rotate.vrm_vector3}
-\alias{rotate.vrm_quat}
-\alias{rotate.vrm_object}
+\alias{rotate.dddr_vector3}
+\alias{rotate.dddr_quat}
+\alias{rotate.dddr_object}
 \title{Rotate vectors and quaternions}
 \usage{
 rotate(rotand, ...)
 
-\method{rotate}{vrm_vector3}(rotand, ...)
+\method{rotate}{dddr_vector3}(rotand, ...)
 
-\method{rotate}{vrm_quat}(rotand, ...)
+\method{rotate}{dddr_quat}(rotand, ...)
 
-\method{rotate}{vrm_object}(
+\method{rotate}{dddr_object}(
   rotand,
   rotator = NULL,
   origin = c(0, 0, 0),
