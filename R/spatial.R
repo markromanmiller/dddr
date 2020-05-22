@@ -8,6 +8,7 @@
 #' @param origin (Optional) point to measure the rotation around
 #'
 #' @return Angle between `a` and `b` in terms of radians
+#' @export
 angle_between <- function(a, b, origin=c(0, 0, 0)) {
   # angle between is dot divided by length.
   a <- a - origin
@@ -15,13 +16,25 @@ angle_between <- function(a, b, origin=c(0, 0, 0)) {
   acos(dot(a, b) / (distance(a) * distance(b)))
 }
 
-
-project <- function(points, onto){
-  stop("Not Implemented Yet")
+#' Vector projection and rejection
+#'
+#' Oftentimes it is useful to constrain a vector to lie on a line or a plane.
+#' Vector projection and rejection is able to do these operations
+#'
+#' @param x Vectors to project or reject
+#' @param onto,from The vector to project onto or reject from
+#'
+#' @export
+project <- function(x, onto){
+  # random thought: if speed is an issue, it may make sense to add classes to the vector3s
+  # saying if they've already been normalized, etc.
+  (dot(x, onto) / dot(onto, onto)) * onto
 }
 
-reject <- function(points, from) {
-  stop("Not Implemented Yet")
+#' @describeIn project
+#' @export
+reject <- function(x, from) {
+  x - project(x, from)
 }
 
 #' Extend a point and direction towards a target plane.
