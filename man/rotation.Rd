@@ -5,7 +5,7 @@
 \alias{rotate}
 \alias{rotate.dddr_vector3}
 \alias{rotate.dddr_quat}
-\alias{rotate.dddr_object}
+\alias{rotate_dddr}
 \title{Rotate vectors and quaternions}
 \usage{
 rotate(rotand, ...)
@@ -14,15 +14,14 @@ rotate(rotand, ...)
 
 \method{rotate}{dddr_quat}(rotand, ...)
 
-\method{rotate}{dddr_object}(
+rotate_dddr(
   rotand,
   rotator = NULL,
   origin = c(0, 0, 0),
   axis = NULL,
   angle = NULL,
   from = NULL,
-  to = NULL,
-  ...
+  to = NULL
 )
 }
 \arguments{

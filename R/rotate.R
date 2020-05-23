@@ -38,23 +38,24 @@ rotate <- function(rotand, ...) {
 #' @method rotate dddr_vector3
 #' @export
 rotate.dddr_vector3 <- function(rotand, ...) {
-  rotate.dddr_object(rotand, ...)
+  rotate_dddr(rotand, ...)
 }
 
 #' @rdname rotation
 #' @method rotate dddr_quat
 #' @export
 rotate.dddr_quat <- function(rotand, ...) {
-  rotate.dddr_object(rotand, ...)
+  rotate_dddr(rotand, ...)
 }
 
 #' @rdname rotation
 #' @export
-rotate.dddr_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=NULL, from=NULL, to=NULL, ...) {
+rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=NULL, from=NULL, to=NULL) {
   # TODO: what order makes the most sense? what would make the most sense without context?
   if (is.null(rotator)) {
     # try to make the rotator.
     if (is.null(angle)) {
+      # specify as
       stop("from/to not implemented yet")
     }
     if (!is.null(from) || !is.null(to)) {
@@ -80,12 +81,20 @@ rotate.dddr_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL,
 
   if (inherits(rotand, "dddr_vector3")) {
     rotand_was_vector <- TRUE
+    # subtract origin here
+
+    if(!inherits(origin, "dddr_vector3")) {
+      origin <- upgrade_to_vector3(origin)
+    }
+    rotatable <- rotand - origin
     rotand <- quat(
       w = 0,
-      x = rotand$x,
-      y = rotand$y,
-      z = rotand$z
+      x = rotatable$x,
+      y = rotatable$y,
+      z = rotatable$z
     )
+  } else if (!all.equal(origin, c(0, 0, 0))) {
+    warning("Argument `origin` does not apply to quaternion rotation. Ignoring argument `origin`.")
   }
 
   out <- rotator * rotand * Conj(rotator)
@@ -95,7 +104,7 @@ rotate.dddr_object <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL,
       x = out$x,
       y = out$y,
       z = out$z
-    )
+    ) + origin
   }
 
   out
