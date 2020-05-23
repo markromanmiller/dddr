@@ -23,7 +23,10 @@ angle_between <- function(a, b, origin=c(0, 0, 0)) {
 #'
 #' @param x Vectors to project or reject
 #' @param onto,from The vector to project onto or reject from
-#'
+#' @name vecjection
+NULL
+
+#' @rdname vecjection
 #' @export
 project <- function(x, onto){
   # random thought: if speed is an issue, it may make sense to add classes to the vector3s
@@ -31,7 +34,7 @@ project <- function(x, onto){
   (dot(x, onto) / dot(onto, onto)) * onto
 }
 
-#' @describeIn project
+#' @rdname vecjection
 #' @export
 reject <- function(x, from) {
   x - project(x, from)
