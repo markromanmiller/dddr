@@ -18,6 +18,7 @@ Remotes:
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    covr
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
