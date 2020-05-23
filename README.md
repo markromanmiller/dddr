@@ -5,9 +5,9 @@ dddr: Three-Dimensional Vector Operations in R
 
 The R package `dddr` is a
 [`vctrs`](https://github.com/r-lib/vctrs/)-based package for working
-with three-diensional spatial data. It gives points, velocities, and
-rotations first-class vector status in R, enabling usage as column types
-within `data.frame` and `tibble`.
+with three-diensional spatial data. It gives three-dimensional objects
+like points, velocities, and rotations first-class vector status in R,
+enabling usage as column types within `data.frame` and `tibble`.
 
 In contrast to most spatial R packages like `sf` or `rspatial` that work
 with geographic, 2-dimensional data, `dddr` works best with
@@ -15,8 +15,13 @@ with geographic, 2-dimensional data, `dddr` works best with
 data (e.g, hand motion, head direction) in studies of virtual and
 augmented reality.
 
+<!-- badges: start -->
+
 [![Build
 Status](https://travis-ci.com/MrMallIronmaker/dddr.svg?branch=master)](https://travis-ci.com/MrMallIronmaker/dddr)
+[![Codecov test
+coverage](https://codecov.io/gh/MrMallIronmaker/dddr/branch/master/graph/badge.svg)](https://codecov.io/gh/MrMallIronmaker/dddr?branch=master)
+<!-- badges: end -->
 
 # Quick View
 
