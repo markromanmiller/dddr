@@ -1,8 +1,8 @@
 ---
-title: "vrmvrm"
+title: "dddr"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{vrmvrm}
+  %\VignetteIndexEntry{dddr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

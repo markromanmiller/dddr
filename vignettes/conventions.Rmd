@@ -1,0 +1,18 @@
+---
+title: "Conventions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{conventions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Conventions
+
+Why? What?
+
+So many questions!
+
+Conventions are necessary for:
+- Euler Angles
+- Directions (forward, etc)
