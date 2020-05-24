@@ -83,6 +83,14 @@ upgrade_to_vector3 <- function(v) {
   new_vector3(x = v[[1]], y = v[[2]], z = v[[3]])
 }
 
+ensure_vector3 <- function(v) {
+  if(!inherits(v, "dddr_vector3")) {
+    # assume it's a nuermic vector, if not, whine.
+    v <- upgrade_to_vector3(v)
+  }
+  v
+}
+
 format_and_align_right <- function(x, width) {
   x <- format(x, width=width)
   extent <- pillar::get_extent(x)
