@@ -54,19 +54,17 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
   # TODO: what order makes the most sense? what would make the most sense without context?
   if (is.null(rotator)) {
     # try to make the rotator.
-    if (is.null(angle)) {
-      # specify as
-      stop("from/to not implemented yet")
-    }
-    if (!is.null(from) || !is.null(to)) {
-      stop("cannot accept both angle and from/to as arguments")
+    if (is.null(angle) && is.null(axis)) {
+      # crossing, around by angle between.
+      from <- ensure_vector3(from)
+      to <- ensure_vector3(to)
+      axis <- cross(from, to)
+      angle <- angle_between(from, to)
     }
 
     # upgrade + normalize axis
-    if(!inherits(axis, "dddr_vector3")) {
-      # assume it's a nuermic vector, if not, whine.
-      axis <- normalize(upgrade_to_vector3(axis))
-    }
+    axis <- ensure_vector3(axis)
+    axis <- normalize(axis)
 
     # TODO: refactor to a separate axis / angle constructor?
     rotator <- quat(

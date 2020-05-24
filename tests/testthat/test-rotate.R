@@ -85,7 +85,26 @@ test_that("rotations can be offset by origin", {
   )
 })
 
-test_that("rotations can be specified by from-to", {})
+test_that("rotations can be specified by from-to", {
+  expect_equal(
+    rotate(foo, from=c(1, 0, 0), to=c(0, 1, 0)),
+    vector3(
+      x = -foo$y,
+      y = foo$x,
+      z = foo$z
+    )
+  )
+
+  expect_equal(
+    rotate(foo, from=c(2, 0, 0), to=c(0, 0, -3)),
+    vector3(
+      x = foo$z,
+      y = foo$y,
+      z = -foo$x
+    )
+  )
+
+})
 
 test_that("rotations can be specified by axis and from-to", {})
 
@@ -98,6 +117,10 @@ test_that("errors are thrown in reasonable cases", {
   # angle, axis, and from/to are given.
 })
 
+test_that("warnings are thrown in reasonable cases", {
+  # rotator and anything else
+  # (more)
+})
 
 
 
