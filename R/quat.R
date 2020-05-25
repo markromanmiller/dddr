@@ -60,17 +60,44 @@ format.dddr_quat <- function(x, ...) {
   out
 }
 
+#' @importFrom vctrs vec_ptype_abbr
+#' @method vec_ptype_abbr dddr_quat
 #' @export
-vec_ptype_abbr.quat <- function(x, ...) {
+vec_ptype_abbr.dddr_quat <- function(x, ...) {
   "quat"
 }
 
 
+#' Quaternion helpers
+#'
+#' Sometimes objects are in a format that is not truly a quaternion but has
+#' unambigous meaning. In those cases, we translate from the length-four
+#' numeric vector to a length-one quaternion
+#'
+#' `upgrade` assumes a length 4 numeric, `ensure` checks if it's already a quat first.
+#'
+#' @param v a length-4 numeric vector
+#' @name quat_helpers
+
+#' @rdname quat_helpers
+#' @export
 upgrade_to_quat <- function(v) {
   stopifnot(length(v) == 4)
-
   new_quat(w = v[[1]], x = v[[2]], y = v[[3]], z = v[[4]])
 }
+
+#' @rdname quat_helpers
+#' @export
+ensure_quat <- function(v) {
+  if(!inherits(v, "dddr_quat")) {
+    v <- upgrade_to_quat(v)
+  }
+  v
+}
+
+
+
+
 
 
 

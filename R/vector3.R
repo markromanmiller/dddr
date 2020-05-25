@@ -72,20 +72,29 @@ vec_ptype_abbr.dddr_vector3 <- function(x, ...) {
   "vct3"
 }
 
-#' Internal helper function for creating a new vector3 from a length-3 numeric vector.
+#' Vector3 helpers
+#'
+#' Sometimes objects are in a format that is not truly a vector3 but has
+#' unambigous meaning. In those cases, we translate from the length-three
+#' numeric vector to a length-one vector3.
+#'
+#' `upgrade` assumes a length 3 numeric, `ensure` checks if it's already a vector3 first.
 #'
 #' @param v a length-3 numeric vector
-#'
-#' @keywords internal
+#' @name vector3_helpers
+
+
+#' @rdname vector3_helpers
+#' @export
 upgrade_to_vector3 <- function(v) {
   stopifnot(length(v) == 3)
-
   new_vector3(x = v[[1]], y = v[[2]], z = v[[3]])
 }
 
+#' @rdname vector3_helpers
+#' @export
 ensure_vector3 <- function(v) {
   if(!inherits(v, "dddr_vector3")) {
-    # assume it's a nuermic vector, if not, whine.
     v <- upgrade_to_vector3(v)
   }
   v
