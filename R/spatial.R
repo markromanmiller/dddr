@@ -11,8 +11,8 @@
 #' @export
 angle_between <- function(a, b, origin=c(0, 0, 0)) {
   # angle between is dot divided by length.
-  a <- a - origin
-  b <- b - origin
+  a <- ensure_vector3(a - origin)
+  b <- ensure_vector3(b - origin)
   acos(dot(a, b) / (distance(a) * distance(b)))
 }
 
