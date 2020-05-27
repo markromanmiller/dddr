@@ -83,6 +83,19 @@ spiral %>%
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
+# Installation
+
+    install.packages("devtools") # if you have not installed "devtools" package
+    devtools::install_github("MrMallIronmaker/dddr")
+
+# Questions
+
+If you have questions in how to use this library, what this library is
+useful for, or if it hase any particular features, it would be helpful
+to contact me directly at `mrmillr at stanford.edu`. This project is in
+its early development stages, and I want to know how you want to use the
+library / are using the library.
+
 # Contributions
 
 Contributions are welcome\! The issue tracker in this repo can be used

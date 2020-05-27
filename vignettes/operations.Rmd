@@ -1,0 +1,113 @@
+---
+title: "3D Operations using `dddr`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{operations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=8,
+  fig.height=5
+)
+```
+
+```{r setup, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(dddr)
+```
+
+The R package `dddr` works well with three-diensional spatial data. It gives three-dimensional objects like points, velocities, and rotations first-class vector status in R, enabling usage as column types within `data.frame` and `tibble`.
+
+# Vector Mathematics
+
+Vectors have addition and subtraction operations, as well as scalar multiplication.
+
+```{R}
+spiral <- data.frame(i = seq(0, 10*pi, by=0.05)) %>%
+  mutate(
+    # vector3s are created using three numeric vector arguments,
+    # and thanks to dplyr, can refer to other columns in the dataframe
+    circular_part = vector3(x=cos(i), y=sin(i), z=0),
+    forward_part = vector3(x=0, y=0, z=i/15),
+    # vector3s can be added together and multiplied by numerics 
+    spiral_part = circular_part * i / 30 + forward_part
+  )
+
+ggplot(spiral, aes(x=spiral_part$x, y=spiral_part$y)) +
+  geom_point() +
+  geom_path() +
+  coord_equal()
+```
+
+```{R}
+spiral %>%
+  mutate(addition_example = spiral_part + c(1, 1, 0)) %>%
+  ggplot() +
+  geom_point(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
+  geom_path(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
+  geom_point(aes(x=addition_example$x, y=addition_example$y), color="blue") +
+  geom_path(aes(x=addition_example$x, y=addition_example$y), color="blue") +
+  coord_equal()
+```
+
+```{R}
+spiral %>%
+  mutate(multiplication_example = spiral_part * 1.5) %>%
+  ggplot() +
+  geom_point(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
+  geom_path(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
+  geom_point(aes(x=multiplication_example$x, y=multiplication_example$y), color="blue") +
+  geom_path(aes(x=multiplication_example$x, y=multiplication_example$y), color="blue") +
+  coord_equal()
+```
+
+# Rotations
+
+Vectors can be rotated using the `rotate` function in many different ways. One approach is a very simple axis-angle.
+
+```{R}
+spiral %>%
+  mutate(axis_angle_rotation = rotate(spiral_part, axis=c(0, 1, 0), angle=pi/4)) %>%
+  ggplot() +
+  geom_point(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
+  geom_path(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
+  geom_point(aes(x=axis_angle_rotation$x, y=axis_angle_rotation$y), color="blue") +
+  geom_path(aes(x=axis_angle_rotation$x, y=axis_angle_rotation$y), color="blue") +
+  coord_equal()
+```
+
+Another approach uses from/to specific vectors.
+
+```{R}
+spiral %>%
+  mutate(from_to_rotation = rotate(spiral_part, from=c(0, 0, 1), to=c(-1, -1, -1))) %>%
+  ggplot() +
+  geom_point(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
+  geom_path(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
+  geom_point(aes(x=from_to_rotation$x, y=from_to_rotation$y), color="blue") +
+  geom_path(aes(x=from_to_rotation$x, y=from_to_rotation$y), color="blue") +
+  coord_equal()
+```
+
+# Spatial Functions
+
+There are a handful of other useful functions, including `angle_between`, and vector projection and rejection.
+
+```{R}
+spiral %>%
+  mutate(angle = angle_between(spiral_part, c(0, 0, 0), origin=c(0, -2, 0))) %>%
+  ggplot() +
+  geom_point(aes(x=i, y=angle)) +
+  geom_line(aes(x=i, y=angle))
+```
+
+
+
+
+
