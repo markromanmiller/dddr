@@ -111,7 +111,7 @@ test_that("rotations can be specified by axis and from-to", {})
 test_that("errors are thrown in reasonable cases", {
   # everything is null
   # expect_error()
-  # axis is given but no angle
+  # axis is given but no angle and no from-to
   # axis and from is given but no to
   # angle and from/to are given
   # angle, axis, and from/to are given.

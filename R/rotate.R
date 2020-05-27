@@ -54,12 +54,22 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
   # TODO: what order makes the most sense? what would make the most sense without context?
   if (is.null(rotator)) {
     # try to make the rotator.
-    if (is.null(angle) && is.null(axis)) {
-      # crossing, around by angle between.
+    if (is.null(axis)) {
       from <- ensure_vector3(from)
       to <- ensure_vector3(to)
       axis <- cross(from, to)
+    } else if (is.null(angle)) {
+      # Axis was specified, angle was not. Generate "angle" by projecting
+      # from/to onto the plane normal to axis, and then compute the angle between (done below)
+      from <- reject(from, axis)
+      to <- reject(to, axis)
+    }
+
+    if (is.null(angle)) {
+      # it matters if the axis was created or not.
       angle <- angle_between(from, to)
+      # if it was created, this is all we need.
+      # if not, we need to project it.
     }
 
     # upgrade + normalize axis
@@ -92,7 +102,7 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
       z = rotatable$z
     )
   } else if (!all.equal(origin, c(0, 0, 0))) {
-    warning("Argument `origin` does not apply to quaternion rotation. Ignoring argument `origin`.")
+    warning("Argument `origin` does not apply to rotation of a quaternion. Ignoring argument `origin`.")
   }
 
   out <- rotator * rotand * Conj(rotator)
@@ -115,6 +125,8 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
 #' roll-pitch-yaw.
 #'
 #' @param q Quaternions to extract angles from
+#'
+#' @return Angle in radians
 #' @name euler_angles
 NULL
 
