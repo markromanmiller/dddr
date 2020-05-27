@@ -12,6 +12,7 @@
 }
 
 .onLoad <- function(libname, pkgname) {
+  # This function is not automatically tested with covr
   op <- options()
   op.dddr <- list(
     dddr.convention = "default"
