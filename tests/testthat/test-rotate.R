@@ -106,20 +106,35 @@ test_that("rotations can be specified by from-to", {
 
 })
 
-test_that("rotations can be specified by axis and from-to", {})
+test_that("rotations can be specified by axis and from-to", {
+  expect_equal(
+    rotate(foo, axis=c(0, 0, 2), from=c(1, 0, 2), to=c(0, 1, -5)),
+    vector3(
+      x = -foo$y,
+      y = foo$x,
+      z = foo$z
+    )
+  )
+})
 
 test_that("errors are thrown in reasonable cases", {
   # everything is null
-  # expect_error()
+  expect_error(rotate(foo))
+
   # axis is given but no angle and no from-to
+  expect_error(rotate(foo, axis=c(0, 0, 1)))
+
   # axis and from is given but no to
-  # angle and from/to are given
-  # angle, axis, and from/to are given.
+  expect_error(rotate(foo, axis=c(0, 0, 1), from=c(1, 0, 1)))
+
 })
 
 test_that("warnings are thrown in reasonable cases", {
   # rotator and anything else
-  # (more)
+  expect_warning(rotate(foo, quat(1, 0, 0, 0), angle=pi/2))
+
+  # angle, axis, and from/to are given.
+  expect_warning(rotate(foo, angle=pi/2, axis=c(0, 1, 0), from=c(2, 3, 4), to=c(-2, 5, 6)))
 })
 
 

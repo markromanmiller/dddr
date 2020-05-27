@@ -20,10 +20,8 @@
 #' @examples
 #' rotate(vector3(x=1:4, y=2:5, z=3:6), rotator=quat(0,1,0,0))
 #' rotate(vector3(x=1:4, y=2:5, z=3:6), rotator=quat(0,1,0,0), origin=c(1,2,3))
-#' \dontrun{ # not implemented yet
-#'   rotate(vector3(x=1:4, y=2:5, z=3:6), axis=c(1,0,0), angle=pi/4)
-#'   rotate(vector3(x=1:4, y=2:5, z=3:6), from=c(1,0,0), to=c(1,0,0))
-#' }
+#' rotate(vector3(x=1:4, y=2:5, z=3:6), axis=c(1,0,0), angle=pi/4)
+#' rotate(vector3(x=1:4, y=2:5, z=3:6), from=c(1,0,0), to=c(1,0,0))
 #'
 #' @name rotation
 NULL
@@ -60,9 +58,20 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
       axis <- cross(from, to)
     } else if (is.null(angle)) {
       # Axis was specified, angle was not. Generate "angle" by projecting
-      # from/to onto the plane normal to axis, and then compute the angle between (done below)
+      # from/to onto the plane normal to axis, and then compute the angle
+      # between (done below)
+      from <- ensure_vector3(from)
+      to <- ensure_vector3(to)
+      axis <- ensure_vector3(axis)
       from <- reject(from, axis)
       to <- reject(to, axis)
+    } else {
+      # quick check
+      if (!is.null(from) && !is.null(angle) && !is.null(to)) {
+        # axis, angle, from, and to are all not null
+        # that's weird and shouldn't happen.
+        warning("The parameters axis, angle, from, and to are all specified. Some are redundant.")
+      }
     }
 
     if (is.null(angle)) {
@@ -83,6 +92,10 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
       y = axis$y * sin(angle/2),
       z = axis$z * sin(angle/2)
     )
+  } else {
+    if (!is.null(from) || !is.null(to) || !is.null(axis) || !is.null(angle)) {
+      warning("Argument `rotator` precedes any other arguments other than `origin`.")
+    }
   }
 
   rotand_was_vector <- FALSE

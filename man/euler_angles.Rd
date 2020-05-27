@@ -16,6 +16,9 @@ roll(q)
 \arguments{
 \item{q}{Quaternions to extract angles from}
 }
+\value{
+Angle in radians
+}
 \description{
 Extract euler angles from a quaternion. These follow Unity's conventions of
 yaw around Y, pitch around X, and roll around Z. They are applied in order of
