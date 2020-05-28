@@ -20,5 +20,5 @@
 In order to access fields within each vector, the `$` operator is used.
 }
 \examples{
-vector3(x=1:4, y=2:5, z=3:6)$y
+vector3(x = 1:4, y = 2:5, z = 3:6)$y
 }

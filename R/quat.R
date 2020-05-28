@@ -6,12 +6,12 @@
 #' @param w,x,y,z Quaternion entries, expected to be double vectors
 #'
 #' @keywords internal
-new_quat <- function(w=double(), x=double(), y=double(), z=double()) {
-  vctrs::vec_assert(w, ptype=double())
-  vctrs::vec_assert(x, ptype=double())
-  vctrs::vec_assert(y, ptype=double())
-  vctrs::vec_assert(z, ptype=double())
-  vctrs::new_rcrd(list(w=w, x=x, y=y, z=z), class="dddr_quat")
+new_quat <- function(w = double(), x = double(), y = double(), z = double()) {
+  vctrs::vec_assert(w, ptype = double())
+  vctrs::vec_assert(x, ptype = double())
+  vctrs::vec_assert(y, ptype = double())
+  vctrs::vec_assert(z, ptype = double())
+  vctrs::new_rcrd(list(w = w, x = x, y = y, z = z), class = "dddr_quat")
 }
 
 #' Create a quaternion
@@ -27,7 +27,7 @@ new_quat <- function(w=double(), x=double(), y=double(), z=double()) {
 #' @export
 quat <- function(w, x, y, z) {
   # should empty arguments be the identity quaternion?
-  l <- vctrs::vec_cast_common(w, x, y, z, .to=double())
+  l <- vctrs::vec_cast_common(w, x, y, z, .to = double())
   l <- vctrs::vec_recycle_common(l[[1]], l[[2]], l[[3]], l[[4]])
   new_quat(l[[1]], l[[2]], l[[3]], l[[4]])
 }
@@ -89,15 +89,8 @@ upgrade_to_quat <- function(v) {
 #' @rdname quat_helpers
 #' @export
 ensure_quat <- function(v) {
-  if(!inherits(v, "dddr_quat")) {
+  if (!inherits(v, "dddr_quat")) {
     v <- upgrade_to_quat(v)
   }
   v
 }
-
-
-
-
-
-
-

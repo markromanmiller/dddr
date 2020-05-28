@@ -18,11 +18,10 @@
 #'   direction of `to`.
 #'
 #' @examples
-#' rotate(vector3(x=1:4, y=2:5, z=3:6), rotator=quat(0,1,0,0))
-#' rotate(vector3(x=1:4, y=2:5, z=3:6), rotator=quat(0,1,0,0), origin=c(1,2,3))
-#' rotate(vector3(x=1:4, y=2:5, z=3:6), axis=c(1,0,0), angle=pi/4)
-#' rotate(vector3(x=1:4, y=2:5, z=3:6), from=c(1,0,0), to=c(1,0,0))
-#'
+#' rotate(vector3(x = 1:4, y = 2:5, z = 3:6), rotator = quat(0, 1, 0, 0))
+#' rotate(vector3(x = 1:4, y = 2:5, z = 3:6), rotator = quat(0, 1, 0, 0), origin = c(1, 2, 3))
+#' rotate(vector3(x = 1:4, y = 2:5, z = 3:6), axis = c(1, 0, 0), angle = pi / 4)
+#' rotate(vector3(x = 1:4, y = 2:5, z = 3:6), from = c(1, 0, 0), to = c(1, 0, 0))
 #' @name rotation
 NULL
 
@@ -48,7 +47,7 @@ rotate.dddr_quat <- function(rotand, ...) {
 
 #' @rdname rotation
 #' @export
-rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=NULL, from=NULL, to=NULL) {
+rotate_dddr <- function(rotand, rotator = NULL, origin = c(0, 0, 0), axis = NULL, angle = NULL, from = NULL, to = NULL) {
   # TODO: what order makes the most sense? what would make the most sense without context?
   if (is.null(rotator)) {
     # try to make the rotator.
@@ -88,9 +87,9 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
     # TODO: refactor to a separate axis / angle constructor?
     rotator <- quat(
       w = cos(angle / 2),
-      x = axis$x * sin(angle/2),
-      y = axis$y * sin(angle/2),
-      z = axis$z * sin(angle/2)
+      x = axis$x * sin(angle / 2),
+      y = axis$y * sin(angle / 2),
+      z = axis$z * sin(angle / 2)
     )
   } else {
     if (!is.null(from) || !is.null(to) || !is.null(axis) || !is.null(angle)) {
@@ -104,7 +103,7 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
     rotand_was_vector <- TRUE
     # subtract origin here
 
-    if(!inherits(origin, "dddr_vector3")) {
+    if (!inherits(origin, "dddr_vector3")) {
       origin <- upgrade_to_vector3(origin)
     }
     rotatable <- rotand - origin
@@ -167,12 +166,3 @@ roll <- function(q) {
   y <- rotate(vector3(0, 1, 0), q)
   atan2(x$y, y$y)
 }
-
-
-
-
-
-
-
-
-

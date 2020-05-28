@@ -20,8 +20,7 @@ particular, `mean`, `sum`, and `cumsum` have meanings when applied to
 vector3s.
 }
 \examples{
-mean(vector3(x=1:4, y=2:5, z=3:6))
-sum(vector3(x=1:4, y=2:5, z=3:6))
-cumsum(vector3(x=1:4, y=2:5, z=3:6))
-
+mean(vector3(x = 1:4, y = 2:5, z = 3:6))
+sum(vector3(x = 1:4, y = 2:5, z = 3:6))
+cumsum(vector3(x = 1:4, y = 2:5, z = 3:6))
 }

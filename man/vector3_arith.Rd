@@ -43,12 +43,11 @@ broadcast across all entries, or can be the same length as the vector3
 vector, where each element is scaled individually.
 }
 \examples{
-vector3(x=1:4, y=2:5, z=3:6) + vector3(x=2, y=0, z=-1)
-vector3(x=1:4, y=2:5, z=3:6) + c(2, 0, -1)
+vector3(x = 1:4, y = 2:5, z = 3:6) + vector3(x = 2, y = 0, z = -1)
+vector3(x = 1:4, y = 2:5, z = 3:6) + c(2, 0, -1)
 
-vector3(x=1:4, y=2:5, z=3:6) * 4
-vector3(x=1:4, y=2:5, z=3:6) * c(3, 1, 4, 1)
-
+vector3(x = 1:4, y = 2:5, z = 3:6) * 4
+vector3(x = 1:4, y = 2:5, z = 3:6) * c(3, 1, 4, 1)
 }
 \seealso{
 vector3_math

@@ -48,9 +48,8 @@ direction of `to`.}
 Rotate points or quaternions using a handful of ways to define a rotation.
 }
 \examples{
-rotate(vector3(x=1:4, y=2:5, z=3:6), rotator=quat(0,1,0,0))
-rotate(vector3(x=1:4, y=2:5, z=3:6), rotator=quat(0,1,0,0), origin=c(1,2,3))
-rotate(vector3(x=1:4, y=2:5, z=3:6), axis=c(1,0,0), angle=pi/4)
-rotate(vector3(x=1:4, y=2:5, z=3:6), from=c(1,0,0), to=c(1,0,0))
-
+rotate(vector3(x = 1:4, y = 2:5, z = 3:6), rotator = quat(0, 1, 0, 0))
+rotate(vector3(x = 1:4, y = 2:5, z = 3:6), rotator = quat(0, 1, 0, 0), origin = c(1, 2, 3))
+rotate(vector3(x = 1:4, y = 2:5, z = 3:6), axis = c(1, 0, 0), angle = pi / 4)
+rotate(vector3(x = 1:4, y = 2:5, z = 3:6), from = c(1, 0, 0), to = c(1, 0, 0))
 }

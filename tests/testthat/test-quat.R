@@ -1,13 +1,13 @@
 context("quat basics")
 
-s <- sqrt(1/2)
+s <- sqrt(1 / 2)
 
 foo_qw <- c(1, s, s, s, 0, 0, 0)
 foo_qx <- c(0, s, 0, 0, 1, 0, 0)
 foo_qy <- c(0, 0, s, 0, 0, 1, 0)
 foo_qz <- c(0, 0, 0, s, 0, 0, 1)
 
-simple_quat_tbl <- data.frame(foo = quat(w=foo_qw, x=foo_qx, y=foo_qy, z=foo_qz))
+simple_quat_tbl <- data.frame(foo = quat(w = foo_qw, x = foo_qx, y = foo_qy, z = foo_qz))
 
 test_that("Quat entries can be extracted", {
   extracted <- dplyr::mutate(
@@ -25,12 +25,12 @@ test_that("Quat entries can be extracted", {
 
 test_that("Quat entries can be conjugated", {
   conjugated <- dplyr::mutate(simple_quat_tbl,
-      foo = Conj(foo),
-      foo_qw = foo$w,
-      foo_qx = foo$x,
-      foo_qy = foo$y,
-      foo_qz = foo$z
-    )
+    foo = Conj(foo),
+    foo_qw = foo$w,
+    foo_qx = foo$x,
+    foo_qy = foo$y,
+    foo_qz = foo$z
+  )
   expect_equal(conjugated$foo_qw, foo_qw)
   expect_equal(conjugated$foo_qx, -foo_qx)
   expect_equal(conjugated$foo_qy, -foo_qy)
@@ -39,12 +39,12 @@ test_that("Quat entries can be conjugated", {
 
 test_that("The product of a quat and its conjugate is the identity", {
   cancelled <- dplyr::mutate(simple_quat_tbl,
-      bar = foo * Conj(foo),
-      bar_qw = bar$w,
-      bar_qx = bar$x,
-      bar_qy = bar$y,
-      bar_qz = bar$z
-    )
+    bar = foo * Conj(foo),
+    bar_qw = bar$w,
+    bar_qx = bar$x,
+    bar_qy = bar$y,
+    bar_qz = bar$z
+  )
 
   n_entries <- length(cancelled$bar)
 
@@ -55,9 +55,9 @@ test_that("The product of a quat and its conjugate is the identity", {
 })
 
 test_that("Quats can be multiplied by quats", {
-  multiplied <- dplyr::mutate( simple_quat_tbl,
-      bar = foo * foo
-    )
+  multiplied <- dplyr::mutate(simple_quat_tbl,
+    bar = foo * foo
+  )
 
   bar_expected <- quat(
     w = c(1, 0, 0, 0, 1, 1, 1),
@@ -71,12 +71,12 @@ test_that("Quats can be multiplied by quats", {
 
 test_that("Quats can be multiplied by a 4-element numeric representing an identity quat", {
   multiplied_broadcast <- dplyr::mutate(simple_quat_tbl,
-      bar = foo * c(1, 0, 0, 0)
-    )
+    bar = foo * c(1, 0, 0, 0)
+  )
   expect_equal(multiplied_broadcast$bar, multiplied_broadcast$foo)
 })
 
-#test_that("Quats multiply according to ijk = -1", {
+# test_that("Quats multiply according to ijk = -1", {
 #  units <- tibble(
 #    names = c("1", "i", "j", "k"),
 #    quats = quat(
@@ -133,11 +133,4 @@ test_that("Quats can be multiplied by a 4-element numeric representing an identi
 #  expect_equal(ijk_test$ax, ijk_test$ex)
 #  expect_equal(ijk_test$ay, ijk_test$ey)
 #  expect_equal(ijk_test$az, ijk_test$ez)
-#})
-
-
-
-
-
-
-
+# })
