@@ -1,7 +1,8 @@
 
 #' Internal method for creating a new quat
 #'
-#' This follows the new / validate / user-facing pattern recommended in the `vctrs` documentation.
+#' This follows the new / validate / user-facing pattern recommended in the
+#' `vctrs` documentation.
 #'
 #' @param w,x,y,z Quaternion entries, expected to be double vectors
 #'
@@ -71,10 +72,11 @@ vec_ptype_abbr.dddr_quat <- function(x, ...) {
 #' Quaternion helpers
 #'
 #' Sometimes objects are in a format that is not truly a quaternion but has
-#' unambigous meaning. In those cases, we translate from the length-four
-#' numeric vector to a length-one quaternion
+#' unambigous meaning. In those cases, we translate from the length-four numeric
+#' vector to a length-one quaternion
 #'
-#' `upgrade` assumes a length 4 numeric, `ensure` checks if it's already a quat first.
+#' `upgrade` assumes a length 4 numeric, `ensure` checks if it's already a quat
+#' first.
 #'
 #' @param v a length-4 numeric vector
 #' @name quat_helpers
