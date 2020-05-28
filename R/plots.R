@@ -9,11 +9,20 @@
 
 # have it here? idk.
 
+#' Spatial Plotting
+#'
+#'
+#' TODO: discur
+#'
+#' @importFrom ggplot2 ggproto
+#'
+NULL
+
 #' @export
 scale_type.dddr_vector3 <- function(x) "identity"
 
-StatPoint3 <- ggproto(
-  "StatPoint3", Stat,
+StatPoint3 <- ggplot2::ggproto(
+  "StatPoint3", ggplot2::Stat,
   compute_layer = function(data, params, layout) {
     #print("stat compute_layer")
     #print(attributes(data$vector3))
@@ -47,8 +56,8 @@ tag_views_in_df <- function(df, view) {
 
 
 # what if we include a little change to Vector3 such that x ad y are only pulled sensibly
-CoordLookAtFront <- ggproto(
-  "CoordLookAtFront", CoordFixed,
+CoordLookAtFront <- ggplot2::ggproto(
+  "CoordLookAtFront", ggplot2::CoordFixed,
   setup_data = function(data, params) {
     # tag the vectors with the kind of view you should expect to give.
     data <- lapply(data, tag_views_in_df, view="AtFront") # data is list of dfs.
@@ -59,24 +68,10 @@ CoordLookAtFront <- ggproto(
 
 
 coord_look_at_front <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
-  ggproto(NULL, CoordLookAtFront,
+  ggplot2::ggproto(NULL, CoordLookAtFront,
           limits = list(x = xlim, y = ylim),
           ratio = 1,
           expand = expand,
           clip = clip
   )
-}
-
-simple_dddr_plot <- function() {
-  spiral <- tibble(i = seq(0, 10*pi, 0.05)) %>%
-    mutate(
-      circular_part = vector3(x=cos(i), y=sin(i), z=i/15),
-      forward_part = vector3(x=0, y=0, z=i/15),
-      spiral_part = circular_part * i / 30 + forward_part
-    )
-
-  spiral %>%
-    ggplot() +
-    stat_point3(aes(vector3=spiral_part)) +
-    coord_look_at_front()
 }
