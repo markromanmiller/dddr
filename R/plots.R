@@ -15,14 +15,11 @@ scale_type.dddr_vector3 <- function(x) "identity"
 StatPoint3 <- ggproto(
   "StatPoint3", Stat,
   compute_layer = function(data, params, layout) {
-    data$x <- data$vector3$x
-    data$y <- data$vector3$y
-    data$z <- data$vector3$z
-    #print(params)
-    print("stat compute later")
-    #print(layout)
-    #print(layout$DDDR_VIEW)
-    #data$vector3 <- NULL
+    #print("stat compute_layer")
+    #print(attributes(data$vector3))
+    data$x <- extract_horizontal_dimension(data$vector3)
+    data$y <- extract_vertical_dimension(data$vector3)
+
     StatIdentity$compute_layer(data, params, layout)
    },
    required_aes = c("vector3")
@@ -38,164 +35,25 @@ stat_point3 <- function(mapping = NULL, data = NULL, geom = "point",
   )
 }
 
-flip_axis_labels <- function(x) {
-  old_names <- names(x)
-
-  new_names <- old_names
-  new_names <- gsub("^x", "tmp", new_names)
-  new_names <- gsub("^y", "x", new_names)
-  new_names <- gsub("^z", "y", new_names)
-  new_names <- gsub("^tmp", "z", new_names)
-
-  setNames(x, new_names)
-}
-
-
-CoordLookAtFront <- ggproto(
-  "CoordLookAtFront", CoordFixed,
-
-  transform = function(data, panel_params) {
-    print("FOOBAR")
-    data <- flip_axis_labels(data)
-    CoordFixed$transform(data, panel_params)
-  },
-  backtransform_range = function(self, panel_params) {
-    self$range(panel_params)
-  },
-  range = function(self, panel_params) { # ...?
-    # summarise_layout() expects the original x and y ranges here,
-    # not the ones we would get after flipping the axes
-    un_flipped_range <- ggproto_parent(CoordCartesian, self)$range(panel_params)
-    print(un_flipped_range$x)
-    list(x = un_flipped_range$y, y = un_flipped_range$x)
-  },
-  setup_panel_params = function(self, scale_x, scale_y, params = list()) {
-    parent <- ggproto_parent(CoordCartesian, self)
-    panel_params <- parent$setup_panel_params(scale_x, scale_y, params)
-    flip_axis_labels(panel_params)
-  },
-  labels = function(labels, panel_params) {
-    flip_axis_labels(CoordCartesian$labels(labels, panel_params))
-  },
-
-  setup_layout = function(layout, params) {
-    # Switch the scales
-    print(layout)
-    #layout[c("SCALE_X", "SCALE_Y", "SCALE_Z")] <- layout[c("SCALE_Y", "SCALE_Z", "SCALE_X")]
-    # can I add something to layout?
-
-  },
-
-  modify_scales = function(scales_x, scales_y) {
-    #lapply(scales_x, scale_flip_axis)
-    #lapply(scales_y, scale_flip_axis)
-  }
-)
-
-# In-place modification of a scale position to swap axes
-scale_flip_axis <- function(scale) {
-  print(scale)
-  scale$position <- switch(scale$position,
-                           top = "right",
-                           bottom = "left",
-                           left = "bottom",
-                           right = "top",
-                           scale$position
-  )
-
-  invisible(scale)
-}
-
-
-
-# I don't remember how this one split out...
-CoordLookAtFront <- ggproto(
-  "CoordLookAtFront", CoordFixed,
-  setup_data = function(data, params) {
-    print("setup_data")
-    print(data)
-    print(params)
-    CoordFixed$setup_data(data, params)
-  },
-  transform = function(self, data, panel_params) {
-    print("transform")
-    if ("guides" %in% names(panel_params)) {
-      print("transform skipped")
-    } else {
-      print(data %>% head(3))
-      self$transformed_data <- data
-      print(names(panel_params))
-      data$x <- data$x + sin(data$z)
-      #panel_
-      tmp <- data$x
-      data$x <- data$y
-      data$y <- data$z
-      data$z <- tmp
-
-      print(panel_params$y)
-      print(panel_params$y.range)
-      #panel_params$y$train(data$z)
-
-      #print(panel_params$y)
+# helper here, test if it's a dddr_vector3, and if so, add the view attribute.
+tag_views_in_df <- function(df, view) {
+  data.frame(lapply(df, function(col) {
+    if (inherits(col, "dddr_vector3")) {
+      attr(col, "view") <- view
     }
-    # this is called a bunch of different times: once for each layer, and once for
+    col
+  }))
+}
 
-    CoordFixed$transform(data, panel_params)
-  }
-)
 
 # what if we include a little change to Vector3 such that x ad y are only pulled sensibly
 CoordLookAtFront <- ggproto(
   "CoordLookAtFront", CoordFixed,
   setup_data = function(data, params) {
+    # tag the vectors with the kind of view you should expect to give.
+    data <- lapply(data, tag_views_in_df, view="AtFront") # data is list of dfs.
 
-    # lapply foo
-
-    print("setup_data")
-    #print(data)
-    #print(params)
     CoordFixed$setup_data(data, params)
-  },
-  transform = function(self, data, panel_params) {
-    print("transform")
-    if ("guides" %in% names(panel_params)) {
-      print("transform skipped")
-    } else {
-      #print(data %>% head(3))
-      self$transformed_data <- data
-      #print(names(panel_params))
-      data$x <- data$x + sin(data$z)
-      #panel_
-      tmp <- data$x
-      data$x <- data$y
-      data$y <- data$z
-      data$z <- tmp
-
-      #print(panel_params$y)
-      #print(panel_params$y.range)
-      #panel_params$y$train(data$z)
-
-      #print(panel_params$y)
-      #
-    }
-
-    # this is called a bunch of different times: once for each layer, and once for
-    CoordFixed$transform(data, panel_params)
-  },
-  setup_layout = function(layout, params) {
-    # Switch the scales
-    #print(layout)
-    #layout[c("SCALE_X", "SCALE_Y", "SCALE_Z")] <- layout[c("SCALE_Y", "SCALE_Z", "SCALE_X")]
-    # can I add something to layout?
-    layout$DDDR_VIEW <- "AtFront"
-    #print(layout)
-    layout
-  },
-  setup_panel_params = function(self, scale_x, scale_y, params = list()) {
-    print("setup_panel_params")
-    parent <- ggproto_parent(CoordCartesian, self)
-    panel_params <- parent$setup_panel_params(scale_x, scale_y, params)
-    panel_params
   }
 )
 
