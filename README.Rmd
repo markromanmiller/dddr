@@ -60,14 +60,18 @@ spiral %>%
 
 # Installation
 
-```
+```{R, eval=FALSE}
 install.packages("devtools") # if you have not installed "devtools" package
+# For the most recent packaged & released version
+devtools::install_github("MrMallIronmaker/dddr@*release")
+# For the development version
 devtools::install_github("MrMallIronmaker/dddr")
+
 ```
 
 # Questions
 
-If you have questions in how to use this library, what this library is useful for, or if it hase any particular features, it would be helpful to contact me directly at `mrmillr at stanford.edu`. This project is in its early development stages, and I want to know how you want to use the library / are using the library.
+If you have questions in how to use this library, what this library is useful for, or if it has any particular features, it would be helpful to contact me directly at `mrmillr at stanford.edu`. This project is in its early development stages, and I want to know how you want to use the library / are using the library.
 
 # Contributions
 
