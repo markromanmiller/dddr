@@ -244,11 +244,25 @@ test_that("When multiplying vectors, the user gets an error and redirects to the
   expect_error(vector3(1, 0, 0) * vector3(1, 0, 0), class="vctrs_error", regexp="vector3_prod")
 })
 
+test_that("format and print work sensibly", {
+  print_test <- vector3(x = cos(seq(0, 4 * pi, by = 0.5)),
+                        y = sin(seq(0, 4 * pi, by = 0.5)),
+                        z = exp(seq(0, 4 * pi, by = 0.5)))
+
+  expect_known_output(print(print_test), file = "print_vector3_print_test.out")
 
 
-
-
-
+  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 27) %>% print,
+                      file = "pillar_shaft_vector3_print_test_27.out")
+  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 28) %>% print,
+                      file = "pillar_shaft_vector3_print_test_28.out")
+  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 29) %>% print,
+                      file = "pillar_shaft_vector3_print_test_29.out")
+  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 30) %>% print,
+                      file = "pillar_shaft_vector3_print_test_30.out")
+  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 35) %>% print,
+                      file = "pillar_shaft_vector3_print_test_35.out")
+})
 
 
 
