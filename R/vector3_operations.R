@@ -17,12 +17,11 @@
 #' @param ... Unused; present for extensibility
 #'
 #' @examples
-#' vector3(x=1:4, y=2:5, z=3:6) + vector3(x=2, y=0, z=-1)
-#' vector3(x=1:4, y=2:5, z=3:6) + c(2, 0, -1)
+#' vector3(x = 1:4, y = 2:5, z = 3:6) + vector3(x = 2, y = 0, z = -1)
+#' vector3(x = 1:4, y = 2:5, z = 3:6) + c(2, 0, -1)
 #'
-#' vector3(x=1:4, y=2:5, z=3:6) * 4
-#' vector3(x=1:4, y=2:5, z=3:6) * c(3, 1, 4, 1)
-#'
+#' vector3(x = 1:4, y = 2:5, z = 3:6) * 4
+#' vector3(x = 1:4, y = 2:5, z = 3:6) * c(3, 1, 4, 1)
 #' @seealso vector3_math
 #'
 #' @name vector3_arith
@@ -53,10 +52,10 @@ vec_arith.dddr_vector3.default <- function(op, x, y, ...) {
 #'
 #' @method vec_arith.dddr_vector3 dddr_vector3
 #' @export
-vec_arith.dddr_vector3.dddr_vector3 <- function(op, x, y, ...) {
+vec_arith.dddr_vector3.dddr_vector3 <- function(op, x, y, ...) { # nolint
   switch(
     op,
-    "+" = ,
+    "+" = , # nolint
     "-" =
       new_vector3(
         x = vctrs::vec_arith_base(op, x$x, y$x),
@@ -81,12 +80,12 @@ vec_arith.dddr_vector3.dddr_vector3 <- function(op, x, y, ...) {
 vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
   switch(
     op,
-    "+" = ,
+    "+" = , # nolint
     "-" = {
       if (length(y) != 3) {
         vctrs::stop_incompatible_op(
           op, x, y,
-          details=paste(
+          details = paste(
             "To add or subtract a numeric and a vector3,",
             "the numeric must have length 3.",
             vector3_help_message
@@ -97,13 +96,14 @@ vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
         x = vctrs::vec_arith_base(op, x$x, y[1]),
         y = vctrs::vec_arith_base(op, x$y, y[2]),
         z = vctrs::vec_arith_base(op, x$z, y[3])
-      )},
-    "*" = ,
+      )
+    },
+    "*" = , # nolint
     "/" = {
       if (length(y) != 1 && length(y) != length(x)) {
         vctrs::stop_incompatible_op(
           op, x, y,
-          details=paste(
+          details = paste(
             "To multiply or divide a numeric and a vector3,",
             "the numeric must be either length 1",
             "or the same length as the vector3.",
@@ -115,7 +115,8 @@ vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
         x = vctrs::vec_arith_base(op, x$x, y),
         y = vctrs::vec_arith_base(op, x$y, y),
         z = vctrs::vec_arith_base(op, x$z, y)
-      )},
+      )
+    },
     vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
@@ -126,7 +127,7 @@ vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
 vec_arith.dddr_vector3.MISSING <- function(op, x, y, ...) {
   switch(
     op,
-    "-" = new_vector3(x=-x$x, y=-x$y, z=-x$z),
+    "-" = new_vector3(x = -x$x, y = -x$y, z = -x$z),
     vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
@@ -138,9 +139,9 @@ vec_arith.dddr_vector3.MISSING <- function(op, x, y, ...) {
 vec_arith.numeric.dddr_vector3 <- function(op, x, y, ...) {
   switch(
     op,
-    "+" = ,
+    "+" = , # nolint
     "*" = vec_arith.dddr_vector3.numeric(op, y, x, ...),
-    #"-" = vec_arith.dddr_vector3.numeric("+", y, -x, ...),
+    # "-" = vec_arith.dddr_vector3.numeric("+", y, -x, ...),
     vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
@@ -156,10 +157,9 @@ vec_arith.numeric.dddr_vector3 <- function(op, x, y, ...) {
 #' @param ... Unused; reserved for extensibility
 #'
 #' @examples
-#' mean(vector3(x=1:4, y=2:5, z=3:6))
-#' sum(vector3(x=1:4, y=2:5, z=3:6))
-#' cumsum(vector3(x=1:4, y=2:5, z=3:6))
-#'
+#' mean(vector3(x = 1:4, y = 2:5, z = 3:6))
+#' sum(vector3(x = 1:4, y = 2:5, z = 3:6))
+#' cumsum(vector3(x = 1:4, y = 2:5, z = 3:6))
 #' @name vector3_math
 NULL
 
@@ -196,13 +196,13 @@ vec_math.dddr_vector3 <- function(.fn, .x, ...) {
 #' Determine the distance of a vector or between two vectors
 #'
 #' @param to Vector to measure the distance of
-#' @param from Optional. Instead of length being calculated from the origin, it is
-#' calculated from this point instead.
+#' @param from Optional. Instead of length being calculated from the origin,
+#'   it is calculated from this point instead.
 #'
 #' @return A numeric vector of distances
 #'
 #' @export
-distance <- function(to, from=NULL) {
+distance <- function(to, from = NULL) {
   if (!is.null(from)) {
     to <- to - from
   }
@@ -221,7 +221,7 @@ distance <- function(to, from=NULL) {
 #'   length-1 and length-N numerics are accepted here.
 #'
 #' @export
-normalize <- function(v, length=1) {
+normalize <- function(v, length = 1) {
   length * v / distance(v)
 }
 
@@ -262,6 +262,3 @@ dot <- function(a, b) {
   }
   a$x * b$x + a$y * b$y + a$z * b$z
 }
-
-
-

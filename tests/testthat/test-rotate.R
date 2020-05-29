@@ -1,12 +1,12 @@
 context("Rotations")
 
 foo <- vector3(
-  x = c(1, 0, 0, -4,  0,  0),
-  y = c(0, 2, 0,  0, -5,  0),
-  z = c(0, 0, 3,  0,  0, -6)
+  x = c(1, 0, 0, -4, 0, 0),
+  y = c(0, 2, 0, 0, -5, 0),
+  z = c(0, 0, 3, 0, 0, -6)
 )
 
-rh <- sqrt(2)/2 # root-half, the sqrt of one-half
+rh <- sqrt(2) / 2 # root-half, the sqrt of one-half
 
 xp90 <- quat(rh, rh, 0, 0)
 xn90 <- quat(rh, -rh, 0, 0)
@@ -46,7 +46,7 @@ test_that("Simple rotations", {
 
 test_that("rotations can be expressed by axis and angle", {
   expect_equal(
-    rotate(foo, axis=c(0, 1, 0), angle=pi/2),
+    rotate(foo, axis = c(0, 1, 0), angle = pi / 2),
     vector3(
       x = foo$z,
       y = foo$y,
@@ -55,7 +55,7 @@ test_that("rotations can be expressed by axis and angle", {
   )
 
   expect_equal(
-    rotate(foo, axis=c(0, 1, 0), angle=-pi/2),
+    rotate(foo, axis = c(0, 1, 0), angle = -pi / 2),
     vector3(
       x = -foo$z,
       y = foo$y,
@@ -64,7 +64,7 @@ test_that("rotations can be expressed by axis and angle", {
   )
 
   expect_equal(
-    rotate(foo, axis=c(0, 1, 0), angle=2*pi + pi/2),
+    rotate(foo, axis = c(0, 1, 0), angle = 2 * pi + pi / 2),
     # same as if it's pi/4
     vector3(
       x = foo$z,
@@ -76,10 +76,10 @@ test_that("rotations can be expressed by axis and angle", {
 
 test_that("rotations can be offset by origin", {
   expect_equal(
-    rotate(foo, xp90, origin=c(0, 1, 0)),
+    rotate(foo, xp90, origin = c(0, 1, 0)),
     vector3(
       x = foo$x,
-      y = c( 1, 1, -2,  1,  1,  7),
+      y = c(1, 1, -2, 1, 1, 7),
       z = c(-1, 1, -1, -1, -6, -1)
     )
   )
@@ -87,7 +87,7 @@ test_that("rotations can be offset by origin", {
 
 test_that("rotations can be specified by from-to", {
   expect_equal(
-    rotate(foo, from=c(1, 0, 0), to=c(0, 1, 0)),
+    rotate(foo, from = c(1, 0, 0), to = c(0, 1, 0)),
     vector3(
       x = -foo$y,
       y = foo$x,
@@ -96,19 +96,18 @@ test_that("rotations can be specified by from-to", {
   )
 
   expect_equal(
-    rotate(foo, from=c(2, 0, 0), to=c(0, 0, -3)),
+    rotate(foo, from = c(2, 0, 0), to = c(0, 0, -3)),
     vector3(
       x = foo$z,
       y = foo$y,
       z = -foo$x
     )
   )
-
 })
 
 test_that("rotations can be specified by axis and from-to", {
   expect_equal(
-    rotate(foo, axis=c(0, 0, 2), from=c(1, 0, 2), to=c(0, 1, -5)),
+    rotate(foo, axis = c(0, 0, 2), from = c(1, 0, 2), to = c(0, 1, -5)),
     vector3(
       x = -foo$y,
       y = foo$x,
@@ -122,19 +121,22 @@ test_that("errors are thrown in reasonable cases", {
   expect_error(rotate(foo))
 
   # axis is given but no angle and no from-to
-  expect_error(rotate(foo, axis=c(0, 0, 1)))
+  expect_error(rotate(foo, axis = c(0, 0, 1)))
 
   # axis and from is given but no to
-  expect_error(rotate(foo, axis=c(0, 0, 1), from=c(1, 0, 1)))
-
+  expect_error(rotate(foo, axis = c(0, 0, 1), from = c(1, 0, 1)))
 })
 
 test_that("warnings are thrown in reasonable cases", {
   # rotator and anything else
-  expect_warning(rotate(foo, quat(1, 0, 0, 0), angle=pi/2))
+  expect_warning(rotate(foo, quat(1, 0, 0, 0), angle = pi / 2))
 
   # angle, axis, and from/to are given.
-  expect_warning(rotate(foo, angle=pi/2, axis=c(0, 1, 0), from=c(2, 3, 4), to=c(-2, 5, 6)))
+  expect_warning(rotate(foo,
+                        angle = pi / 2,
+                        axis = c(0, 1, 0),
+                        from = c(2, 3, 4),
+                        to = c(-2, 5, 6)))
 })
 
 
@@ -142,9 +144,9 @@ test_that("yaw works correctly in default system", {
   radian_measures <- seq(0, 360, 10) / 180 * pi
   expect_equal(
     yaw(quat(
-      w = cos(radian_measures/2),
+      w = cos(radian_measures / 2),
       x = 0,
-      y = sin(radian_measures/2),
+      y = sin(radian_measures / 2),
       z = 0
     )),
     c(seq(0, 180, 10), seq(-170, 0, 10)) / 180 * pi
@@ -152,17 +154,17 @@ test_that("yaw works correctly in default system", {
 })
 
 test_that("pitch works correctly in default system", {
-  radian_measures <- seq(-90, 90, by=10) / 180 * pi
+  radian_measures <- seq(-90, 90, by = 10) / 180 * pi
   expect_equal(
     pitch(quat(
-      w = cos(radian_measures/2),
-      x = sin(radian_measures/2),
+      w = cos(radian_measures / 2),
+      x = sin(radian_measures / 2),
       y = 0,
       z = 0
     )),
     # In unity, Z tilting up means NEGATIVE pitch!!
     # This is why references are so good and so necessary
-    seq(-90, 90, by=10) / 180 * pi
+    seq(-90, 90, by = 10) / 180 * pi
   )
 })
 

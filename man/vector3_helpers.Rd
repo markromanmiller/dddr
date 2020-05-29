@@ -19,5 +19,6 @@ unambigous meaning. In those cases, we translate from the length-three
 numeric vector to a length-one vector3.
 }
 \details{
-`upgrade` assumes a length 3 numeric, `ensure` checks if it's already a vector3 first.
+`upgrade` assumes a length 3 numeric, `ensure` checks if it's already a
+vector3 first.
 }

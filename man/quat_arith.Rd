@@ -35,7 +35,9 @@ of type `quat` or with numeric vectors of reasonable lengths.
 }
 \details{
 For multiplication, if a numeric vector is used, it can only be length 4. The
-entries of this vector are interpreted as `w,x,y,z` values of a quaternion. Then, the created quaternion is broadcast across all elements of the original quaternion vector.
+entries of this vector are interpreted as `w,x,y,z` values of a quaternion.
+Then, the created quaternion is broadcast across all elements of the original
+quaternion vector.
 
 Note that quaternion multiplication is not communative.
 }

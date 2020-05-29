@@ -18,11 +18,11 @@
 #'   direction of `to`.
 #'
 #' @examples
-#' rotate(vector3(x=1:4, y=2:5, z=3:6), rotator=quat(0,1,0,0))
-#' rotate(vector3(x=1:4, y=2:5, z=3:6), rotator=quat(0,1,0,0), origin=c(1,2,3))
-#' rotate(vector3(x=1:4, y=2:5, z=3:6), axis=c(1,0,0), angle=pi/4)
-#' rotate(vector3(x=1:4, y=2:5, z=3:6), from=c(1,0,0), to=c(1,0,0))
-#'
+#' example_vector <- vector3(x = 1:4, y = 2:5, z = 3:6)
+#' rotate(example_vector, rotator = quat(0, 1, 0, 0))
+#' rotate(example_vector, rotator = quat(0, 1, 0, 0), origin = c(1, 2, 3))
+#' rotate(example_vector, axis = c(1, 0, 0), angle = pi / 4)
+#' rotate(example_vector, from = c(1, 0, 0), to = c(1, 0, 0))
 #' @name rotation
 NULL
 
@@ -48,8 +48,10 @@ rotate.dddr_quat <- function(rotand, ...) {
 
 #' @rdname rotation
 #' @export
-rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=NULL, from=NULL, to=NULL) {
-  # TODO: what order makes the most sense? what would make the most sense without context?
+rotate_dddr <- function(
+  rotand, rotator = NULL, origin = c(0, 0, 0),
+  axis = NULL, angle = NULL, from = NULL, to = NULL
+) {
   if (is.null(rotator)) {
     # try to make the rotator.
     if (is.null(axis)) {
@@ -70,7 +72,8 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
       if (!is.null(from) && !is.null(angle) && !is.null(to)) {
         # axis, angle, from, and to are all not null
         # that's weird and shouldn't happen.
-        warning("The parameters axis, angle, from, and to are all specified. Some are redundant.")
+        warning(paste("The parameters axis, angle, from, and to are all",
+                      "specified. Some are redundant."))
       }
     }
 
@@ -88,13 +91,13 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
     # TODO: refactor to a separate axis / angle constructor?
     rotator <- quat(
       w = cos(angle / 2),
-      x = axis$x * sin(angle/2),
-      y = axis$y * sin(angle/2),
-      z = axis$z * sin(angle/2)
+      x = axis$x * sin(angle / 2),
+      y = axis$y * sin(angle / 2),
+      z = axis$z * sin(angle / 2)
     )
   } else {
     if (!is.null(from) || !is.null(to) || !is.null(axis) || !is.null(angle)) {
-      warning("Argument `rotator` precedes any other arguments other than `origin`.")
+      warning("Argument `rotator` precedes any other rotation arguments.")
     }
   }
 
@@ -104,7 +107,7 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
     rotand_was_vector <- TRUE
     # subtract origin here
 
-    if(!inherits(origin, "dddr_vector3")) {
+    if (!inherits(origin, "dddr_vector3")) {
       origin <- upgrade_to_vector3(origin)
     }
     rotatable <- rotand - origin
@@ -115,7 +118,9 @@ rotate_dddr <- function(rotand, rotator=NULL, origin=c(0,0,0), axis=NULL, angle=
       z = rotatable$z
     )
   } else if (!all.equal(origin, c(0, 0, 0))) {
-    warning("Argument `origin` does not apply to rotation of a quaternion. Ignoring argument `origin`.")
+    warning(paste(
+      "Argument `origin` does not apply to rotation of a",
+      "quaternion. Ignoring argument `origin`."))
   }
 
   out <- rotator * rotand * Conj(rotator)
@@ -167,12 +172,3 @@ roll <- function(q) {
   y <- rotate(vector3(0, 1, 0), q)
   atan2(x$y, y$y)
 }
-
-
-
-
-
-
-
-
-
