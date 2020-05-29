@@ -29,8 +29,8 @@ NULL
 #' @rdname vecjection
 #' @export
 project <- function(x, onto) {
-  # random thought: if speed is an issue, it may make sense to add classes to the vector3s
-  # saying if they've already been normalized, etc.
+  # random thought: if speed is an issue, it may make sense to add classes to
+  # the vector3s saying if they've already been normalized, etc.
   (dot(x, onto) / dot(onto, onto)) * onto
 }
 
@@ -53,7 +53,11 @@ reject <- function(x, from) {
 #' @param initial Starting point for the ray
 #' @param direction Direction from which to cast the ray
 #' @param target_normal,target_point Define the plane that will catch the rays
-#' @param include_backwards Whether to include rays that travel backwards from `initial` along `direction` to the target plane.
-extend <- function(initial, direction, target_normal, target_point = c(0, 0, 0), include_backwards = F) {
+#' @param include_backwards Whether to include rays that travel backwards from
+#'   `initial` along `direction` to the target plane.
+extend <- function(
+  initial, direction, target_normal,
+  target_point = c(0, 0, 0), include_backwards = F
+) {
   stop("Not Implemented Yet")
 }

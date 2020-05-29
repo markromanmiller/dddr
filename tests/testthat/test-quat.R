@@ -7,7 +7,14 @@ foo_qx <- c(0, s, 0, 0, 1, 0, 0)
 foo_qy <- c(0, 0, s, 0, 0, 1, 0)
 foo_qz <- c(0, 0, 0, s, 0, 0, 1)
 
-simple_quat_tbl <- data.frame(foo = quat(w = foo_qw, x = foo_qx, y = foo_qy, z = foo_qz))
+simple_quat_tbl <- data.frame(
+  foo = quat(
+    w = foo_qw,
+    x = foo_qx,
+    y = foo_qy,
+    z = foo_qz
+  )
+)
 
 test_that("Quat entries can be extracted", {
   extracted <- dplyr::mutate(
@@ -69,7 +76,11 @@ test_that("Quats can be multiplied by quats", {
   expect_equal(multiplied$bar, bar_expected)
 })
 
-test_that("Quats can be multiplied by a 4-element numeric representing an identity quat", {
+test_that(
+  paste(
+    "Quats can be multiplied by a 4-element numeric",
+    "representing an identity quat"
+  ), {
   multiplied_broadcast <- dplyr::mutate(simple_quat_tbl,
     bar = foo * c(1, 0, 0, 0)
   )
@@ -86,35 +97,35 @@ test_that("Quats can be multiplied by a 4-element numeric representing an identi
 #      z = c(0, 0, 0, 1)
 #    )
 #  )
-
+#
 #  unit_pairs <- units %>%
 #    rename_with(~paste0(..1, "_left")) %>%
 #    crossing(units %>% rename_with(~paste0(..1, "_right")))
-
+#
 #  results <- tribble(
 #    ~names_left, ~names_right, ~names_expected, ~quats_expected,
 #    "1", "1", "1", upgrade_to_quat(c(1, 0, 0, 0)),
 #    "1", "i", "i", upgrade_to_quat(c(0, 1, 0, 0)),
 #    "1", "j", "j", upgrade_to_quat(c(0, 0, 1, 0)),
 #    "1", "k", "k", upgrade_to_quat(c(0, 0, 0, 1)),
-
-#   "i", "1", "i", upgrade_to_quat(c(0, 1, 0, 0)),
+#
+#    "i", "1", "i", upgrade_to_quat(c(0, 1, 0, 0)),
 #    "i", "i", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
 #    "i", "j", "k", upgrade_to_quat(c(0, 0, 0, 1)),
 #    "i", "k", "-j", upgrade_to_quat(c(0, 0, -1, 0)),
-
+#
 #    "j", "1", "j", upgrade_to_quat(c(0, 0, 1, 0)),
 #    "j", "i", "-k", upgrade_to_quat(c(0, 0, 0, -1)),
 #    "j", "j", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
 #    "j", "k", "i", upgrade_to_quat(c(0, 1, 0, 0)),
-
+#
 #    "k", "1", "k", upgrade_to_quat(c(0, 0, 0, 1)),
 #    "k", "i", "j", upgrade_to_quat(c(0, 0, 1, 0)),
 #    "k", "j", "-i", upgrade_to_quat(c(0, -1, 0, 0)),
 #    "k", "k", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
 #  ) %>%
 #    unnest(quats_expected)
-
+#
 #  ijk_test <- unit_pairs %>%
 #   left_join(results, by=c("names_left", "names_right")) %>%
 #   mutate(
@@ -128,7 +139,7 @@ test_that("Quats can be multiplied by a 4-element numeric representing an identi
 #      ey = quats_expected$y,
 #      ez = quats_expected$z,
 #   )
-
+#
 #  expect_equal(ijk_test$aw, ijk_test$ew)
 #  expect_equal(ijk_test$ax, ijk_test$ex)
 #  expect_equal(ijk_test$ay, ijk_test$ey)

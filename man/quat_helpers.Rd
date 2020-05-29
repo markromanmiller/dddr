@@ -15,9 +15,10 @@ ensure_quat(v)
 }
 \description{
 Sometimes objects are in a format that is not truly a quaternion but has
-unambigous meaning. In those cases, we translate from the length-four
-numeric vector to a length-one quaternion
+unambigous meaning. In those cases, we translate from the length-four numeric
+vector to a length-one quaternion
 }
 \details{
-`upgrade` assumes a length 4 numeric, `ensure` checks if it's already a quat first.
+`upgrade` assumes a length 4 numeric, `ensure` checks if it's already a quat
+first.
 }

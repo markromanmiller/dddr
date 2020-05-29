@@ -132,7 +132,11 @@ test_that("warnings are thrown in reasonable cases", {
   expect_warning(rotate(foo, quat(1, 0, 0, 0), angle = pi / 2))
 
   # angle, axis, and from/to are given.
-  expect_warning(rotate(foo, angle = pi / 2, axis = c(0, 1, 0), from = c(2, 3, 4), to = c(-2, 5, 6)))
+  expect_warning(rotate(foo,
+                        angle = pi / 2,
+                        axis = c(0, 1, 0),
+                        from = c(2, 3, 4),
+                        to = c(-2, 5, 6)))
 })
 
 

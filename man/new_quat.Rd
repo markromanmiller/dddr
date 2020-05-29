@@ -10,6 +10,7 @@ new_quat(w = double(), x = double(), y = double(), z = double())
 \item{w, x, y, z}{Quaternion entries, expected to be double vectors}
 }
 \description{
-This follows the new / validate / user-facing pattern recommended in the `vctrs` documentation.
+This follows the new / validate / user-facing pattern recommended in the
+`vctrs` documentation.
 }
 \keyword{internal}

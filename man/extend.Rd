@@ -19,7 +19,8 @@ extend(
 
 \item{target_normal, target_point}{Define the plane that will catch the rays}
 
-\item{include_backwards}{Whether to include rays that travel backwards from `initial` along `direction` to the target plane.}
+\item{include_backwards}{Whether to include rays that travel backwards from
+`initial` along `direction` to the target plane.}
 }
 \description{
 Starting at `initial`, go in `direction` until you hit the target plane

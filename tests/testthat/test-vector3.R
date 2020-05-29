@@ -58,46 +58,71 @@ test_that("Vector3 entries can be added to numeric vectors of length 3", {
   expect_equal(translated_x$bar_pz, foo_pz)
 })
 
-test_that("Vector3 entries can't be added to numeric vectors of various non-3 sizes", {
-  error_class <- "dplyr_error"
-  message <- "To add or subtract a numeric and a vector3,"
+test_that(
+  "Vector3 entries can't be added to numeric vectors of various non-3 sizes", {
+    error_class <- "dplyr_error"
+    message <- "To add or subtract a numeric and a vector3,"
 
-  expect_error(dplyr::mutate(simple_axes_tbl, bar = foo + c(0, 0, 1, 0)), class = error_class, regexp = message)
-  expect_error(dplyr::mutate(simple_axes_tbl, bar = c(0) + foo), class = error_class, regexp = message)
-  expect_error(dplyr::mutate(simple_axes_tbl, bar = foo + c(0, 0)), class = error_class, regexp = message)
-  expect_error(dplyr::mutate(simple_axes_tbl, bar = rep(1, 15) + foo), class = error_class, regexp = message)
-})
+    expect_error(
+      dplyr::mutate(simple_axes_tbl, bar = foo + c(0, 0, 1, 0)),
+      class = error_class,
+      regexp = message
+    )
+    expect_error(
+      dplyr::mutate(simple_axes_tbl, bar = c(0) + foo),
+      class = error_class,
+      regexp = message
+    )
+    expect_error(
+      dplyr::mutate(simple_axes_tbl, bar = foo + c(0, 0)),
+      class = error_class,
+      regexp = message
+    )
+    expect_error(
+      dplyr::mutate(simple_axes_tbl, bar = rep(1, 15) + foo),
+      class = error_class,
+      regexp = message
+    )
+  }
+)
 
-test_that("Vector3 can be multiplied both left and right by numeric of length 1", {
-  doubled <- dplyr::mutate(simple_axes_tbl,
-    bar = foo * 2,
-    baz = 3 * foo
-  )
+test_that(
+  "Vector3 can be multiplied both left and right by numeric of length 1", {
+    doubled <- dplyr::mutate(simple_axes_tbl,
+      bar = foo * 2,
+      baz = 3 * foo
+    )
 
-  expect_equal(doubled$bar$x, c(2, 0, 0, 2 * sqrt_1_3))
-  expect_equal(doubled$bar$y, c(0, 2, 0, 2 * sqrt_1_3))
-  expect_equal(doubled$bar$z, c(0, 0, 2, 2 * sqrt_1_3))
+    expect_equal(doubled$bar$x, c(2, 0, 0, 2 * sqrt_1_3))
+    expect_equal(doubled$bar$y, c(0, 2, 0, 2 * sqrt_1_3))
+    expect_equal(doubled$bar$z, c(0, 0, 2, 2 * sqrt_1_3))
 
-  expect_equal(doubled$baz$x, c(3, 0, 0, 3 * sqrt_1_3))
-  expect_equal(doubled$baz$y, c(0, 3, 0, 3 * sqrt_1_3))
-  expect_equal(doubled$baz$z, c(0, 0, 3, 3 * sqrt_1_3))
-})
+    expect_equal(doubled$baz$x, c(3, 0, 0, 3 * sqrt_1_3))
+    expect_equal(doubled$baz$y, c(0, 3, 0, 3 * sqrt_1_3))
+    expect_equal(doubled$baz$z, c(0, 0, 3, 3 * sqrt_1_3))
+  }
+)
 
-test_that("Vector3 can be multiplied both left and right by numeric vector the same length as the vector3 vector", {
-  doubled <- dplyr::mutate(simple_axes_tbl,
-    fac = seq(1, 7, by = 2),
-    bar = foo * c(1, 2, 3, 4),
-    baz = fac * foo
-  )
+test_that(
+  paste(
+    "Vector3 can be multiplied both left and right by numeric vector",
+    "the same length as the vector3 vector"
+  ), {
+    doubled <- dplyr::mutate(simple_axes_tbl,
+      fac = seq(1, 7, by = 2),
+      bar = foo * c(1, 2, 3, 4),
+      baz = fac * foo
+    )
 
-  expect_equal(doubled$bar$x, c(1, 0, 0, 4 * sqrt_1_3))
-  expect_equal(doubled$bar$y, c(0, 2, 0, 4 * sqrt_1_3))
-  expect_equal(doubled$bar$z, c(0, 0, 3, 4 * sqrt_1_3))
+    expect_equal(doubled$bar$x, c(1, 0, 0, 4 * sqrt_1_3))
+    expect_equal(doubled$bar$y, c(0, 2, 0, 4 * sqrt_1_3))
+    expect_equal(doubled$bar$z, c(0, 0, 3, 4 * sqrt_1_3))
 
-  expect_equal(doubled$baz$x, c(1, 0, 0, 7 * sqrt_1_3))
-  expect_equal(doubled$baz$y, c(0, 3, 0, 7 * sqrt_1_3))
-  expect_equal(doubled$baz$z, c(0, 0, 5, 7 * sqrt_1_3))
-})
+    expect_equal(doubled$baz$x, c(1, 0, 0, 7 * sqrt_1_3))
+    expect_equal(doubled$baz$y, c(0, 3, 0, 7 * sqrt_1_3))
+    expect_equal(doubled$baz$z, c(0, 0, 5, 7 * sqrt_1_3))
+  }
+)
 
 test_that("Vector3 distances are correctly computed", {
   distances <- dplyr::mutate(data.frame(
@@ -239,9 +264,17 @@ test_that("Vector3 cross product behaves correctly.", {
   expect_equal(dot(crossed, dot_test_vec), rep(0, 4))
 })
 
-test_that("When multiplying vectors, the user gets an error and redirects to the operations page.", {
-  expect_error(vector3(1, 0, 0) * vector3(1, 0, 0), class = "vctrs_error", regexp = "vector3_prod")
-})
+test_that(
+  paste(
+    "When multiplying vectors, the user gets an error",
+    "and redirects to the operations page."
+  ),
+  expect_error(
+    vector3(1, 0, 0) * vector3(1, 0, 0),
+    class = "vctrs_error",
+    regexp = "vector3_prod"
+  )
+)
 
 test_that("format and print work sensibly", {
   print_test <- vector3(
@@ -250,22 +283,29 @@ test_that("format and print work sensibly", {
     z = exp(seq(0, 4 * pi, by = 0.5))
   )
 
-  expect_known_output(print(print_test), file = "print_vector3_print_test.out")
+  expect_known_output(
+    print(print_test),
+    file = "print_vector3_print_test.out"
+  )
 
-
-  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 27) %>% print(),
+  expect_known_output(
+    pillar::pillar_shaft(print_test) %>% format(width = 27) %>% print(),
     file = "pillar_shaft_vector3_print_test_27.out"
   )
-  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 28) %>% print(),
+  expect_known_output(
+    pillar::pillar_shaft(print_test) %>% format(width = 28) %>% print(),
     file = "pillar_shaft_vector3_print_test_28.out"
   )
-  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 29) %>% print(),
+  expect_known_output(
+    pillar::pillar_shaft(print_test) %>% format(width = 29) %>% print(),
     file = "pillar_shaft_vector3_print_test_29.out"
   )
-  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 30) %>% print(),
+  expect_known_output(
+    pillar::pillar_shaft(print_test) %>% format(width = 30) %>% print(),
     file = "pillar_shaft_vector3_print_test_30.out"
   )
-  expect_known_output(pillar::pillar_shaft(print_test) %>% format(width = 35) %>% print(),
+  expect_known_output(
+    pillar::pillar_shaft(print_test) %>% format(width = 35) %>% print(),
     file = "pillar_shaft_vector3_print_test_35.out"
   )
 })

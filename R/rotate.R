@@ -48,7 +48,10 @@ rotate.dddr_quat <- function(rotand, ...) {
 
 #' @rdname rotation
 #' @export
-rotate_dddr <- function(rotand, rotator = NULL, origin = c(0, 0, 0), axis = NULL, angle = NULL, from = NULL, to = NULL) {
+rotate_dddr <- function(
+  rotand, rotator = NULL, origin = c(0, 0, 0),
+  axis = NULL, angle = NULL, from = NULL, to = NULL
+) {
   if (is.null(rotator)) {
     # try to make the rotator.
     if (is.null(axis)) {

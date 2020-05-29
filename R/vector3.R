@@ -15,9 +15,11 @@ new_vector3 <- function(x = double(), y = double(), z = double()) {
 
 #' Create a 3D vector
 #'
-#' Creates a three-dimensional vector given three vectors representing Cartesian coordinates.
+#' Creates a three-dimensional vector given three vectors representing Cartesian
+#' coordinates.
 #'
-#' @param x,y,z Numeric vectors representing the the vector's coordinates in the specified dimension.
+#' @param x,y,z Numeric vectors representing the the vector's coordinates in the
+#'   specified dimension.
 #'
 #' @export
 vector3 <- function(x, y, z) {
@@ -78,7 +80,8 @@ vec_ptype_abbr.dddr_vector3 <- function(x, ...) {
 #' unambigous meaning. In those cases, we translate from the length-three
 #' numeric vector to a length-one vector3.
 #'
-#' `upgrade` assumes a length 3 numeric, `ensure` checks if it's already a vector3 first.
+#' `upgrade` assumes a length 3 numeric, `ensure` checks if it's already a
+#' vector3 first.
 #'
 #' @param v a length-3 numeric vector
 #' @name vector3_helpers
@@ -157,7 +160,6 @@ format.dddr_vector3_pillar <- function(x, width, ...) {
     )
   }
 
-  # class(out) <- c("pillar_shaft", class(out))
   attr(out, "align") <- "right"
   out
 }
@@ -167,16 +169,23 @@ format.dddr_vector3_pillar <- function(x, width, ...) {
 #' @export
 pillar_shaft.dddr_vector3 <- function(v) {
 
-  # format the three numbers as pillars
   pillar_x <- pillar::pillar_shaft(v$x)
   pillar_y <- pillar::pillar_shaft(v$y)
   pillar_z <- pillar::pillar_shaft(v$z)
 
-  # the 6 represents 2 parens, 2 spaces, and 2 commas.
-  width <- as.integer(sum(attr(pillar_x, "width"), attr(pillar_y, "width"), attr(pillar_z, "width"), 6))
+  width <- as.integer(sum(
+    attr(pillar_x, "width"),
+    attr(pillar_y, "width"),
+    attr(pillar_z, "width"),
+    6 # the 6 represents 2 parens, 2 spaces, and 2 commas.
+  ))
 
-  # specify min_width
-  min_width <- as.integer(sum(attr(pillar_x, "min_width"), attr(pillar_y, "min_width"), attr(pillar_z, "min_width"), 6))
+  min_width <- as.integer(sum(
+    attr(pillar_x, "min_width"),
+    attr(pillar_y, "min_width"),
+    attr(pillar_z, "min_width"),
+    6 # ditto
+  ))
 
   out <- list(pillar_x = pillar_x, pillar_y = pillar_y, pillar_z = pillar_z)
   class(out) <- c("dddr_vector3_pillar", class(out))
