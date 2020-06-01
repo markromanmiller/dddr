@@ -36,7 +36,11 @@ test_that("Vector3 entries can be added", {
   expect_equal(doubled$bar_pz, bar_pz)
 })
 
-test_that("Vector3 entries can be added to numeric vectors of length 3", {
+test_that(
+  paste(
+    "Vector3 entries can be added and subtracted to",
+    "numeric vectors of length 3"
+  ), {
   translated_z <- dplyr::mutate(simple_axes_tbl,
     bar = foo + c(0, 0, 1),
     bar_px = bar$x,
@@ -56,6 +60,16 @@ test_that("Vector3 entries can be added to numeric vectors of length 3", {
   expect_equal(translated_x$bar_px, c(2, 1, 1, 1 + sqrt_1_3))
   expect_equal(translated_x$bar_py, foo_py)
   expect_equal(translated_x$bar_pz, foo_pz)
+
+  translated_x <- dplyr::mutate(simple_axes_tbl,
+    bar = c(0, 1, 0) - foo,
+    bar_px = bar$x,
+    bar_py = bar$y,
+    bar_pz = bar$z
+  )
+  expect_equal(translated_x$bar_px, -foo_px)
+  expect_equal(translated_x$bar_py, c(1, 0, 1, 1 - sqrt_1_3))
+  expect_equal(translated_x$bar_pz, -foo_pz)
 })
 
 test_that(

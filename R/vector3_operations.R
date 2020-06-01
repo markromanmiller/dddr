@@ -139,9 +139,13 @@ vec_arith.dddr_vector3.MISSING <- function(op, x, y, ...) {
 vec_arith.numeric.dddr_vector3 <- function(op, x, y, ...) {
   switch(
     op,
+    # commutative operations can be switched
     "+" = , # nolint
     "*" = vec_arith.dddr_vector3.numeric(op, y, x, ...),
-    # "-" = vec_arith.dddr_vector3.numeric("+", y, -x, ...),
+    # negative forces upgrade
+    "-" = vec_arith.dddr_vector3.dddr_vector3(
+      op, upgrade_to_vector3(x), y, ...
+    ),
     vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
