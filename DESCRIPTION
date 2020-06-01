@@ -12,12 +12,10 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr,
+    dplyr (>= 1.0.0),
     ggplot2,
     pillar,
     vctrs
-Remotes:
-    tidyverse/dplyr
 Suggests:
     knitr,
     rmarkdown,
