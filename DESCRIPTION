@@ -16,7 +16,6 @@ Imports:
     ggplot2,
     pillar,
     rlang,
-    stringi,
     vctrs
 Suggests:
     knitr,

@@ -87,3 +87,9 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
+
+      - name: Upload coverage
+        if: success()
+        run: |
+          covr::codecov(function_exclusions=c(".onLoad"))
+        shell: Rscript {0}
