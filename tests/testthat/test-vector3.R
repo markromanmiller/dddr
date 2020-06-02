@@ -304,6 +304,11 @@ test_that("format and print work sensibly", {
     file = "print_vector3_print_test.out"
   )
 
+  expect_error(
+    pillar::pillar_shaft(print_test) %>% format(width = 26),
+    class="simpleError"
+  )
+
   expect_known_output(
     pillar::pillar_shaft(print_test) %>% format(width = 27) %>% print(),
     file = "pillar_shaft_vector3_print_test_27.out"

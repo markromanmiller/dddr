@@ -87,6 +87,13 @@ test_that(
   expect_equal(multiplied_broadcast$bar, multiplied_broadcast$foo)
 })
 
+test_that("quat formatting", {
+  expect_known_output(
+    pillar::pillar_shaft(simple_quat_tbl$foo) %>% format(width = 27) %>% print(),
+    file = "pillar_shaft_quat_print_test_27.out"
+  )
+})
+
 # test_that("Quats multiply according to ijk = -1", {
 #  units <- tibble(
 #    names = c("1", "i", "j", "k"),
