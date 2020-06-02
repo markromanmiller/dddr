@@ -2,25 +2,25 @@
 % Please edit documentation in R/quat_operations.R
 \name{quat_arith}
 \alias{quat_arith}
-\alias{vec_arith.vrm_quat}
-\alias{vec_arith.vrm_quat.default}
-\alias{vec_arith.vrm_quat.vrm_quat}
-\alias{vec_arith.vrm_quat.numeric}
-\alias{vec_arith.numeric.vrm_quat}
-\alias{Conj.vrm_quat}
+\alias{vec_arith.dddr_quat}
+\alias{vec_arith.dddr_quat.default}
+\alias{vec_arith.dddr_quat.dddr_quat}
+\alias{vec_arith.dddr_quat.numeric}
+\alias{vec_arith.numeric.dddr_quat}
+\alias{Conj.dddr_quat}
 \title{Arithmetic operations on quaternions}
 \usage{
-\method{vec_arith}{vrm_quat}(op, x, y, ...)
+\method{vec_arith}{dddr_quat}(op, x, y, ...)
 
-\method{vec_arith.vrm_quat}{default}(op, x, y, ...)
+\method{vec_arith.dddr_quat}{default}(op, x, y, ...)
 
-\method{vec_arith.vrm_quat}{vrm_quat}(op, x, y, ...)
+\method{vec_arith.dddr_quat}{dddr_quat}(op, x, y, ...)
 
-\method{vec_arith.vrm_quat}{numeric}(op, x, y, ...)
+\method{vec_arith.dddr_quat}{numeric}(op, x, y, ...)
 
-\method{vec_arith.numeric}{vrm_quat}(op, x, y, ...)
+\method{vec_arith.numeric}{dddr_quat}(op, x, y, ...)
 
-\method{Conj}{vrm_quat}(z)
+\method{Conj}{dddr_quat}(z)
 }
 \arguments{
 \item{op}{Arithmetic operation, i.e, `"*"` only}
@@ -35,7 +35,9 @@ of type `quat` or with numeric vectors of reasonable lengths.
 }
 \details{
 For multiplication, if a numeric vector is used, it can only be length 4. The
-entries of this vector are interpreted as `w,x,y,z` values of a quaternion. Then, the created quaternion is broadcast across all elements of the original quaternion vector.
+entries of this vector are interpreted as `w,x,y,z` values of a quaternion.
+Then, the created quaternion is broadcast across all elements of the original
+quaternion vector.
 
 Note that quaternion multiplication is not communative.
 }

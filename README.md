@@ -1,28 +1,33 @@
-vrmvrm: VectoR Manager for Virtual Reality Motion
+dddr: Three-Dimensional Vector Operations in R
 ================
 
 # About
 
-The R package `vrmvrm` (pronouced *vroom-vroom*) is a
+The R package `dddr` is a
 [`vctrs`](https://github.com/r-lib/vctrs/)-based package for working
-with three-diensional spatial data. It gives points, velocities, and
-rotations first-class vector status in R, enabling usage as column types
-within `data.frame`s and `tibble`s.
+with three-diensional spatial data. It gives three-dimensional objects
+like points, velocities, and rotations first-class vector status in R,
+enabling usage as column types within `data.frame` and `tibble`.
 
-In contrast to most spatial R packages like `sf` ir `rspatial` that work
-with geographic, 2-dimensional data, `vrmvrm` works best with
+In contrast to most spatial R packages like `sf` or `rspatial` that work
+with geographic, 2-dimensional data, `dddr` works best with
 3-dimensional data. The origin of this package was to analyze behavioral
 data (e.g, hand motion, head direction) in studies of virtual and
 augmented reality.
 
+<!-- badges: start -->
+
 [![Build
-Status](https://travis-ci.com/MrMallIronmaker/vrmvrm.svg?branch=master)](https://travis-ci.com/MrMallIronmaker/vrmvrm)
+Status](https://travis-ci.com/MrMallIronmaker/dddr.svg?branch=master)](https://travis-ci.com/MrMallIronmaker/dddr)
+[![Codecov test
+coverage](https://codecov.io/gh/MrMallIronmaker/dddr/branch/master/graph/badge.svg)](https://codecov.io/gh/MrMallIronmaker/dddr?branch=master)
+<!-- badges: end -->
 
 # Quick View
 
 ``` r
 library(tidyverse)
-library(vrmvrm)
+library(dddr)
 ```
 
 ``` r
@@ -77,6 +82,24 @@ spiral %>%
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+# Installation
+
+``` r
+install.packages("devtools") # if you have not installed "devtools" package
+# For the most recent packaged & released version
+devtools::install_github("MrMallIronmaker/dddr@*release")
+# For the development version
+devtools::install_github("MrMallIronmaker/dddr")
+```
+
+# Questions
+
+If you have questions in how to use this library, what this library is
+useful for, or if it has any particular features, it would be helpful to
+contact me directly at `mrmillr at stanford.edu`. This project is in its
+early development stages, and I want to know how you want to use the
+library / are using the library.
 
 # Contributions
 

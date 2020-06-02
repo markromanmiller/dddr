@@ -6,3 +6,6 @@
 ^README.Rmd$
 ^README_files$
 ^cran-comments.md$
+^etc$
+^codecov\.yml$
+^\.lintr$

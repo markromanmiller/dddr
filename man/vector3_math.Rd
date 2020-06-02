@@ -2,10 +2,10 @@
 % Please edit documentation in R/vector3_operations.R
 \name{vector3_math}
 \alias{vector3_math}
-\alias{vec_math.vrm_vector3}
+\alias{vec_math.dddr_vector3}
 \title{Mathematical operations on vectors}
 \usage{
-\method{vec_math}{vrm_vector3}(.fn, .x, ...)
+\method{vec_math}{dddr_vector3}(.fn, .x, ...)
 }
 \arguments{
 \item{.fn}{Mathematical function to apply}
@@ -20,8 +20,7 @@ particular, `mean`, `sum`, and `cumsum` have meanings when applied to
 vector3s.
 }
 \examples{
-mean(vector3(x=1:4, y=2:5, z=3:6))
-sum(vector3(x=1:4, y=2:5, z=3:6))
-cumsum(vector3(x=1:4, y=2:5, z=3:6))
-
+mean(vector3(x = 1:4, y = 2:5, z = 3:6))
+sum(vector3(x = 1:4, y = 2:5, z = 3:6))
+cumsum(vector3(x = 1:4, y = 2:5, z = 3:6))
 }

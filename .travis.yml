@@ -3,4 +3,6 @@ r:
   - oldrel
   - release
   - devel
-warnings_are_errors: false
+
+after_success:
+  - Rscript -e 'covr::codecov(function_exclusions=c(".onLoad"))'

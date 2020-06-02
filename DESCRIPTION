@@ -1,24 +1,26 @@
-Package: vrmvrm
+Package: dddr
 Type: Package
-Title: VectoR Manager for Virtual Reality and Motion
-Version: 0.1.0
-Author: Mark Roman Miller <mrmillr@stanford.edu>
-Maintainer: Mark Roman Miller <mrmillr@stanford.edu>
-Description: Provides a tidy-style interface for working with 
-    three-dimensional position and rotation data.
+Title: Three-Dimensional Spatial Operations in R
+Version: 0.1.0.9000
+Authors@R: as.person(c(
+    "Mark Roman Miller <mrmillr@stanford.edu> [aut, cre]"
+  ))
+URL: https://github.com/MrMallIronmaker/dddr/
+BugReports: https://github.com/MrMallIronmaker/dddr/issues/
+Description: Provides 3D-vector and quaternion classes for working with position and rotation data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr,
+    dplyr (>= 1.0.0),
     ggplot2,
     pillar,
+    rlang,
     vctrs
-Remotes:
-    tidyverse/dplyr
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    covr
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0

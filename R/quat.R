@@ -1,17 +1,18 @@
 
 #' Internal method for creating a new quat
 #'
-#' This follows the new / validate / user-facing pattern recommended in the `vctrs` documentation.
+#' This follows the new / validate / user-facing pattern recommended in the
+#' `vctrs` documentation.
 #'
 #' @param w,x,y,z Quaternion entries, expected to be double vectors
 #'
 #' @keywords internal
-new_quat <- function(w=double(), x=double(), y=double(), z=double()) {
-  vctrs::vec_assert(w, ptype=double())
-  vctrs::vec_assert(x, ptype=double())
-  vctrs::vec_assert(y, ptype=double())
-  vctrs::vec_assert(z, ptype=double())
-  vctrs::new_rcrd(list(w=w, x=x, y=y, z=z), class="vrm_quat")
+new_quat <- function(w = double(), x = double(), y = double(), z = double()) {
+  vctrs::vec_assert(w, ptype = double())
+  vctrs::vec_assert(x, ptype = double())
+  vctrs::vec_assert(y, ptype = double())
+  vctrs::vec_assert(z, ptype = double())
+  vctrs::new_rcrd(list(w = w, x = x, y = y, z = z), class = "dddr_quat")
 }
 
 #' Create a quaternion
@@ -27,14 +28,14 @@ new_quat <- function(w=double(), x=double(), y=double(), z=double()) {
 #' @export
 quat <- function(w, x, y, z) {
   # should empty arguments be the identity quaternion?
-  l <- vctrs::vec_cast_common(w, x, y, z, .to=double())
+  l <- vctrs::vec_cast_common(w, x, y, z, .to = double())
   l <- vctrs::vec_recycle_common(l[[1]], l[[2]], l[[3]], l[[4]])
   new_quat(l[[1]], l[[2]], l[[3]], l[[4]])
 }
 
 #' @rdname field_access
 #' @export
-`$.vrm_quat` <- function(x, name) {
+`$.dddr_quat` <- function(x, name) {
   # should xyz conventions be a setting?
   # should all fields be accessible?
   if (name %in% c("w", "x", "y", "z")) {
@@ -45,7 +46,7 @@ quat <- function(w, x, y, z) {
 }
 
 #' @export
-format.vrm_quat <- function(x, ...) {
+format.dddr_quat <- function(x, ...) {
   q <- x # don't overwrite the name
   # TODO: keep width, etc in mind.
 
@@ -60,17 +61,38 @@ format.vrm_quat <- function(x, ...) {
   out
 }
 
+#' @importFrom vctrs vec_ptype_abbr
+#' @method vec_ptype_abbr dddr_quat
 #' @export
-vec_ptype_abbr.quat <- function(x, ...) {
+vec_ptype_abbr.dddr_quat <- function(x, ...) {
   "quat"
 }
 
 
-upgrade_quat <- function(v) {
-  stopifnot(length(v) == 4)
+#' Quaternion helpers
+#'
+#' Sometimes objects are in a format that is not truly a quaternion but has
+#' unambigous meaning. In those cases, we translate from the length-four numeric
+#' vector to a length-one quaternion
+#'
+#' `upgrade` assumes a length 4 numeric, `ensure` checks if it's already a quat
+#' first.
+#'
+#' @param v a length-4 numeric vector
+#' @name quat_helpers
 
+#' @rdname quat_helpers
+#' @export
+upgrade_to_quat <- function(v) {
+  stopifnot(length(v) == 4)
   new_quat(w = v[[1]], x = v[[2]], y = v[[3]], z = v[[4]])
 }
 
-
-
+#' @rdname quat_helpers
+#' @export
+ensure_quat <- function(v) {
+  if (!inherits(v, "dddr_quat")) {
+    v <- upgrade_to_quat(v)
+  }
+  v
+}
