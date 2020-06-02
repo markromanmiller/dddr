@@ -6,6 +6,8 @@ foo_px <- c(1, 0, 0, sqrt_1_3)
 foo_py <- c(0, 1, 0, sqrt_1_3)
 foo_pz <- c(0, 0, 1, sqrt_1_3)
 
+simple_vector <- vector3(1:4, 2:5, 3:6)
+
 simple_axes_tbl <- data.frame(foo = vector3(x = foo_px, y = foo_py, z = foo_pz))
 
 test_that("Vector3 entries can be extracted", {
@@ -285,7 +287,7 @@ test_that(
   ),
   expect_error(
     vector3(1, 0, 0) * vector3(1, 0, 0),
-    class = "vctrs_error",
+    class = "vctrs_error_incompatible_op",
     regexp = "vector3_prod"
   )
 )
@@ -322,4 +324,63 @@ test_that("format and print work sensibly", {
     pillar::pillar_shaft(print_test) %>% format(width = 35) %>% print(),
     file = "pillar_shaft_vector3_print_test_35.out"
   )
+})
+
+test_that("Errors occur in bad arith types", {
+  op_error_class <- "vctrs_error_incompatible_op"
+  redirection <- "vector3_arith"
+
+  # error in default vector3 operation
+  expect_error(
+    simple_vector + "foobar",
+    class = op_error_class,
+    regexp = redirection
+  )
+
+  # incompatible vector and vector operation
+  expect_error(
+    simple_vector / simple_vector,
+    class = op_error_class,
+    regexp = redirection
+  )
+
+  # vector / numeric legnth error
+  expect_error(
+    simple_vector * c(0, 5),
+    class = op_error_class,
+    regexp = redirection
+  )
+
+  # unimplemented vector and numeric operation
+  expect_error(
+    simple_vector ^ c(0, 5),
+    class = op_error_class,
+    regexp = redirection
+  )
+
+  # unimplemented vector and missing operation
+  expect_error(
+    !simple_vector,
+    class = op_error_class,
+    regexp = redirection
+  )
+
+  # unimplemented nuermic and vector operation
+  expect_error(
+    4 / simple_vector,
+    class = op_error_class,
+    regexp = redirection
+  )
+})
+
+test_that("Errors occur in bad math types", {
+  op_error_class <- "dddr_error_math"
+  redirection <- "vector3_math"
+
+  expect_error(
+    exp(simple_vector),
+    class = op_error_class,
+    regex = redirection
+  )
+
 })

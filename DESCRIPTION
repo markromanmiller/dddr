@@ -15,6 +15,7 @@ Imports:
     dplyr (>= 1.0.0),
     ggplot2,
     pillar,
+    rlang,
     vctrs
 Suggests:
     knitr,

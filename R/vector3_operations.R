@@ -189,11 +189,14 @@ vec_math.dddr_vector3 <- function(.fn, .x, ...) {
       y = mean(.x$y),
       z = mean(.x$z)
     ),
-    stop(paste0(
-      "Mathematical functio not permitted on <vector3>: `",
-      .fn,
-      "`. See `?vector3_math` for more information on vector mathematics."
-    ))
+    rlang::abort(
+      message = paste0(
+        "Mathematical function not permitted on <vector3>: `",
+        .fn,
+        "`. See `?vector3_math` for more information on vector mathematics."
+      ),
+      class = "dddr_error_math"
+    )
   )
 }
 

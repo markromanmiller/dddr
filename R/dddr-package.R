@@ -6,4 +6,7 @@
 #'
 #' To learn more about dddr, browse the vignettes:
 #' `browseVignettes(package = "dddr")`
+#'
+#' @importFrom rlang abort
+#'
 "_PACKAGE"
