@@ -6,12 +6,12 @@
 \alias{ensure_quat}
 \title{Quaternion helpers}
 \usage{
-upgrade_to_quat(v)
+upgrade_to_quat(q)
 
-ensure_quat(v)
+ensure_quat(q)
 }
 \arguments{
-\item{v}{a length-4 numeric vector}
+\item{q}{a length-4 numeric vector}
 }
 \description{
 Sometimes objects are in a format that is not truly a quaternion but has

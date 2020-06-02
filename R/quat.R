@@ -78,21 +78,30 @@ vec_ptype_abbr.dddr_quat <- function(x, ...) {
 #' `upgrade` assumes a length 4 numeric, `ensure` checks if it's already a quat
 #' first.
 #'
-#' @param v a length-4 numeric vector
+#' @param q a length-4 numeric vector
 #' @name quat_helpers
 
 #' @rdname quat_helpers
 #' @export
-upgrade_to_quat <- function(v) {
-  stopifnot(length(v) == 4)
-  new_quat(w = v[[1]], x = v[[2]], y = v[[3]], z = v[[4]])
+upgrade_to_quat <- function(q) {
+  if (length(q) != 4) {
+    rlang::abort(
+      paste(
+        "Cannot upgrade object to quat, as object has length",
+        length(q),
+        "instead of length 4"
+      ),
+      class = "dddr_size_quat"
+    )
+  }
+  new_quat(w = q[[1]], x = q[[2]], y = q[[3]], z = q[[4]])
 }
 
 #' @rdname quat_helpers
 #' @export
-ensure_quat <- function(v) {
-  if (!inherits(v, "dddr_quat")) {
-    v <- upgrade_to_quat(v)
+ensure_quat <- function(q) {
+  if (!inherits(q, "dddr_quat")) {
+    q <- upgrade_to_quat(q)
   }
-  v
+  q
 }

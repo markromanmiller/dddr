@@ -90,7 +90,16 @@ vec_ptype_abbr.dddr_vector3 <- function(x, ...) {
 #' @rdname vector3_helpers
 #' @export
 upgrade_to_vector3 <- function(v) {
-  stopifnot(length(v) == 3)
+  if (length(v) != 3) {
+    rlang::abort(
+      paste(
+        "Cannot upgrade object to vector3, as object has length",
+        length(v),
+        "instead of length 3"
+      ),
+      class = "dddr_size_vector3"
+    )
+  }
   new_vector3(x = v[[1]], y = v[[2]], z = v[[3]])
 }
 
@@ -123,10 +132,9 @@ format.dddr_vector3_pillar <- function(x, width, ...) {
       format_and_align_right(x$pillar_z, width = attr(x$pillar_z, "width")),
       ")"
     )
-  } else if (width < attr(x, "min_width")) {
-    stop("Width smaller than min_width")
   } else {
-    # well this is ugly.
+    # Pillar guarantees width >= min_width
+
     l <- list(x$pillar_x, x$pillar_y, x$pillar_z)
     to_claim <- unlist(lapply(l, function(a) {
       attr(a, "width") - attr(a, "min_width")
