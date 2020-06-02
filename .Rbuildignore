@@ -9,3 +9,4 @@
 ^etc$
 ^codecov\.yml$
 ^\.lintr$
+^\.github$
