@@ -306,7 +306,7 @@ test_that("format and print work sensibly", {
 
   expect_error(
     pillar::pillar_shaft(print_test) %>% format(width = 26),
-    class="simpleError"
+    class = "simpleError"
   )
 
   expect_known_output(

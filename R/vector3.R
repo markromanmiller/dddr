@@ -54,14 +54,22 @@ NULL
 }
 
 #' @export
-format.dddr_vector3 <- function(x, ...) {
+format.dddr_vector3 <- function(x, ..., digits = 4) {
   v <- x # don't overwrite the name
-  # TODO: keep width, etc in mind.
+
   x <- vctrs::field(v, "x")
   y <- vctrs::field(v, "y")
   z <- vctrs::field(v, "z")
 
-  out <- paste0("(", x, ", ", y, ", ", z, ")")
+  out <- paste0(
+    "(",
+    format(x, ..., digits = digits),
+    ", ",
+    format(y, ..., digits = digits),
+    ", ",
+    format(z, ..., digits = digits), ")"
+  )
+
   out[is.na(x) | is.na(y) | is.na(z)] <- NA
 
   out
