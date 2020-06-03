@@ -8,34 +8,24 @@ foo_pz <- c(0, 0, 1, sqrt_1_3)
 
 simple_vector <- vector3(1:4, 2:5, 3:6)
 
-simple_axes_tbl <- data.frame(foo = vector3(x = foo_px, y = foo_py, z = foo_pz))
+foo <- vector3(x = foo_px, y = foo_py, z = foo_pz)
 
 test_that("Vector3 entries can be extracted", {
-  extracted <- dplyr::mutate(simple_axes_tbl,
-    foo_px = foo$x,
-    foo_py = foo$y,
-    foo_pz = foo$z
-  )
-  expect_equal(extracted$foo_px, foo_px)
-  expect_equal(extracted$foo_py, foo_py)
-  expect_equal(extracted$foo_pz, foo_pz)
+  expect_equal(foo$x, foo_px)
+  expect_equal(foo$y, foo_py)
+  expect_equal(foo$z, foo_pz)
 })
 
 test_that("Vector3 entries can be added", {
-  doubled <- dplyr::mutate(simple_axes_tbl,
-    bar = foo + foo,
-    bar_px = bar$x,
-    bar_py = bar$y,
-    bar_pz = bar$z
-  )
+  doubled <- foo + foo
 
-  bar_px <- c(2, 0, 0, 2 * sqrt_1_3)
-  bar_py <- c(0, 2, 0, 2 * sqrt_1_3)
-  bar_pz <- c(0, 0, 2, 2 * sqrt_1_3)
+  doubled_px <- c(2, 0, 0, 2 * sqrt_1_3)
+  doubled_py <- c(0, 2, 0, 2 * sqrt_1_3)
+  doubled_pz <- c(0, 0, 2, 2 * sqrt_1_3)
 
-  expect_equal(doubled$bar_px, bar_px)
-  expect_equal(doubled$bar_py, bar_py)
-  expect_equal(doubled$bar_pz, bar_pz)
+  expect_equal(doubled$x, doubled_px)
+  expect_equal(doubled$y, doubled_py)
+  expect_equal(doubled$z, doubled_pz)
 })
 
 test_that(
@@ -43,59 +33,44 @@ test_that(
     "Vector3 entries can be added and subtracted to",
     "numeric vectors of length 3"
   ), {
-  translated_z <- dplyr::mutate(simple_axes_tbl,
-    bar = foo + c(0, 0, 1),
-    bar_px = bar$x,
-    bar_py = bar$y,
-    bar_pz = bar$z
-  )
-  expect_equal(translated_z$bar_px, foo_px)
-  expect_equal(translated_z$bar_py, foo_py)
-  expect_equal(translated_z$bar_pz, c(1, 1, 2, 1 + sqrt_1_3))
+  translated_z <- foo + c(0, 0, 1)
+  expect_equal(translated_z$x, foo_px)
+  expect_equal(translated_z$y, foo_py)
+  expect_equal(translated_z$z, c(1, 1, 2, 1 + sqrt_1_3))
 
-  translated_x <- dplyr::mutate(simple_axes_tbl,
-    bar = c(1, 0, 0) + foo,
-    bar_px = bar$x,
-    bar_py = bar$y,
-    bar_pz = bar$z
-  )
-  expect_equal(translated_x$bar_px, c(2, 1, 1, 1 + sqrt_1_3))
-  expect_equal(translated_x$bar_py, foo_py)
-  expect_equal(translated_x$bar_pz, foo_pz)
+  translated_x <- c(1, 0, 0) + foo
+  expect_equal(translated_x$x, c(2, 1, 1, 1 + sqrt_1_3))
+  expect_equal(translated_x$y, foo_py)
+  expect_equal(translated_x$z, foo_pz)
 
-  translated_x <- dplyr::mutate(simple_axes_tbl,
-    bar = c(0, 1, 0) - foo,
-    bar_px = bar$x,
-    bar_py = bar$y,
-    bar_pz = bar$z
-  )
-  expect_equal(translated_x$bar_px, -foo_px)
-  expect_equal(translated_x$bar_py, c(1, 0, 1, 1 - sqrt_1_3))
-  expect_equal(translated_x$bar_pz, -foo_pz)
+  translated_x <- c(0, 1, 0) - foo
+  expect_equal(translated_x$x, -foo_px)
+  expect_equal(translated_x$y, c(1, 0, 1, 1 - sqrt_1_3))
+  expect_equal(translated_x$z, -foo_pz)
 })
 
 test_that(
   "Vector3 entries can't be added to numeric vectors of various non-3 sizes", {
-    error_class <- "dplyr_error"
+    error_class <- "vctrs_error_incompatible_op"
     message <- "To add or subtract a numeric and a vector3,"
 
     expect_error(
-      dplyr::mutate(simple_axes_tbl, bar = foo + c(0, 0, 1, 0)),
+      foo + c(0, 0, 1, 0),
       class = error_class,
       regexp = message
     )
     expect_error(
-      dplyr::mutate(simple_axes_tbl, bar = c(0) + foo),
+      c(0) + foo,
       class = error_class,
       regexp = message
     )
     expect_error(
-      dplyr::mutate(simple_axes_tbl, bar = foo + c(0, 0)),
+      foo + c(0, 0),
       class = error_class,
       regexp = message
     )
     expect_error(
-      dplyr::mutate(simple_axes_tbl, bar = rep(1, 15) + foo),
+      rep(1, 15) + foo,
       class = error_class,
       regexp = message
     )
@@ -104,18 +79,16 @@ test_that(
 
 test_that(
   "Vector3 can be multiplied both left and right by numeric of length 1", {
-    doubled <- dplyr::mutate(simple_axes_tbl,
-      bar = foo * 2,
-      baz = 3 * foo
-    )
+    bar <- foo * 2
+    baz <- 3 * foo
 
-    expect_equal(doubled$bar$x, c(2, 0, 0, 2 * sqrt_1_3))
-    expect_equal(doubled$bar$y, c(0, 2, 0, 2 * sqrt_1_3))
-    expect_equal(doubled$bar$z, c(0, 0, 2, 2 * sqrt_1_3))
+    expect_equal(bar$x, c(2, 0, 0, 2 * sqrt_1_3))
+    expect_equal(bar$y, c(0, 2, 0, 2 * sqrt_1_3))
+    expect_equal(bar$z, c(0, 0, 2, 2 * sqrt_1_3))
 
-    expect_equal(doubled$baz$x, c(3, 0, 0, 3 * sqrt_1_3))
-    expect_equal(doubled$baz$y, c(0, 3, 0, 3 * sqrt_1_3))
-    expect_equal(doubled$baz$z, c(0, 0, 3, 3 * sqrt_1_3))
+    expect_equal(baz$x, c(3, 0, 0, 3 * sqrt_1_3))
+    expect_equal(baz$y, c(0, 3, 0, 3 * sqrt_1_3))
+    expect_equal(baz$z, c(0, 0, 3, 3 * sqrt_1_3))
   }
 )
 
@@ -124,107 +97,99 @@ test_that(
     "Vector3 can be multiplied both left and right by numeric vector",
     "the same length as the vector3 vector"
   ), {
-    doubled <- dplyr::mutate(simple_axes_tbl,
-      fac = seq(1, 7, by = 2),
-      bar = foo * c(1, 2, 3, 4),
-      baz = fac * foo
-    )
+    fac <- seq(1, 7, by = 2)
+    bar <- foo * c(1, 2, 3, 4)
+    baz <- fac * foo
 
-    expect_equal(doubled$bar$x, c(1, 0, 0, 4 * sqrt_1_3))
-    expect_equal(doubled$bar$y, c(0, 2, 0, 4 * sqrt_1_3))
-    expect_equal(doubled$bar$z, c(0, 0, 3, 4 * sqrt_1_3))
+    expect_equal(bar$x, c(1, 0, 0, 4 * sqrt_1_3))
+    expect_equal(bar$y, c(0, 2, 0, 4 * sqrt_1_3))
+    expect_equal(bar$z, c(0, 0, 3, 4 * sqrt_1_3))
 
-    expect_equal(doubled$baz$x, c(1, 0, 0, 7 * sqrt_1_3))
-    expect_equal(doubled$baz$y, c(0, 3, 0, 7 * sqrt_1_3))
-    expect_equal(doubled$baz$z, c(0, 0, 5, 7 * sqrt_1_3))
+    expect_equal(baz$x, c(1, 0, 0, 7 * sqrt_1_3))
+    expect_equal(baz$y, c(0, 3, 0, 7 * sqrt_1_3))
+    expect_equal(baz$z, c(0, 0, 5, 7 * sqrt_1_3))
   }
 )
 
 test_that("Vector3 distances are correctly computed", {
-  distances <- dplyr::mutate(data.frame(
-    foo = vector3(
-      x = c(-.5, .5, sqrt(2) / 2, 3),
-      y = c(-.5, -sqrt(2) / 2, .5, 4),
-      z = c(sqrt(2) / 2, .5, -.5, 0)
-    )
-  ),
-  distance = distance(foo)
+  distances <- vector3(
+    x = c(-.5, .5, sqrt(2) / 2, 3),
+    y = c(-.5, -sqrt(2) / 2, .5, 4),
+    z = c(sqrt(2) / 2, .5, -.5, 0)
   )
 
-  expect_equal(distances$distance, c(1, 1, 1, 5))
+  expect_equal(distance(distances), c(1, 1, 1, 5))
 })
 
 test_that("Vector3 distances are correctly computed from an offset", {
-  distances <- dplyr::mutate(data.frame(
-    foo = vector3(
-      x = c(1, -4, 4, 3),
-      y = c(0, -3, 5, 4),
-      z = c(-2, 5, -7, 0)
-    )
-  ),
-  distance = distance(foo, from = c(0, 2, -3))
+  distances <- vector3(
+    x = c(1, -4, 4, 3),
+    y = c(0, -3, 5, 4),
+    z = c(-2, 5, -7, 0)
   )
 
-  expect_equal(distances$distance, c(sqrt(6), sqrt(105), sqrt(41), sqrt(22)))
+  expect_equal(
+    distance(distances, from = c(0, 2, -3)),
+    c(sqrt(6), sqrt(105), sqrt(41), sqrt(22))
+  )
 })
 
 test_that("Vector3 can be normalized", {
-  normalized <- dplyr::mutate(data.frame(
-    foo = vector3(
-      x = c(1, 0, 4, 3),
-      y = c(0, 0, 5, 4),
-      z = c(-1, 5, -7, 0)
-    )
-  ),
-  unit = normalize(foo),
-  normalized_distance = normalize(foo) %>% distance(),
-  normalized_distance_of_5 = normalize(foo, length = 5) %>% distance()
+  normable <- vector3(
+    x = c(1, 0, 4, 3),
+    y = c(0, 0, 5, 4),
+    z = c(-1, 5, -7, 0)
   )
+  unit <- normalize(normable)
+  normalized_distance <- normalize(normable) %>% distance()
+  normalized_distance_of_5 <- normalize(normable, length = 5) %>% distance()
 
-  expect_equal(head(normalized$unit$x, 2), c(sqrt(2) / 2, 0))
-  expect_equal(head(normalized$unit$y, 2), c(0, 0))
-  expect_equal(head(normalized$unit$z, 2), c(-sqrt(2) / 2, 1))
+  expect_equal(head(unit$x, 2), c(sqrt(2) / 2, 0))
+  expect_equal(head(unit$y, 2), c(0, 0))
+  expect_equal(head(unit$z, 2), c(-sqrt(2) / 2, 1))
 
-  expect_equal(normalized$normalized_distance, c(1, 1, 1, 1))
-  expect_equal(normalized$normalized_distance_of_5, c(5, 5, 5, 5))
+  expect_equal(normalized_distance, c(1, 1, 1, 1))
+  expect_equal(normalized_distance_of_5, c(5, 5, 5, 5))
 })
 
 test_that("Vector3 can have a unary negative", {
-  negated <- dplyr::mutate(
-    simple_axes_tbl,
-    neg = -foo,
-    cancel = foo + neg
-  )
+  neg <- -foo
+  canceled <- foo + neg
 
-  expect_equal(negated$neg$x, -foo_px)
-  expect_equal(negated$neg$y, -foo_py)
-  expect_equal(negated$neg$z, -foo_pz)
-  expect_equal(negated$cancel, rep(vector3(0, 0, 0), 4))
+  expect_equal(neg$x, -foo_px)
+  expect_equal(neg$y, -foo_py)
+  expect_equal(neg$z, -foo_pz)
+  expect_equal(canceled, rep(vector3(0, 0, 0), 4))
 })
 
 test_that("Vector3 can have sums, cumsums, and means", {
-  sum_test <- dplyr::mutate(
-    data.frame(foo = vector3(
-      x = c(1, 0, -1, 5),
-      y = c(4, -2, 0, 1),
-      z = c(-1, 2, 4, 3)
-    )),
-    sum_foo = sum(foo),
-    cumsum_foo = cumsum(foo),
-    mean_foo = mean(foo)
+  sum_test_data <- vector3(
+    x = c(1, 0, -1, 5),
+    y = c(4, -2, 0, 1),
+    z = c(-1, 2, 4, 3)
+  )
+  sum_foo <- sum(sum_test_data)
+  cumsum_foo <- cumsum(sum_test_data)
+  mean_foo <- mean(sum_test_data)
+
+  expect_equal(sum_foo, vector3(5, 3, 8))
+
+  expect_equal(cumsum_foo$x, c(1, 1, 0, 5))
+  expect_equal(cumsum_foo$y, c(4, 2, 2, 3))
+  expect_equal(cumsum_foo$z, c(-1, 1, 5, 8))
+
+  expect_equal(mean_foo, vector3(5 / 4, 3 / 4, 8 / 4))
+})
+
+test_that("dplyr plays nicely with dddr", {
+  dplyr_test <- dplyr::mutate(
+    data.frame(foo = foo),
+    bar = foo + c(0, 1, 0)
   )
 
-  expect_equal(sum_test$sum_foo$x, rep(5, 4))
-  expect_equal(sum_test$sum_foo$y, rep(3, 4))
-  expect_equal(sum_test$sum_foo$z, rep(8, 4))
-
-  expect_equal(sum_test$cumsum_foo$x, c(1, 1, 0, 5))
-  expect_equal(sum_test$cumsum_foo$y, c(4, 2, 2, 3))
-  expect_equal(sum_test$cumsum_foo$z, c(-1, 1, 5, 8))
-
-  expect_equal(sum_test$mean_foo$x, rep(5 / 4, 4))
-  expect_equal(sum_test$mean_foo$y, rep(3 / 4, 4))
-  expect_equal(sum_test$mean_foo$z, rep(8 / 4, 4))
+  expect_equal(dplyr_test$foo$x, foo_px)
+  expect_equal(dplyr_test$foo$y, foo_py)
+  expect_equal(dplyr_test$foo$z, foo_pz)
 })
 
 test_that("Vector3 dot product behaves correctly.", {
