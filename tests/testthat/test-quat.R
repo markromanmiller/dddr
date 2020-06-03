@@ -89,8 +89,10 @@ test_that(
 
 test_that("quat formatting", {
   expect_known_output(
-    pillar::pillar_shaft(simple_quat_tbl$foo) %>% format(width = 27) %>% print(),
-    file = "pillar_shaft_quat_print_test_27.out"
+    pillar::pillar_shaft(simple_quat_tbl$foo) %>%
+      format(width = 34) %>%
+      print(),
+    file = "pillar_shaft_quat_print_test_34.out"
   )
 })
 

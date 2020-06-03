@@ -46,17 +46,25 @@ quat <- function(w, x, y, z) {
 }
 
 #' @export
-format.dddr_quat <- function(x, ...) {
+format.dddr_quat <- function(x, ..., digits = 4) {
   q <- x # don't overwrite the name
-  # TODO: keep width, etc in mind.
 
   w <- vctrs::field(q, "w")
   x <- vctrs::field(q, "x")
   y <- vctrs::field(q, "y")
   z <- vctrs::field(q, "z")
 
-  out <- paste0("(", w, "; ", x, ", ", y, ", ", z, ")")
-  out[is.na(x) | is.na(y) | is.na(z)] <- NA
+  out <- paste0(
+    "(",
+    format(w, ..., digits = digits),
+    "; ",
+    format(x, ..., digits = digits),
+    ", ",
+    format(y, ..., digits = digits),
+    ", ",
+    format(z, ..., digits = digits), ")"
+  )
+  out[is.na(w) | is.na(x) | is.na(y) | is.na(z)] <- NA
 
   out
 }
