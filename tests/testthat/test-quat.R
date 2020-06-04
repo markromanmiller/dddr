@@ -96,61 +96,36 @@ test_that("quat formatting", {
   )
 })
 
-# test_that("Quats multiply according to ijk = -1", {
-#  units <- tibble(
-#    names = c("1", "i", "j", "k"),
-#    quats = quat(
-#      w = c(1, 0, 0, 0),
-#      x = c(0, 1, 0, 0),
-#      y = c(0, 0, 1, 0),
-#      z = c(0, 0, 0, 1)
-#    )
-#  )
-#
-#  unit_pairs <- units %>%
-#    rename_with(~paste0(..1, "_left")) %>%
-#    crossing(units %>% rename_with(~paste0(..1, "_right")))
-#
-#  results <- tribble(
-#    ~names_left, ~names_right, ~names_expected, ~quats_expected,
-#    "1", "1", "1", upgrade_to_quat(c(1, 0, 0, 0)),
-#    "1", "i", "i", upgrade_to_quat(c(0, 1, 0, 0)),
-#    "1", "j", "j", upgrade_to_quat(c(0, 0, 1, 0)),
-#    "1", "k", "k", upgrade_to_quat(c(0, 0, 0, 1)),
-#
-#    "i", "1", "i", upgrade_to_quat(c(0, 1, 0, 0)),
-#    "i", "i", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
-#    "i", "j", "k", upgrade_to_quat(c(0, 0, 0, 1)),
-#    "i", "k", "-j", upgrade_to_quat(c(0, 0, -1, 0)),
-#
-#    "j", "1", "j", upgrade_to_quat(c(0, 0, 1, 0)),
-#    "j", "i", "-k", upgrade_to_quat(c(0, 0, 0, -1)),
-#    "j", "j", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
-#    "j", "k", "i", upgrade_to_quat(c(0, 1, 0, 0)),
-#
-#    "k", "1", "k", upgrade_to_quat(c(0, 0, 0, 1)),
-#    "k", "i", "j", upgrade_to_quat(c(0, 0, 1, 0)),
-#    "k", "j", "-i", upgrade_to_quat(c(0, -1, 0, 0)),
-#    "k", "k", "-1", upgrade_to_quat(c(-1, 0, 0, 0)),
-#  ) %>%
-#    unnest(quats_expected)
-#
-#  ijk_test <- unit_pairs %>%
-#   left_join(results, by=c("names_left", "names_right")) %>%
-#   mutate(
-#      quats_actual = quats_left * quats_right,
-#      aw = quats_actual$w,
-#      ax = quats_actual$x,
-#      ay = quats_actual$y,
-#      az = quats_actual$z,
-#     ew = quats_expected$w,
-#      ex = quats_expected$x,
-#      ey = quats_expected$y,
-#      ez = quats_expected$z,
-#   )
-#
-#  expect_equal(ijk_test$aw, ijk_test$ew)
-#  expect_equal(ijk_test$ax, ijk_test$ex)
-#  expect_equal(ijk_test$ay, ijk_test$ey)
-#  expect_equal(ijk_test$az, ijk_test$ez)
-# })
+test_that("Quats multiply according to ijk = -1", {
+
+  `1` <- quat(1, 0, 0, 0)
+  `i` <- quat(0, 1, 0, 0)
+  `j` <- quat(0, 0, 1, 0)
+  `k` <- quat(0, 0, 0, 1)
+
+  `-1` <- quat(-1, 0, 0, 0)
+  `-i` <- quat(0, -1, 0, 0)
+  `-j` <- quat(0, 0, -1, 0)
+  `-k` <- quat(0, 0, 0, -1)
+
+  expect_equal(`1` * `1`, `1`)
+  expect_equal(`1` * `i`, `i`)
+  expect_equal(`1` * `j`, `j`)
+  expect_equal(`1` * `k`, `k`)
+
+  expect_equal(`i` * `1`, `i`)
+  expect_equal(`i` * `i`, `-1`)
+  expect_equal(`i` * `j`, `k`)
+  expect_equal(`i` * `k`, `-j`)
+
+  expect_equal(`j` * `1`, `j`)
+  expect_equal(`j` * `i`, `-k`)
+  expect_equal(`j` * `j`, `-1`)
+  expect_equal(`j` * `k`, `i`)
+
+  expect_equal(`k` * `1`, `k`)
+  expect_equal(`k` * `i`, `j`)
+  expect_equal(`k` * `j`, `-i`)
+  expect_equal(`k` * `k`, `-1`)
+
+})
