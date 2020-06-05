@@ -55,7 +55,7 @@ vec_arith.dddr_vector3.default <- function(op, x, y, ...) {
 vec_arith.dddr_vector3.dddr_vector3 <- function(op, x, y, ...) { # nolint
   switch(
     op,
-    "+" = , # nolint
+    "+" = ,
     "-" =
       new_vector3(
         x = vctrs::vec_arith_base(op, x$x, y$x),
@@ -80,7 +80,7 @@ vec_arith.dddr_vector3.dddr_vector3 <- function(op, x, y, ...) { # nolint
 vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
   switch(
     op,
-    "+" = , # nolint
+    "+" = ,
     "-" = {
       if (length(y) != 3) {
         vctrs::stop_incompatible_op(
@@ -98,7 +98,7 @@ vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
         z = vctrs::vec_arith_base(op, x$z, y[3])
       )
     },
-    "*" = , # nolint
+    "*" = ,
     "/" = {
       if (length(y) != 1 && length(y) != length(x)) {
         vctrs::stop_incompatible_op(
@@ -140,7 +140,7 @@ vec_arith.numeric.dddr_vector3 <- function(op, x, y, ...) {
   switch(
     op,
     # commutative operations can be switched
-    "+" = , # nolint
+    "+" = ,
     "*" = vec_arith.dddr_vector3.numeric(op, y, x, ...),
     # negative forces upgrade
     "-" = vec_arith.dddr_vector3.dddr_vector3(
