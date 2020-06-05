@@ -5,19 +5,16 @@
 \alias{rotate}
 \alias{rotate.dddr_vector3}
 \alias{rotate.dddr_quat}
-\alias{rotate_dddr}
 \title{Rotate vectors and quaternions}
 \usage{
-rotate(rotand, ...)
+rotate(rotand, rotator = NULL, ...)
 
-\method{rotate}{dddr_vector3}(rotand, ...)
+\method{rotate}{dddr_vector3}(rotand, rotator = NULL, ..., origin = NULL)
 
-\method{rotate}{dddr_quat}(rotand, ...)
-
-rotate_dddr(
+\method{rotate}{dddr_quat}(
   rotand,
   rotator = NULL,
-  origin = c(0, 0, 0),
+  ...,
   axis = NULL,
   angle = NULL,
   from = NULL,
@@ -27,10 +24,10 @@ rotate_dddr(
 \arguments{
 \item{rotand}{Object to be rotated; can be either a vector or a quaternion}
 
-\item{...}{Additional arguments passed on to underlying S3 methods}
-
 \item{rotator}{(Optional) Quaternion specifying the rotation to perform. If
 this argument is not specified, it is constructed using the others.}
+
+\item{...}{Additional arguments passed on to underlying S3 methods}
 
 \item{origin}{(Optional) The origin of the rotation, i.e, the point that
 should not change positions during the rotation.}

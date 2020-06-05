@@ -1,4 +1,50 @@
 
+#' Internal rotation function
+#' @keywords internal
+make_rotator <- function(axis, angle, from, to) {
+  # try to make the rotator.
+  if (is.null(axis)) {
+    from <- ensure_vector3(from)
+    to <- ensure_vector3(to)
+    axis <- cross(from, to)
+  } else if (is.null(angle)) {
+    # Axis was specified, angle was not. Generate "angle" by projecting
+    # from/to onto the plane normal to axis, and then compute the angle
+    # between (done below)
+    from <- ensure_vector3(from)
+    to <- ensure_vector3(to)
+    axis <- ensure_vector3(axis)
+    from <- reject(from, axis)
+    to <- reject(to, axis)
+  } else {
+    # quick check
+    if (!is.null(from) && !is.null(angle) && !is.null(to)) {
+      # axis, angle, from, and to are all not null
+      # that's weird and shouldn't happen.
+      warning(paste("The parameters axis, angle, from, and to are all",
+                    "specified. Some are redundant."))
+    }
+  }
+
+  if (is.null(angle)) {
+    # it matters if the axis was created or not.
+    angle <- angle_between(from, to)
+    # if it was created, this is all we need.
+    # if not, we need to project it.
+  }
+
+  # upgrade + normalize axis
+  axis <- ensure_vector3(axis)
+  axis <- normalize(axis)
+
+  quat(
+    w = cos(angle / 2),
+    x = axis$x * sin(angle / 2),
+    y = axis$y * sin(angle / 2),
+    z = axis$z * sin(angle / 2)
+  )
+}
+
 
 #' Rotate vectors and quaternions
 #'
@@ -28,112 +74,41 @@ NULL
 
 #' @rdname rotation
 #' @export
-rotate <- function(rotand, ...) {
+rotate <- function(rotand, rotator=NULL, ...) {
   UseMethod("rotate", rotand)
 }
 
 #' @rdname rotation
 #' @method rotate dddr_vector3
 #' @export
-rotate.dddr_vector3 <- function(rotand, ...) {
-  rotate_dddr(rotand, ...)
+rotate.dddr_vector3 <- function(rotand, rotator=NULL, ..., origin=NULL) {
+  if (!is.null(origin)) {
+    rotand <- rotand - origin
+  }
+  rotand <- quat(0, rotand$x, rotand$y, rotand$z)
+  result <- rotate.dddr_quat(rotand, rotator, ...)
+  vec3_result <- vector3(result$x, result$y, result$z)
+  if (!is.null(origin)) {
+    vec3_result <- vec3_result + origin
+  }
+  vec3_result
 }
 
 #' @rdname rotation
 #' @method rotate dddr_quat
 #' @export
-rotate.dddr_quat <- function(rotand, ...) {
-  rotate_dddr(rotand, ...)
-}
-
-#' @rdname rotation
-#' @export
-rotate_dddr <- function(
-  rotand, rotator = NULL, origin = c(0, 0, 0),
+rotate.dddr_quat <- function(
+  rotand, rotator = NULL, ...,
   axis = NULL, angle = NULL, from = NULL, to = NULL
 ) {
   if (is.null(rotator)) {
-    # try to make the rotator.
-    if (is.null(axis)) {
-      from <- ensure_vector3(from)
-      to <- ensure_vector3(to)
-      axis <- cross(from, to)
-    } else if (is.null(angle)) {
-      # Axis was specified, angle was not. Generate "angle" by projecting
-      # from/to onto the plane normal to axis, and then compute the angle
-      # between (done below)
-      from <- ensure_vector3(from)
-      to <- ensure_vector3(to)
-      axis <- ensure_vector3(axis)
-      from <- reject(from, axis)
-      to <- reject(to, axis)
-    } else {
-      # quick check
-      if (!is.null(from) && !is.null(angle) && !is.null(to)) {
-        # axis, angle, from, and to are all not null
-        # that's weird and shouldn't happen.
-        warning(paste("The parameters axis, angle, from, and to are all",
-                      "specified. Some are redundant."))
-      }
-    }
-
-    if (is.null(angle)) {
-      # it matters if the axis was created or not.
-      angle <- angle_between(from, to)
-      # if it was created, this is all we need.
-      # if not, we need to project it.
-    }
-
-    # upgrade + normalize axis
-    axis <- ensure_vector3(axis)
-    axis <- normalize(axis)
-
-    # TODO: refactor to a separate axis / angle constructor?
-    rotator <- quat(
-      w = cos(angle / 2),
-      x = axis$x * sin(angle / 2),
-      y = axis$y * sin(angle / 2),
-      z = axis$z * sin(angle / 2)
-    )
+    rotator <- make_rotator(axis, angle, from, to)
   } else {
     if (!is.null(from) || !is.null(to) || !is.null(axis) || !is.null(angle)) {
       warning("Argument `rotator` precedes any other rotation arguments.")
     }
   }
-
-  rotand_was_vector <- FALSE
-
-  if (inherits(rotand, "dddr_vector3")) {
-    rotand_was_vector <- TRUE
-    # subtract origin here
-
-    if (!inherits(origin, "dddr_vector3")) {
-      origin <- upgrade_to_vector3(origin)
-    }
-    rotatable <- rotand - origin
-    rotand <- quat(
-      w = 0,
-      x = rotatable$x,
-      y = rotatable$y,
-      z = rotatable$z
-    )
-  } else if (!all.equal(origin, c(0, 0, 0))) {
-    warning(paste(
-      "Argument `origin` does not apply to rotation of a",
-      "quaternion. Ignoring argument `origin`."))
-  }
-
-  out <- rotator * rotand * Conj(rotator)
-
-  if (rotand_was_vector) {
-    out <- vector3(
-      x = out$x,
-      y = out$y,
-      z = out$z
-    ) + origin
-  }
-
-  out
+  rotator * rotand * Conj(rotator)
 }
 
 #' Euler angles
