@@ -298,6 +298,8 @@ test_that("format and print work sensibly", {
 
 test_that("Errors occur in bad arith types", {
   op_error_class <- "vctrs_error_incompatible_op"
+  # note: it is possible for "vector3_arith" to come out of sync
+  # with the real name of the documentation.
   redirection <- "vector3_arith"
 
   # error in default vector3 operation
