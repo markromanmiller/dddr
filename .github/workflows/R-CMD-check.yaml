@@ -21,7 +21,7 @@ jobs:
       matrix:
         config:
           - {os: macOS-latest,   r: 'devel'}
-          - {os: macOS-latest,   r: '4.0'}
+          - {os: macOS-latest,   r: '4.0.0'} # 4.0.1 binaries have not been uploaded as of Jun 7 2020
           # - {os: macOS-latest,   r: '3.6'} ignored, due to rmarkdown incompatibility?
           - {os: windows-latest, r: 'devel'}
           - {os: windows-latest, r: '4.0'}
