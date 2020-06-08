@@ -31,12 +31,14 @@ NULL
 project <- function(x, onto) {
   # random thought: if speed is an issue, it may make sense to add classes to
   # the vector3s saying if they've already been normalized, etc.
+  onto <- ensure_vector3(onto)
   (dot(x, onto) / dot(onto, onto)) * onto
 }
 
 #' @rdname vecjection
 #' @export
 reject <- function(x, from) {
+  from <- ensure_vector3(from)
   x - project(x, from)
 }
 
