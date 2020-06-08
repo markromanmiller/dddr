@@ -100,12 +100,12 @@ vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
     },
     "*" = ,
     "/" = {
-      if (length(y) != 1 && length(y) != length(x)) {
+      if (length(x) != 1 && length(y) != 1 && length(y) != length(x)) {
         vctrs::stop_incompatible_op(
           op, x, y,
           details = paste(
             "To multiply or divide a numeric and a vector3,",
-            "the numeric must be either length 1",
+            "either the numeric or the vector3 must be either length 1",
             "or the same length as the vector3.",
             vector3_help_message
           )
