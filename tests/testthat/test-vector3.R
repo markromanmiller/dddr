@@ -29,30 +29,9 @@ test_that("Vector3 entries can be added", {
 })
 
 test_that(
-  paste(
-    "Vector3 entries can be added and subtracted to",
-    "numeric vectors of length 3"
-  ), {
-  translated_z <- foo + c(0, 0, 1)
-  expect_equal(translated_z$x, foo_px)
-  expect_equal(translated_z$y, foo_py)
-  expect_equal(translated_z$z, c(1, 1, 2, 1 + sqrt_1_3))
-
-  translated_x <- c(1, 0, 0) + foo
-  expect_equal(translated_x$x, c(2, 1, 1, 1 + sqrt_1_3))
-  expect_equal(translated_x$y, foo_py)
-  expect_equal(translated_x$z, foo_pz)
-
-  translated_x <- c(0, 1, 0) - foo
-  expect_equal(translated_x$x, -foo_px)
-  expect_equal(translated_x$y, c(1, 0, 1, 1 - sqrt_1_3))
-  expect_equal(translated_x$z, -foo_pz)
-})
-
-test_that(
-  "Vector3 entries can't be added to numeric vectors of various non-3 sizes", {
+  "Vector3 entries can't be added to numeric vectors", {
     error_class <- "vctrs_error_incompatible_op"
-    message <- "To add or subtract a numeric and a vector3,"
+    message <- "vector3_arith"
 
     expect_error(
       foo + c(0, 0, 1, 0),
@@ -65,7 +44,7 @@ test_that(
       regexp = message
     )
     expect_error(
-      foo + c(0, 0),
+      foo + c(0, 0, 1),
       class = error_class,
       regexp = message
     )
@@ -129,7 +108,7 @@ test_that("Vector3 distances are correctly computed from an offset", {
   )
 
   expect_equal(
-    distance(distances, from = c(0, 2, -3)),
+    distance(distances, from = vector3(0, 2, -3)),
     c(sqrt(6), sqrt(105), sqrt(41), sqrt(22))
   )
 })
@@ -184,7 +163,7 @@ test_that("Vector3 can have sums, cumsums, and means", {
 test_that("dplyr plays nicely with dddr", {
   dplyr_test <- dplyr::mutate(
     data.frame(foo = foo),
-    bar = foo + c(0, 1, 0)
+    bar = foo + vector3(0, 1, 0)
   )
 
   expect_equal(dplyr_test$foo$x, foo_px)
@@ -205,8 +184,8 @@ test_that("Vector3 dot product behaves correctly.", {
   # dot product with self is squared length
   expect_equal(dot(foo, foo), distance(foo)^2)
 
-  # also do dots with length-3 numerics
-  expect_equal(dot(foo, c(1, 0, 0)), c(1, 0, -1, 5))
+  # but fails when dotting with length-3 numerics
+  expect_error(dot(foo, c(1, 0, 0)), class="dddr_error_math")
 })
 
 test_that("Vector3 cross product behaves correctly.", {
@@ -235,8 +214,8 @@ test_that("Vector3 cross product behaves correctly.", {
   # slightly more complex
   expect_equal(cross(foo, vector3(1, 0, 0)), crossed_with_x)
 
-  # also do dots with length-3 numerics
-  expect_equal(cross(foo, c(1, 0, 0)), crossed_with_x)
+  # but fails when crossed with length-3 numerics
+  expect_error(cross(foo, c(1, 0, 0)), class="dddr_error_math")
 
   # dot between result and either input is 0
   dot_test_vec <- vector3(-2.5, 4, 1)

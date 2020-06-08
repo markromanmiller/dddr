@@ -4,16 +4,11 @@
 make_rotator <- function(axis, angle, from, to) {
   # try to make the rotator.
   if (is.null(axis)) {
-    from <- ensure_vector3(from)
-    to <- ensure_vector3(to)
     axis <- cross(from, to)
   } else if (is.null(angle)) {
     # Axis was specified, angle was not. Generate "angle" by projecting
     # from/to onto the plane normal to axis, and then compute the angle
     # between (done below)
-    from <- ensure_vector3(from)
-    to <- ensure_vector3(to)
-    axis <- ensure_vector3(axis)
     from <- reject(from, axis)
     to <- reject(to, axis)
   } else {
@@ -33,8 +28,6 @@ make_rotator <- function(axis, angle, from, to) {
     # if not, we need to project it.
   }
 
-  # upgrade + normalize axis
-  axis <- ensure_vector3(axis)
   axis <- normalize(axis)
 
   quat(
@@ -66,9 +59,9 @@ make_rotator <- function(axis, angle, from, to) {
 #' @examples
 #' example_vector <- vector3(x = 1:4, y = 2:5, z = 3:6)
 #' rotate(example_vector, rotator = quat(0, 1, 0, 0))
-#' rotate(example_vector, rotator = quat(0, 1, 0, 0), origin = c(1, 2, 3))
-#' rotate(example_vector, axis = c(1, 0, 0), angle = pi / 4)
-#' rotate(example_vector, from = c(1, 0, 0), to = c(1, 0, 0))
+#' rotate(example_vector, rotator = quat(0, 1, 0, 0), origin = vector3(1, 2, 3))
+#' rotate(example_vector, axis = vector3(1, 0, 0), angle = pi / 4)
+#' rotate(example_vector, from = vector3(1, 0, 0), to = vector3(0, 1, 0))
 #' @name rotation
 NULL
 

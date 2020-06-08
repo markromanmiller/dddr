@@ -4,7 +4,7 @@
 \alias{angle_between}
 \title{Cacluate angle between vectors}
 \usage{
-angle_between(a, b, origin = c(0, 0, 0))
+angle_between(a, b, origin = vector3(0, 0, 0))
 }
 \arguments{
 \item{a, b}{Points to measure the angle between}
