@@ -76,17 +76,6 @@ test_that("Quats can be multiplied by quats", {
   expect_equal(multiplied$bar, bar_expected)
 })
 
-test_that(
-  paste(
-    "Quats can be multiplied by a 4-element numeric",
-    "representing an identity quat"
-  ), {
-  multiplied_broadcast <- dplyr::mutate(simple_quat_tbl,
-    bar = foo * c(1, 0, 0, 0)
-  )
-  expect_equal(multiplied_broadcast$bar, multiplied_broadcast$foo)
-})
-
 test_that("quat formatting", {
   expect_known_output(
     pillar::pillar_shaft(simple_quat_tbl$foo) %>%
