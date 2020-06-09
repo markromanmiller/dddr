@@ -47,7 +47,7 @@ Rotate points or quaternions using a handful of ways to define a rotation.
 \examples{
 example_vector <- vector3(x = 1:4, y = 2:5, z = 3:6)
 rotate(example_vector, rotator = quat(0, 1, 0, 0))
-rotate(example_vector, rotator = quat(0, 1, 0, 0), origin = c(1, 2, 3))
-rotate(example_vector, axis = c(1, 0, 0), angle = pi / 4)
-rotate(example_vector, from = c(1, 0, 0), to = c(1, 0, 0))
+rotate(example_vector, rotator = quat(0, 1, 0, 0), origin = vector3(1, 2, 3))
+rotate(example_vector, axis = vector3(1, 0, 0), angle = pi / 4)
+rotate(example_vector, from = vector3(1, 0, 0), to = vector3(0, 1, 0))
 }

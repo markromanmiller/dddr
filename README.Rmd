@@ -50,7 +50,7 @@ spiral %>%
 spiral %>%
   mutate(
     # rotations can be specified using quaternions, axis / angle, or even from / to vectors
-    spiral_rotated = rotate(spiral_part, axis=c(0, 1, 0), angle=pi/4)
+    spiral_rotated = rotate(spiral_part, axis=vector3(0, 1, 0), angle=pi/4)
   ) %>% 
   ggplot(aes(x=spiral_rotated$x, y=spiral_rotated$y)) +
   geom_point() +

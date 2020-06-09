@@ -56,33 +56,6 @@ vec_arith.dddr_quat.dddr_quat <- function(op, x, y, ...) {
 }
 
 #' @rdname quat_arith
-#' @method vec_arith.dddr_quat numeric
-#' @export
-vec_arith.dddr_quat.numeric <- function(op, x, y, ...) {
-  switch(
-    op,
-    "*" = {
-      vec_arith.dddr_quat.dddr_quat(op, x, upgrade_to_quat(y), ...)
-    },
-    vctrs::stop_incompatible_op(op, x, y)
-  )
-}
-
-#' @rdname quat_arith
-#' @importFrom vctrs vec_arith.numeric
-#' @method vec_arith.numeric dddr_quat
-#' @export
-vec_arith.numeric.dddr_quat <- function(op, x, y, ...) {
-  switch(
-    op,
-    "*" = {
-      vec_arith.dddr_quat.dddr_quat(op, upgrade_to_quat(x), y, ...)
-    },
-    vctrs::stop_incompatible_op(op, x, y)
-  )
-}
-
-#' @rdname quat_arith
 #' @export
 `Conj.dddr_quat` <- function(z) {
   new_quat(

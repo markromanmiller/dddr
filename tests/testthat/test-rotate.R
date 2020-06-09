@@ -46,7 +46,7 @@ test_that("Simple rotations", {
 
 test_that("rotations can be expressed by axis and angle", {
   expect_equal(
-    rotate(foo, axis = c(0, 1, 0), angle = pi / 2),
+    rotate(foo, axis = vector3(0, 1, 0), angle = pi / 2),
     vector3(
       x = foo$z,
       y = foo$y,
@@ -55,7 +55,7 @@ test_that("rotations can be expressed by axis and angle", {
   )
 
   expect_equal(
-    rotate(foo, axis = c(0, 1, 0), angle = -pi / 2),
+    rotate(foo, axis = vector3(0, 1, 0), angle = -pi / 2),
     vector3(
       x = -foo$z,
       y = foo$y,
@@ -64,7 +64,7 @@ test_that("rotations can be expressed by axis and angle", {
   )
 
   expect_equal(
-    rotate(foo, axis = c(0, 1, 0), angle = 2 * pi + pi / 2),
+    rotate(foo, axis = vector3(0, 1, 0), angle = 2 * pi + pi / 2),
     # same as if it's pi/4
     vector3(
       x = foo$z,
@@ -76,7 +76,7 @@ test_that("rotations can be expressed by axis and angle", {
 
 test_that("rotations can be offset by origin", {
   expect_equal(
-    rotate(foo, xp90, origin = c(0, 1, 0)),
+    rotate(foo, xp90, origin = vector3(0, 1, 0)),
     vector3(
       x = foo$x,
       y = c(1, 1, -2, 1, 1, 7),
@@ -87,7 +87,7 @@ test_that("rotations can be offset by origin", {
 
 test_that("rotations can be specified by from-to", {
   expect_equal(
-    rotate(foo, from = c(1, 0, 0), to = c(0, 1, 0)),
+    rotate(foo, from = vector3(1, 0, 0), to = vector3(0, 1, 0)),
     vector3(
       x = -foo$y,
       y = foo$x,
@@ -96,7 +96,7 @@ test_that("rotations can be specified by from-to", {
   )
 
   expect_equal(
-    rotate(foo, from = c(2, 0, 0), to = c(0, 0, -3)),
+    rotate(foo, from = vector3(2, 0, 0), to = vector3(0, 0, -3)),
     vector3(
       x = foo$z,
       y = foo$y,
@@ -107,7 +107,7 @@ test_that("rotations can be specified by from-to", {
 
 test_that("rotations can be specified by axis and from-to", {
   expect_equal(
-    rotate(foo, axis = c(0, 0, 2), from = c(1, 0, 2), to = c(0, 1, -5)),
+    rotate(foo, axis = vector3(0, 0, 2), from = vector3(1, 0, 2), to = vector3(0, 1, -5)),
     vector3(
       x = -foo$y,
       y = foo$x,
@@ -121,10 +121,10 @@ test_that("errors are thrown in reasonable cases", {
   expect_error(rotate(foo))
 
   # axis is given but no angle and no from-to
-  expect_error(rotate(foo, axis = c(0, 0, 1)))
+  expect_error(rotate(foo, axis = vector3(0, 0, 1)))
 
   # axis and from is given but no to
-  expect_error(rotate(foo, axis = c(0, 0, 1), from = c(1, 0, 1)))
+  expect_error(rotate(foo, axis = vector3(0, 0, 1), from = vector3(1, 0, 1)))
 })
 
 test_that("warnings are thrown in reasonable cases", {
@@ -134,9 +134,9 @@ test_that("warnings are thrown in reasonable cases", {
   # angle, axis, and from/to are given.
   expect_warning(rotate(foo,
                         angle = pi / 2,
-                        axis = c(0, 1, 0),
-                        from = c(2, 3, 4),
-                        to = c(-2, 5, 6)))
+                        axis = vector3(0, 1, 0),
+                        from = vector3(2, 3, 4),
+                        to = vector3(-2, 5, 6)))
 })
 
 

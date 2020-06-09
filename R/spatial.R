@@ -9,10 +9,10 @@
 #'
 #' @return Angle between `a` and `b` in terms of radians
 #' @export
-angle_between <- function(a, b, origin = c(0, 0, 0)) {
+angle_between <- function(a, b, origin = vector3(0, 0, 0)) {
   # angle between is dot divided by length.
-  a <- ensure_vector3(a - origin)
-  b <- ensure_vector3(b - origin)
+  a <- a - origin
+  b <- b - origin
   acos(dot(a, b) / (distance(a) * distance(b)))
 }
 
@@ -31,14 +31,12 @@ NULL
 project <- function(x, onto) {
   # random thought: if speed is an issue, it may make sense to add classes to
   # the vector3s saying if they've already been normalized, etc.
-  onto <- ensure_vector3(onto)
   (dot(x, onto) / dot(onto, onto)) * onto
 }
 
 #' @rdname vecjection
 #' @export
 reject <- function(x, from) {
-  from <- ensure_vector3(from)
   x - project(x, from)
 }
 

@@ -1,12 +1,8 @@
 
 #' Arithmetic operations on vectors
 #'
-#' Vector3s can be added, subtracted, and scaled. This can be done with vectors
-#' of type `vector3` or with numeric vectors of reasonable lengths.
-#'
-#' For addition or subtraction, numeric vectors need to be length 3. This vector
-#' is then interpreted as giving the x, y, and z elements, and then is broadcast
-#' across all vector3 entries.
+#' Addition or subtraction requires two `vector3` of equal length or length 1.
+#' In the case one vector is length 1, it is broadcast across the other value.
 #'
 #' For multiplication or division, numeric vectors can be length 1, which is
 #' broadcast across all entries, or can be the same length as the vector3
@@ -17,11 +13,11 @@
 #' @param ... Unused; present for extensibility
 #'
 #' @examples
-#' vector3(x = 1:4, y = 2:5, z = 3:6) + vector3(x = 2, y = 0, z = -1)
-#' vector3(x = 1:4, y = 2:5, z = 3:6) + c(2, 0, -1)
+#' vector3(x = 1:4, y = 2:5, z = 3:6) + vector3(x = 4:7, y = 5:8, z = 6:9)
+#' vector3(x = 1:4, y = 2:5, z = 3:6) - vector3(2, 0, -1)
 #'
 #' vector3(x = 1:4, y = 2:5, z = 3:6) * 4
-#' vector3(x = 1:4, y = 2:5, z = 3:6) * c(3, 1, 4, 1)
+#' vector3(x = 1:4, y = 2:5, z = 3:6) / c(3, 1, 4, 1)
 #' @seealso vector3_math
 #'
 #' @name vector3_arith
@@ -80,24 +76,6 @@ vec_arith.dddr_vector3.dddr_vector3 <- function(op, x, y, ...) { # nolint
 vec_arith.dddr_vector3.numeric <- function(op, x, y, ...) {
   switch(
     op,
-    "+" = ,
-    "-" = {
-      if (length(y) != 3) {
-        vctrs::stop_incompatible_op(
-          op, x, y,
-          details = paste(
-            "To add or subtract a numeric and a vector3,",
-            "the numeric must have length 3.",
-            vector3_help_message
-          )
-        )
-      }
-      new_vector3(
-        x = vctrs::vec_arith_base(op, x$x, y[1]),
-        y = vctrs::vec_arith_base(op, x$y, y[2]),
-        z = vctrs::vec_arith_base(op, x$z, y[3])
-      )
-    },
     "*" = ,
     "/" = {
       if (length(x) != 1 && length(y) != 1 && length(y) != length(x)) {
@@ -139,13 +117,8 @@ vec_arith.dddr_vector3.MISSING <- function(op, x, y, ...) {
 vec_arith.numeric.dddr_vector3 <- function(op, x, y, ...) {
   switch(
     op,
-    # commutative operations can be switched
-    "+" = ,
+    # multiplication is commutative and can be switched
     "*" = vec_arith.dddr_vector3.numeric(op, y, x, ...),
-    # negative forces upgrade
-    "-" = vec_arith.dddr_vector3.dddr_vector3(
-      op, upgrade_to_vector3(x), y, ...
-    ),
     vctrs::stop_incompatible_op(op, x, y, details = vector3_help_message)
   )
 }
@@ -251,8 +224,18 @@ NULL
 #' @rdname vector3_prod
 #' @export
 cross <- function(a, b) {
-  if (!inherits(b, "dddr_vector3")) {
-    b <- upgrade_to_vector3(b)
+  if (!inherits(a, "dddr_vector3") || !inherits(b, "dddr_vector3")) {
+    rlang::abort(
+      message = paste0(
+        "`cross` expects both arguments to be `vector3`. ",
+        "Instead, the arguments were `",
+        paste0(class(a), collapse="/"),
+        "` and `",
+        paste0(class(a), collapse="/"),
+        "`."
+      ),
+      class = "dddr_error_math"
+    )
   }
   new_vector3(
     x = a$y * b$z - a$z * b$y,
@@ -264,8 +247,18 @@ cross <- function(a, b) {
 #' @rdname vector3_prod
 #' @export
 dot <- function(a, b) {
-  if (!inherits(b, "dddr_vector3")) {
-    b <- upgrade_to_vector3(b)
+  if (!inherits(a, "dddr_vector3") || !inherits(b, "dddr_vector3")) {
+    rlang::abort(
+      message = paste0(
+        "`dot` expects both arguments to be `vector3`. ",
+        "Instead, the arguments were `",
+        paste0(class(a), collapse="/"),
+        "` and `",
+        paste0(class(a), collapse="/"),
+        "`."
+      ),
+      class = "dddr_error_math"
+    )
   }
   a$x * b$x + a$y * b$y + a$z * b$z
 }
