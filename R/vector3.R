@@ -53,6 +53,12 @@ NULL
   }
 }
 
+#' @method is.na dddr_vector3
+#' @export
+is.na.dddr_vector3 <- function(x) {
+  is.na(x$x) | is.na(x$y) | is.na(x$z)
+}
+
 #' @export
 format.dddr_vector3 <- function(x, ..., digits = 4) {
   v <- x # don't overwrite the name

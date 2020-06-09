@@ -335,3 +335,18 @@ test_that("Errors occur in bad math types", {
   )
 
 })
+
+test_that("is.na computes correctly", {
+  expect_equal(
+    is.na(vector3(
+      c(3, 4, NA, 5),
+      c(NA, 4, 0, 0),
+      c(NA, 3, 1, 5)
+    )),
+    c(T, F, T, F)
+  )
+})
+
+
+
+
