@@ -103,3 +103,40 @@ rotate.dddr_quat <- function(
   }
   rotator * rotand * Conj(rotator)
 }
+
+#' Euler angles
+#'
+#' Extract euler angles from a quaternion. These follow Unity's conventions of
+#' yaw around Y, pitch around X, and roll around Z. They are applied in order of
+#' roll-pitch-yaw.
+#'
+#' @param q Quaternions to extract angles from
+#'
+#' @return Angle in radians
+#' @name euler_angles
+NULL
+
+
+#' @rdname euler_angles
+#' @export
+yaw <- function(q) {
+  # make z
+  z <- rotate(vector3(0, 0, 1), q)
+  # use x and z in atan2.
+  atan2(z$x, z$z)
+}
+
+#' @rdname euler_angles
+#' @export
+pitch <- function(q) {
+  z <- rotate(vector3(0, 0, 1), q)
+  atan2(-z$y, sqrt(z$z^2 + z$x^2))
+}
+
+#' @rdname euler_angles
+#' @export
+roll <- function(q) {
+  x <- rotate(vector3(1, 0, 0), q)
+  y <- rotate(vector3(0, 1, 0), q)
+  atan2(x$y, y$y)
+}
