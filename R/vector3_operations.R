@@ -173,36 +173,27 @@ vec_math.dddr_vector3 <- function(.fn, .x, ...) {
   )
 }
 
-#' Determine the distance of a vector or between two vectors
+#' Vector properties
 #'
-#' @param to Vector to measure the distance of
-#' @param from Optional. Instead of length being calculated from the origin,
-#'   it is calculated from this point instead.
+#' Vectors have properties such as magnitude and direction. These are easily
+#' accessible through the `magnitude` and `direction` functions.
 #'
-#' @return A numeric vector of distances
+#' @param v vectors
 #'
+#' @name vector3_prop
+NULL
+
+#' @rdname vector3_prop
 #' @export
-distance <- function(to, from = NULL) {
-  if (!is.null(from)) {
-    to <- to - from
-  }
-  sqrt(to$x^2 + to$y^2 + to$z^2)
+magnitude <- function(v) {
+  # TODO: make that type-safety call here.
+  sqrt(v$x^2 + v$y^2 + v$z^2)
 }
 
-#' Normalize vector length
-#'
-#' `normalize` scales vectors so that direction is preserved but length can be
-#' varied. The primary usage is to convert a vector to unit length, i.e, a
-#' length of 1. This function accepts a second argument, `length`, to set a
-#' certain value for the magnitude of the vector.
-#'
-#' @param v The vectors to normalize
-#' @param length (Optional) Normalized vectors will have this length. Both
-#'   length-1 and length-N numerics are accepted here.
-#'
+#' @rdname vector3_prop
 #' @export
-normalize <- function(v, length = 1) {
-  length * v / distance(v)
+direction <- function(v) {
+  v / magnitude(v)
 }
 
 #' Vector (cross) and scalar (dot) products

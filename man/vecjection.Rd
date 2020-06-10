@@ -17,5 +17,7 @@ reject(x, from)
 }
 \description{
 Oftentimes it is useful to constrain a vector to lie on a line or a plane.
-Vector projection and rejection is able to do these operations
+Vector projection and rejection is able to do these operations. Projection
+reduces all vectors to lie on the line of the vector given, and rejection
+reduces all vectors to lie on the place normal the the specified vector.
 }

@@ -136,25 +136,25 @@ test_that(
   }
 )
 
-test_that("Vector3 distances are correctly computed", {
+test_that("Vector3 magnitudes are correctly computed", {
   distances <- vector3(
     x = c(-.5, .5, sqrt(2) / 2, 3),
     y = c(-.5, -sqrt(2) / 2, .5, 4),
     z = c(sqrt(2) / 2, .5, -.5, 0)
   )
 
-  expect_equal(distance(distances), c(1, 1, 1, 5))
+  expect_equal(magnitude(distances), c(1, 1, 1, 5))
 })
 
-test_that("Vector3 distances are correctly computed from an offset", {
-  distances <- vector3(
+test_that("Vector3 distances are correctly computed", {
+  froms <- vector3(
     x = c(1, -4, 4, 3),
     y = c(0, -3, 5, 4),
     z = c(-2, 5, -7, 0)
   )
 
   expect_equal(
-    distance(distances, from = vector3(0, 2, -3)),
+    distance_between(froms, to = vector3(0, 2, -3)),
     c(sqrt(6), sqrt(105), sqrt(41), sqrt(22))
   )
 })
@@ -165,16 +165,14 @@ test_that("Vector3 can be normalized", {
     y = c(0, 0, 5, 4),
     z = c(-1, 5, -7, 0)
   )
-  unit <- normalize(normable)
-  normalized_distance <- normalize(normable) %>% distance()
-  normalized_distance_of_5 <- normalize(normable, length = 5) %>% distance()
+  unit <- direction(normable)
+  normalized_distance <- direction(normable) %>% magnitude()
 
   expect_equal(head(unit$x, 2), c(sqrt(2) / 2, 0))
   expect_equal(head(unit$y, 2), c(0, 0))
   expect_equal(head(unit$z, 2), c(-sqrt(2) / 2, 1))
 
   expect_equal(normalized_distance, c(1, 1, 1, 1))
-  expect_equal(normalized_distance_of_5, c(5, 5, 5, 5))
 })
 
 test_that("Vector3 can have a unary negative", {
@@ -217,7 +215,7 @@ test_that("Vector3 dot product behaves correctly.", {
   # slightly more complex
   expect_equal(dot(foo, vector3(-1, 2, 0)), c(7, -4, 1, -3))
   # dot product with self is squared length
-  expect_equal(dot(foo, foo), distance(foo)^2)
+  expect_equal(dot(foo, foo), magnitude(foo)^2)
 
   # but fails when dotting with length-3 numerics
   expect_error(dot(foo, c(1, 0, 0)), class = "dddr_error_math")
