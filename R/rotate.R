@@ -28,7 +28,7 @@ make_rotator <- function(axis, angle, from, to) {
     # if not, we need to project it.
   }
 
-  axis <- normalize(axis)
+  axis <- direction(axis)
 
   quat(
     w = cos(angle / 2),
