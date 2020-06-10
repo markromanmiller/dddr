@@ -76,6 +76,13 @@ test_that("Quats can be multiplied by quats", {
   expect_equal(multiplied$bar, bar_expected)
 })
 
+test_that("Quats can be multiplied if either of their lengths is 1", {
+  foo <- simple_quat_tbl$foo
+
+  expect_equal(foo * quat(1, 0, 0, 0), foo)
+  expect_equal(quat(1, 0, 0, 0) * foo, foo)
+})
+
 test_that("quat formatting", {
   expect_known_output(
     pillar::pillar_shaft(simple_quat_tbl$foo) %>%

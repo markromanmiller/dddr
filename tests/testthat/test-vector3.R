@@ -28,6 +28,32 @@ test_that("Vector3 entries can be added", {
   expect_equal(doubled$z, doubled_pz)
 })
 
+test_that("Vector3 entries can be added if either is length 1", {
+  a <- vector3(1, 2, 3)
+  b <- vector3(1:4, 2:5, 3:6)
+  s <- vector3(2:5, 4:7, 6:9)
+
+  expect_equal(a + b, s)
+  expect_equal(b + a, s)
+})
+
+test_that("Vector3 entries can be subtracted if either is length 1", {
+  a <- vector3(1, 2, 3)
+  b <- vector3(1:4, 2:5, 3:6)
+  s <- vector3(0:3, 0:3, 0:3)
+
+  expect_equal(b - a, s)
+  expect_equal(a - b, -s)
+})
+
+test_that("Vector3 entries can't be added if the length does not match", {
+  a <- vector3(1:2, 2:3, 3:4)
+  b <- vector3(1:4, 2:5, 3:6)
+
+  expect_error(a + b, class="vctrs_error_incompatible_size")
+  expect_error(b + a, class="vctrs_error_incompatible_size")
+})
+
 test_that(
   "Vector3 entries can't be added to numeric vectors", {
     error_class <- "vctrs_error_incompatible_op"
@@ -68,6 +94,26 @@ test_that(
     expect_equal(baz$x, c(3, 0, 0, 3 * sqrt_1_3))
     expect_equal(baz$y, c(0, 3, 0, 3 * sqrt_1_3))
     expect_equal(baz$z, c(0, 0, 3, 3 * sqrt_1_3))
+  }
+)
+
+test_that(
+  paste(
+    "Vector3 can be multiplied both left and right by numeric vector",
+    "when vector3 is length 1"
+  ), {
+
+    foo <- vector3(1, -2, 3)
+    bar <- foo * seq(1, 7, by = 2)
+    baz <- c(1, 2, 3, 4) * foo
+
+    expect_equal(bar$x, c(1, 3, 5, 7))
+    expect_equal(bar$y, c(-2, -6, -10, -14))
+    expect_equal(bar$z, c(3, 9, 15, 21))
+
+    expect_equal(baz$x, c(1, 2, 3, 4))
+    expect_equal(baz$y, c(-2, -4, -6, -8))
+    expect_equal(baz$z, c(3, 6, 9, 12))
   }
 )
 
