@@ -95,6 +95,7 @@ format_and_align_right <- function(x, width) {
   paste0(strrep(" ", spaces), x)
 }
 
+#' @method format dddr_vector3_pillar
 #' @export
 format.dddr_vector3_pillar <- function(x, width, ...) {
   # if width is maximum, everyone gets the width they request.
