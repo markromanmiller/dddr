@@ -1,7 +1,7 @@
 Package: dddr
 Type: Package
 Title: Three-Dimensional Spatial Operations in R
-Version: 0.1.0.9000
+Version: 0.1.1
 Authors@R: as.person(c(
     "Mark Roman Miller <mrmillr@stanford.edu> [aut, cre]"
   ))
