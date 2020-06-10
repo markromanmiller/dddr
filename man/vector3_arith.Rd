@@ -30,25 +30,20 @@
 \item{...}{Unused; present for extensibility}
 }
 \description{
-Vector3s can be added, subtracted, and scaled. This can be done with vectors
-of type `vector3` or with numeric vectors of reasonable lengths.
+Addition or subtraction requires two `vector3` of equal length or length 1.
+In the case one vector is length 1, it is broadcast across the other value.
 }
 \details{
-For addition or subtraction, numeric vectors need to be length 3. This vector
-is then interpreted as giving the x, y, and z elements, and then is broadcast
-across all vector3 entries.
-
 For multiplication or division, numeric vectors can be length 1, which is
 broadcast across all entries, or can be the same length as the vector3
 vector, where each element is scaled individually.
 }
 \examples{
-vector3(x=1:4, y=2:5, z=3:6) + vector3(x=2, y=0, z=-1)
-vector3(x=1:4, y=2:5, z=3:6) + c(2, 0, -1)
+vector3(x = 1:4, y = 2:5, z = 3:6) + vector3(x = 4:7, y = 5:8, z = 6:9)
+vector3(x = 1:4, y = 2:5, z = 3:6) - vector3(2, 0, -1)
 
-vector3(x=1:4, y=2:5, z=3:6) * 4
-vector3(x=1:4, y=2:5, z=3:6) * c(3, 1, 4, 1)
-
+vector3(x = 1:4, y = 2:5, z = 3:6) * 4
+vector3(x = 1:4, y = 2:5, z = 3:6) / c(3, 1, 4, 1)
 }
 \seealso{
 vector3_math

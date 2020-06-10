@@ -47,7 +47,7 @@ ggplot(spiral, aes(x=spiral_part$x, y=spiral_part$y)) +
 
 ```{R}
 spiral %>%
-  mutate(addition_example = spiral_part + c(1, 1, 0)) %>%
+  mutate(addition_example = spiral_part + vector3(1, 1, 0)) %>%
   ggplot() +
   geom_point(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
   geom_path(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
@@ -73,7 +73,7 @@ Vectors can be rotated using the `rotate` function in many different ways. One a
 
 ```{R}
 spiral %>%
-  mutate(axis_angle_rotation = rotate(spiral_part, axis=c(0, 1, 0), angle=pi/4)) %>%
+  mutate(axis_angle_rotation = rotate(spiral_part, axis=vector3(0, 1, 0), angle=pi/4)) %>%
   ggplot() +
   geom_point(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
   geom_path(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
@@ -86,7 +86,7 @@ Another approach uses from/to specific vectors.
 
 ```{R}
 spiral %>%
-  mutate(from_to_rotation = rotate(spiral_part, from=c(0, 0, 1), to=c(-1, -1, -1))) %>%
+  mutate(from_to_rotation = rotate(spiral_part, from=vector3(0, 0, 1), to=vector3(-1, -1, -1))) %>%
   ggplot() +
   geom_point(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
   geom_path(aes(x=spiral_part$x, y=spiral_part$y), color="black") +
@@ -101,7 +101,7 @@ There are a handful of other useful functions, including `angle_between`, and ve
 
 ```{R}
 spiral %>%
-  mutate(angle = angle_between(spiral_part, c(0, 0, 0), origin=c(0, -2, 0))) %>%
+  mutate(angle = angle_between(spiral_part, vector3(0, 0, 0), origin=vector3(0, -2, 0))) %>%
   ggplot() +
   geom_point(aes(x=i, y=angle)) +
   geom_line(aes(x=i, y=angle))

@@ -9,17 +9,29 @@
 #'
 #' @return Angle between `a` and `b` in terms of radians
 #' @export
-angle_between <- function(a, b, origin=c(0, 0, 0)) {
+angle_between <- function(a, b, origin = vector3(0, 0, 0)) {
   # angle between is dot divided by length.
-  a <- ensure_vector3(a - origin)
-  b <- ensure_vector3(b - origin)
-  acos(dot(a, b) / (distance(a) * distance(b)))
+  a <- a - origin
+  b <- b - origin
+  acos(dot(a, b) / (magnitude(a) * magnitude(b)))
+}
+
+#' Cacluate distance between vectors
+#'
+#' Measure the distance between two points `from` and `to`
+#'
+#' @param from,to Endpoints of the distance to be calculated
+#' @export
+distance_between <- function(from, to) {
+  magnitude(from - to)
 }
 
 #' Vector projection and rejection
 #'
 #' Oftentimes it is useful to constrain a vector to lie on a line or a plane.
-#' Vector projection and rejection is able to do these operations
+#' Vector projection and rejection is able to do these operations. Projection
+#' reduces all vectors to lie on the line of the vector given, and rejection
+#' reduces all vectors to lie on the place normal the the specified vector.
 #'
 #' @param x Vectors to project or reject
 #' @param onto,from The vector to project onto or reject from
@@ -28,9 +40,9 @@ NULL
 
 #' @rdname vecjection
 #' @export
-project <- function(x, onto){
-  # random thought: if speed is an issue, it may make sense to add classes to the vector3s
-  # saying if they've already been normalized, etc.
+project <- function(x, onto) {
+  # random thought: if speed is an issue, it may make sense to add classes to
+  # the vector3s saying if they've already been normalized, etc.
   (dot(x, onto) / dot(onto, onto)) * onto
 }
 
@@ -53,7 +65,11 @@ reject <- function(x, from) {
 #' @param initial Starting point for the ray
 #' @param direction Direction from which to cast the ray
 #' @param target_normal,target_point Define the plane that will catch the rays
-#' @param include_backwards Whether to include rays that travel backwards from `initial` along `direction` to the target plane.
-extend <- function(initial, direction, target_normal, target_point=c(0,0,0), include_backwards=F) {
+#' @param include_backwards Whether to include rays that travel backwards from
+#'   `initial` along `direction` to the target plane.
+extend <- function(
+  initial, direction, target_normal,
+  target_point = c(0, 0, 0), include_backwards = F
+) {
   stop("Not Implemented Yet")
 }

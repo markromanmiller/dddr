@@ -6,7 +6,7 @@
 \alias{dddr-package}
 \title{dddr: Three-Dimensional Spatial Operations in R}
 \description{
-A `vctrs`-based package for working with three-diensional 
+A `vctrs`-based package for working with three-diensional
 spatial data. It gives three-dimensional objects like
 points, velocities, and rotations first-class vector status
 in R, enabling usage as column types within `data.frame` and `tibble`.

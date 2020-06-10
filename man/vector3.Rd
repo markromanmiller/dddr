@@ -7,8 +7,10 @@
 vector3(x, y, z)
 }
 \arguments{
-\item{x, y, z}{Numeric vectors representing the the vector's coordinates in the specified dimension.}
+\item{x, y, z}{Numeric vectors representing the the vector's coordinates in the
+specified dimension.}
 }
 \description{
-Creates a three-dimensional vector given three vectors representing Cartesian coordinates.
+Creates a three-dimensional vector given three vectors representing Cartesian
+coordinates.
 }
