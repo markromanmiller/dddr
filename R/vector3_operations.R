@@ -229,9 +229,9 @@ cross <- function(a, b) {
       message = paste0(
         "`cross` expects both arguments to inherit from `dddr_vector3`. ",
         "Instead, the arguments were `",
-        paste0(class(a), collapse="/"),
+        paste0(class(a), collapse = "/"),
         "` and `",
-        paste0(class(b), collapse="/"),
+        paste0(class(b), collapse = "/"),
         "`."
       ),
       class = "dddr_error_math"
@@ -252,9 +252,9 @@ dot <- function(a, b) {
       message = paste0(
         "`dot` expects both arguments to inherit from `dddr_vector3`. ",
         "Instead, the arguments were `",
-        paste0(class(a), collapse="/"),
+        paste0(class(a), collapse = "/"),
         "` and `",
-        paste0(class(b), collapse="/"),
+        paste0(class(b), collapse = "/"),
         "`."
       ),
       class = "dddr_error_math"

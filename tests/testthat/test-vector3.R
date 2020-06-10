@@ -50,8 +50,8 @@ test_that("Vector3 entries can't be added if the length does not match", {
   a <- vector3(1:2, 2:3, 3:4)
   b <- vector3(1:4, 2:5, 3:6)
 
-  expect_error(a + b, class="vctrs_error_incompatible_size")
-  expect_error(b + a, class="vctrs_error_incompatible_size")
+  expect_error(a + b, class = "vctrs_error_incompatible_size")
+  expect_error(b + a, class = "vctrs_error_incompatible_size")
 })
 
 test_that(
@@ -231,7 +231,7 @@ test_that("Vector3 dot product behaves correctly.", {
   expect_equal(dot(foo, foo), distance(foo)^2)
 
   # but fails when dotting with length-3 numerics
-  expect_error(dot(foo, c(1, 0, 0)), class="dddr_error_math")
+  expect_error(dot(foo, c(1, 0, 0)), class = "dddr_error_math")
 })
 
 test_that("Vector3 cross product behaves correctly.", {
@@ -261,7 +261,7 @@ test_that("Vector3 cross product behaves correctly.", {
   expect_equal(cross(foo, vector3(1, 0, 0)), crossed_with_x)
 
   # but fails when crossed with length-3 numerics
-  expect_error(cross(foo, c(1, 0, 0)), class="dddr_error_math")
+  expect_error(cross(foo, c(1, 0, 0)), class = "dddr_error_math")
 
   # dot between result and either input is 0
   dot_test_vec <- vector3(-2.5, 4, 1)
@@ -392,7 +392,3 @@ test_that("is.na computes correctly", {
     c(T, F, T, F)
   )
 })
-
-
-
-

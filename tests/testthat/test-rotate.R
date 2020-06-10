@@ -107,7 +107,11 @@ test_that("rotations can be specified by from-to", {
 
 test_that("rotations can be specified by axis and from-to", {
   expect_equal(
-    rotate(foo, axis = vector3(0, 0, 2), from = vector3(1, 0, 2), to = vector3(0, 1, -5)),
+    rotate(foo,
+           axis = vector3(0, 0, 2),
+           from = vector3(1, 0, 2),
+           to = vector3(0, 1, -5)
+    ),
     vector3(
       x = -foo$y,
       y = foo$x,

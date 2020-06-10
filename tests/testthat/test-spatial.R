@@ -10,11 +10,19 @@ test_that("angle_between calculates simple angles", {
 
 test_that("angle_between calculates simple angles around origin", {
   expect_equal(
-    angle_between(vector3(1, 0, 0), vector3(0, 1, 0), origin = vector3(1, 1, 0)),
+    angle_between(
+      vector3(1, 0, 0),
+      vector3(0, 1, 0),
+      origin = vector3(1, 1, 0)
+    ),
     pi / 2
   )
   expect_equal(
-    angle_between(vector3(1, 0, 0), vector3(0, 0, 0), origin = vector3(0, -1, 0)),
+    angle_between(
+      vector3(1, 0, 0),
+      vector3(0, 0, 0),
+      origin = vector3(0, -1, 0)
+    ),
     pi / 4
   )
 })
