@@ -206,17 +206,6 @@ test_that("Vector3 can have sums, cumsums, and means", {
   expect_equal(mean_foo, vector3(5 / 4, 3 / 4, 8 / 4))
 })
 
-test_that("dplyr plays nicely with dddr", {
-  dplyr_test <- dplyr::mutate(
-    data.frame(foo = foo),
-    bar = foo + vector3(0, 1, 0)
-  )
-
-  expect_equal(dplyr_test$foo$x, foo_px)
-  expect_equal(dplyr_test$foo$y, foo_py)
-  expect_equal(dplyr_test$foo$z, foo_pz)
-})
-
 test_that("Vector3 dot product behaves correctly.", {
   foo <- vector3(
     x = c(1, 0, -1, 5),
