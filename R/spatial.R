@@ -13,13 +13,25 @@ angle_between <- function(a, b, origin = vector3(0, 0, 0)) {
   # angle between is dot divided by length.
   a <- a - origin
   b <- b - origin
-  acos(dot(a, b) / (distance(a) * distance(b)))
+  acos(dot(a, b) / (magnitude(a) * magnitude(b)))
+}
+
+#' Cacluate distance between vectors
+#'
+#' Measure the distance between two points `from` and `to`
+#'
+#' @param from,to Endpoints of the distance to be calculated
+#' @export
+distance_between <- function(from, to) {
+  magnitude(from - to)
 }
 
 #' Vector projection and rejection
 #'
 #' Oftentimes it is useful to constrain a vector to lie on a line or a plane.
-#' Vector projection and rejection is able to do these operations
+#' Vector projection and rejection is able to do these operations. Projection
+#' reduces all vectors to lie on the line of the vector given, and rejection
+#' reduces all vectors to lie on the place normal the the specified vector.
 #'
 #' @param x Vectors to project or reject
 #' @param onto,from The vector to project onto or reject from
