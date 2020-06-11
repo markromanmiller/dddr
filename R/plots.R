@@ -6,8 +6,8 @@
 scale_type.dddr_vector3 <- function(x) "identity"
 
 #' @export
-StatPoint3 <- ggplot2::ggproto(
-  "StatPoint3", ggplot2::Stat,
+StatVector3 <- ggplot2::ggproto(
+  "StatVector3", ggplot2::Stat,
   compute_layer = function(data, params, layout) {
     data$x <- extract_horizontal_dimension(data$vector3)
     data$y <- extract_vertical_dimension(data$vector3)
@@ -18,11 +18,11 @@ StatPoint3 <- ggplot2::ggproto(
 )
 
 #' @export
-stat_point3 <- function(mapping = NULL, data = NULL, geom = "point",
+stat_vector3 <- function(mapping = NULL, data = NULL, geom = "point",
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
   ggplot2::layer(
-    stat = StatPoint3, data = data, mapping = mapping, geom = geom,
+    stat = StatVector3, data = data, mapping = mapping, geom = geom,
     position = position, show.legend = show.legend, inherit.aes = inherit.aes,
     params = list(na.rm = na.rm, ...)
   )

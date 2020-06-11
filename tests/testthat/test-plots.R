@@ -14,7 +14,7 @@ test_that("Simple example doppleganger works.", {
 
   points_front <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(vector3=spiral_part)) +
-    stat_point3(geom="point") +
+    stat_vector3(geom="point") +
     coord_look_at_front()
 
   vdiffr::expect_doppelganger(
