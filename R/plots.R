@@ -1,4 +1,7 @@
-# Spatial Plotting
+#' Spatial Plotting (Coordinates)
+#'
+#' @name dddr_coords
+NULL
 
 #' @importFrom ggplot2 scale_type
 #' @method scale_type dddr_vector3
@@ -42,24 +45,52 @@ tag_views_in_df <- function(df, view) {
 #' @export
 CoordLookAtFront <- ggplot2::ggproto(
   "CoordLookAtFront", ggplot2::CoordFixed,
-  setup_data = function(data, params) {
+  setup_data = function(self, data, params) {
     # tag the vectors with the kind of view you should expect to give.
     # data is list of dfs.
-    data <- lapply(data, tag_views_in_df, view = "AtFront")
+    data <- lapply(data, tag_views_in_df, view = self$view)
 
     ggplot2::CoordFixed$setup_data(data, params)
   }
 )
 
+#' @rdname dddr_coords
 #' @export
-coord_look_at_front <- function(
+coord_look_at <- function(
+  direction,
   xlim = NULL, ylim = NULL,
   expand = TRUE, clip = "on"
 ) {
+  # TODO: ensure that direction is one of the reasonable ones.
   ggplot2::ggproto(NULL, CoordLookAtFront,
           limits = list(x = xlim, y = ylim),
           ratio = 1,
           expand = expand,
-          clip = clip
+          clip = clip,
+          view = paste("at", direction)
   )
 }
+
+#' @rdname dddr_coords
+#' @export
+coord_look_at_front <- function(...) {coord_look_at("front", ...)}
+
+#' @rdname dddr_coords
+#' @export
+coord_look_at_back <- function(...) {coord_look_at("back", ...)}
+
+#' @rdname dddr_coords
+#' @export
+coord_look_at_top <- function(...) {coord_look_at("top", ...)}
+
+#' @rdname dddr_coords
+#' @export
+coord_look_at_bottom <- function(...) {coord_look_at("bottom", ...)}
+
+#' @rdname dddr_coords
+#' @export
+coord_look_at_left <- function(...) {coord_look_at("left", ...)}
+
+#' @rdname dddr_coords
+#' @export
+coord_look_at_right <- function(...) {coord_look_at("right", ...)}
