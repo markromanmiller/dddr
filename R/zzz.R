@@ -2,7 +2,7 @@
   # This function is not automatically tested with covr
   op <- options()
   op.dddr <- list(
-    dddr.convention = "none"
+    dddr.convention = NULL
   )
   toset <- !(names(op.dddr) %in% names(op))
   if (any(toset)) options(op.dddr[toset])
