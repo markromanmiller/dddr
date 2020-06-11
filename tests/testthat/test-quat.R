@@ -1,5 +1,7 @@
 context("quat basics")
 
+known_output_dir <- "out/test-quat/"
+
 s <- sqrt(1 / 2)
 
 foo_qw <- c(1, s, s, s, 0, 0, 0)
@@ -88,7 +90,7 @@ test_that("quat formatting", {
     pillar::pillar_shaft(simple_quat_tbl$foo) %>%
       format(width = 34) %>%
       print(),
-    file = "pillar_shaft_quat_print_test_34.out"
+    file = paste0(known_output_dir, "pillar_shaft_quat_print_test_34.out")
   )
 })
 

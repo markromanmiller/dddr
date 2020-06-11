@@ -1,5 +1,7 @@
 context("vector3 basics")
 
+known_output_dir <- "out/test-vector3/"
+
 sqrt_1_3 <- sqrt(1 / 3)
 
 foo_px <- c(1, 0, 0, sqrt_1_3)
@@ -278,7 +280,7 @@ test_that("format and print work sensibly", {
 
   expect_known_output(
     print(print_test),
-    file = "print_vector3_print_test.out"
+    file = paste0(known_output_dir, "print_vector3_print_test.out")
   )
 
   expect_error(
@@ -288,23 +290,23 @@ test_that("format and print work sensibly", {
 
   expect_known_output(
     pillar::pillar_shaft(print_test) %>% format(width = 27) %>% print(),
-    file = "pillar_shaft_vector3_print_test_27.out"
+    file = paste0(known_output_dir, "pillar_shaft_vector3_print_test_27.out")
   )
   expect_known_output(
     pillar::pillar_shaft(print_test) %>% format(width = 28) %>% print(),
-    file = "pillar_shaft_vector3_print_test_28.out"
+    file = paste0(known_output_dir, "pillar_shaft_vector3_print_test_28.out")
   )
   expect_known_output(
     pillar::pillar_shaft(print_test) %>% format(width = 29) %>% print(),
-    file = "pillar_shaft_vector3_print_test_29.out"
+    file = paste0(known_output_dir, "pillar_shaft_vector3_print_test_29.out")
   )
   expect_known_output(
     pillar::pillar_shaft(print_test) %>% format(width = 30) %>% print(),
-    file = "pillar_shaft_vector3_print_test_30.out"
+    file = paste0(known_output_dir, "pillar_shaft_vector3_print_test_30.out")
   )
   expect_known_output(
     pillar::pillar_shaft(print_test) %>% format(width = 35) %>% print(),
-    file = "pillar_shaft_vector3_print_test_35.out"
+    file = paste0(known_output_dir, "pillar_shaft_vector3_print_test_35.out")
   )
 })
 
