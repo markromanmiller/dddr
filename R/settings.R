@@ -53,9 +53,10 @@ semantic_cross_table <- read.csv(strip.white = T, text = "
 #' community, such as `semantics_unity`.
 #'
 #' @param x,y,z String values giving semantic meaning for each positive
-#'   direction, relative to the origin. Acceptable values include `up`, `down`, `left`, `right`,
-#'   `forward`, and `backward`.
-#' @param hand `left` or `right` specifying the handedness of the coordinate system.
+#'   direction, relative to the origin. Acceptable values include `up`, `down`,
+#'   `left`, `right`, `forward`, and `backward`.
+#' @param hand `left` or `right` specifying the handedness of the coordinate
+#'   system.
 #'
 #' @export
 semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {

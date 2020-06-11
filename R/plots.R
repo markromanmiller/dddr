@@ -13,8 +13,6 @@ scale_type.dddr_vector3 <- function(x) "identity"
 StatPoint3 <- ggplot2::ggproto(
   "StatPoint3", ggplot2::Stat,
   compute_layer = function(data, params, layout) {
-    #print("stat compute_layer")
-    #print(attributes(data$vector3))
     data$x <- extract_horizontal_dimension(data$vector3)
     data$y <- extract_vertical_dimension(data$vector3)
 
@@ -44,19 +42,24 @@ tag_views_in_df <- function(df, view) {
 }
 
 
-# what if we include a little change to Vector3 such that x ad y are only pulled sensibly
+# what if we include a little change to Vector3 such that x ad y are only pulled
+# sensibly
 CoordLookAtFront <- ggplot2::ggproto(
   "CoordLookAtFront", ggplot2::CoordFixed,
   setup_data = function(data, params) {
     # tag the vectors with the kind of view you should expect to give.
-    data <- lapply(data, tag_views_in_df, view="AtFront") # data is list of dfs.
+    # data is list of dfs.
+    data <- lapply(data, tag_views_in_df, view = "AtFront")
 
     CoordFixed$setup_data(data, params)
   }
 )
 
 
-coord_look_at_front <- function(xlim = NULL, ylim = NULL, expand = TRUE, clip = "on") {
+coord_look_at_front <- function(
+  xlim = NULL, ylim = NULL,
+  expand = TRUE, clip = "on"
+) {
   ggplot2::ggproto(NULL, CoordLookAtFront,
           limits = list(x = xlim, y = ylim),
           ratio = 1,
