@@ -183,6 +183,9 @@ extract_dimension <- function(v, direction) {
   cartesian_direction <- get_semantics()[[direction]]
   sign <- substr(cartesian_direction, 1, 1)
   axis <- substr(cartesian_direction, 2, 2)
+  if (sign == "-") {
+    #rlang::abort("Not Implemented Yet")
+  }
   `$.dddr_vector3`(v, axis)
 }
 
@@ -192,8 +195,8 @@ extract_horizontal_dimension <- function(v) {
   # Up is on the top, as usual.
   # I need another function to call the right extract functions.
   dimension <- switch(attr(v, "view"),
-    "at front" = "right",
-    "at back" = "left",
+    "at front" = "left", # positive X is to the left of the object.
+    "at back" = "right",
     "at top" = "left",
     "at bottom" = "left",
     #"at left", "" conventions...
