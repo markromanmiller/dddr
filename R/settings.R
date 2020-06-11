@@ -60,8 +60,15 @@ semantic_cross_table <- read.csv(strip.white = T, text = "
 #'
 #' @export
 semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
+
   # test that at least three are present.
   missing_values <- is.null(x) + is.null(y) + is.null(z) + is.null(hand)
+  if (missing_values > 1) {
+    rlang::abort(
+      "At least three arguments should be specified.",
+      class = "dddr_semantics"
+    )
+  }
 
   # test that xyz are all semantic directions, and that hand is left or right.
   if (!all(c(x, y, z) %in% semantic_directions)) {
@@ -73,7 +80,6 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
       class = "dddr_semantics"
     )
   }
-
   if (!is.null(hand) && !(hand %in% c("left", "right"))) {
     rlang::abort(
       "`hand`` must be either `left`` or `right`",
@@ -81,13 +87,7 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
     )
   }
 
-  if (missing_values > 1) {
-    rlang::abort(
-      "At least three arguments should be specified.",
-      class = "dddr_semantics"
-    )
-  }
-
+  # find the missing setting based on the other three values
   sct <- semantic_cross_table
 
   if (is.null(x)) {
@@ -116,13 +116,16 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
     }
   }
 
-  if (length(c(x, y, z, hand)) < 4) { # i.e, one of those didn't get a match
+  # if one of these is character(0), then it wasn't able to be created,
+  # which means there wasn't a valid axes system matching the given criteria.
+  if (length(c(x, y, z, hand)) < 4) {
     rlang::abort(
       "Values x, y, and z do not define a valid axes system.",
       class = "dddr_semantics"
     )
   }
 
+  # if all were specified, do a final check that they were consistent.
   if (missing_values == 0) {
     # do a check.
     if (!any(sct[["first"]] == x &
@@ -136,6 +139,7 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
     }
   }
 
+  # create the output list!
   result <- list("+x", "+y", "+z", "-x", "-y", "-z")
   names(result) <- c(x, y, z, opposite_direction[c(x, y, z)])
   result$hand <- hand
