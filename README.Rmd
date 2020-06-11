@@ -40,10 +40,10 @@ spiral %>% head(10)
 ```{R}
 spiral %>%
   # field access uses the $ operator
-  ggplot(aes(x=spiral_part$x, y=spiral_part$y)) +
-  geom_point() +
-  geom_path() +
-  coord_equal()
+  ggplot(aes(vector3=spiral_part)) +
+  stat_point3(geom="point") +
+  #geom_path3() +
+  coord_look_at_front()
 ```
 
 ```{R}

@@ -10,6 +10,7 @@ NULL
 #' @export
 scale_type.dddr_vector3 <- function(x) "identity"
 
+#' @export
 StatPoint3 <- ggplot2::ggproto(
   "StatPoint3", ggplot2::Stat,
   compute_layer = function(data, params, layout) {
@@ -21,6 +22,7 @@ StatPoint3 <- ggplot2::ggproto(
    required_aes = c("vector3")
 )
 
+#' @export
 stat_point3 <- function(mapping = NULL, data = NULL, geom = "point",
                         position = "identity", na.rm = FALSE, show.legend = NA,
                         inherit.aes = TRUE, ...) {
@@ -42,8 +44,7 @@ tag_views_in_df <- function(df, view) {
 }
 
 
-# what if we include a little change to Vector3 such that x ad y are only pulled
-# sensibly
+#' @export
 CoordLookAtFront <- ggplot2::ggproto(
   "CoordLookAtFront", ggplot2::CoordFixed,
   setup_data = function(data, params) {
@@ -55,7 +56,7 @@ CoordLookAtFront <- ggplot2::ggproto(
   }
 )
 
-
+#' @export
 coord_look_at_front <- function(
   xlim = NULL, ylim = NULL,
   expand = TRUE, clip = "on"

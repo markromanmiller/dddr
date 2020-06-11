@@ -8,10 +8,11 @@ semantics_axes(x = NULL, y = NULL, z = NULL, hand = NULL)
 }
 \arguments{
 \item{x, y, z}{String values giving semantic meaning for each positive
-direction, relative to the origin. Acceptable values include `up`, `down`, `left`, `right`,
-`forward`, and `backward`.}
+direction, relative to the origin. Acceptable values include `up`, `down`,
+`left`, `right`, `forward`, and `backward`.}
 
-\item{hand}{`left` or `right` specifying the handedness of the coordinate system.}
+\item{hand}{`left` or `right` specifying the handedness of the coordinate
+system.}
 }
 \description{
 Axis and angle semantics are created using `semantics_axes` and
