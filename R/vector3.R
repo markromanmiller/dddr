@@ -179,7 +179,7 @@ pillar_shaft.dddr_vector3 <- function(v) {
   out
 }
 
-#' @internal
+#' @keywords internal
 extract_horizontal_dimension <- function(v) {
   switch (attr(v, "view"),
     "AtFront" = v$y,
@@ -187,7 +187,7 @@ extract_horizontal_dimension <- function(v) {
   )
 }
 
-#' @internal
+#' @keywords internal
 extract_vertical_dimension <- function(v) {
   switch (attr(v, "view"),
     "AtFront" = v$z,

@@ -1,23 +1,12 @@
-# look_at_left vs. looking_left (())
-
-# xy_plane xz_plane, etc. (follow handedness)
-
-# show the axes in the plot - > use "annotation_custom" with a custom grob
-
-
-# have some custom code here that defines a nice easy plot.
-
-# have it here? idk.
-
 #' Spatial Plotting
 #'
-#'
-#' TODO: discur
+#' TODO:
 #'
 #' @importFrom ggplot2 ggproto
-#'
 NULL
 
+#' @importFrom ggplot2 scale_type
+#' @method scale_type dddr_vector3
 #' @export
 scale_type.dddr_vector3 <- function(x) "identity"
 
