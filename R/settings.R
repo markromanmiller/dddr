@@ -65,14 +65,27 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
 
   # test that xyz are all semantic directions, and that hand is left or right.
   if (!all(c(x, y, z) %in% semantic_directions)) {
-    rlang::abort(paste(
-      "x, y, and z must be specified as one of:",
-      paste0(semantic_directions, collapse = ", ")
-    ))
+    rlang::abort(
+      paste(
+        "x, y, and z must be specified as one of:",
+        paste0(semantic_directions, collapse = ", ")
+      ),
+      class = "dddr_semantics"
+    )
+  }
+
+  if (!is.null(hand) && !(hand %in% c("left", "right"))) {
+    rlang::abort(
+      "`hand`` must be either `left`` or `right`",
+      class = "dddr_semantics"
+    )
   }
 
   if (missing_values > 1) {
-    rlang::abort("At least three arguments should be specified.")
+    rlang::abort(
+      "At least three arguments should be specified.",
+      class = "dddr_semantics"
+    )
   }
 
   sct <- semantic_cross_table
@@ -104,7 +117,10 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
   }
 
   if (length(c(x, y, z, hand)) < 4) { # i.e, one of those didn't get a match
-    rlang::abort("Values x, y, and z do not define a valid axes system.")
+    rlang::abort(
+      "Values x, y, and z do not define a valid axes system.",
+      class = "dddr_semantics"
+    )
   }
 
   if (missing_values == 0) {
@@ -114,7 +130,8 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
             sct[[paste0(hand, "hand")]] == z)
         ) {
       rlang::abort(
-        "Values x, y, z, and handedness do not define a valid axes system."
+        "Values x, y, z, and handedness do not define a valid axes system.",
+        class = "dddr_semantics"
       )
     }
   }
