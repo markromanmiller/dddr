@@ -1,9 +1,4 @@
-#' Spatial Plotting
-#'
-#' TODO:
-#'
-#' @importFrom ggplot2 ggproto
-NULL
+# Spatial Plotting
 
 #' @importFrom ggplot2 scale_type
 #' @method scale_type dddr_vector3
@@ -17,7 +12,7 @@ StatPoint3 <- ggplot2::ggproto(
     data$x <- extract_horizontal_dimension(data$vector3)
     data$y <- extract_vertical_dimension(data$vector3)
 
-    StatIdentity$compute_layer(data, params, layout)
+    ggplot2::StatIdentity$compute_layer(data, params, layout)
    },
    required_aes = c("vector3")
 )
@@ -52,7 +47,7 @@ CoordLookAtFront <- ggplot2::ggproto(
     # data is list of dfs.
     data <- lapply(data, tag_views_in_df, view = "AtFront")
 
-    CoordFixed$setup_data(data, params)
+    ggplot2::CoordFixed$setup_data(data, params)
   }
 )
 

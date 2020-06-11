@@ -18,9 +18,10 @@ Imports:
     rlang,
     vctrs
 Suggests:
+    covr,
     knitr,
     rmarkdown,
     testthat,
-    covr
+    vdiffr
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
