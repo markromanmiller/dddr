@@ -179,22 +179,19 @@ pillar_shaft.dddr_vector3 <- function(v) {
   out
 }
 
+#' @keywords internal
 extract_dimension <- function(v, direction) {
   cartesian_direction <- get_semantics()[[direction]]
-  sign <- substr(cartesian_direction, 1, 1)
   axis <- substr(cartesian_direction, 2, 2)
-  if (sign == "-") {
-    #rlang::abort("Not Implemented Yet")
-  }
   `$.dddr_vector3`(v, axis)
 }
 
 #' @keywords internal
-extract_horizontal_dimension <- function(v) {
-  # if I'm looking at the front, it means forward is pointing towards me.
-  # Up is on the top, as usual.
-  # I need another function to call the right extract functions.
-  dimension <- switch(attr(v, "view"),
+extract_horizontal_dimension <- function(view) {
+    # if I'm looking at the front, it means forward is pointing towards me.
+    # Up is on the top, as usual.
+    # I need another function to call the right extract functions.
+  switch(view,
     "at front" = "left", # positive X is to the left of the object.
     "at back" = "right",
     "at top" = "left",
@@ -202,17 +199,27 @@ extract_horizontal_dimension <- function(v) {
     #"at left", "" conventions...
     NA
   )
+}
+
+#' @keywords internal
+extract_vertical_dimension <- function(view) {
+  switch(view,
+         "at front" = "up",
+         "at back" = "up",
+         "at top" = "backward",
+         "at bottom" = "forward",
+         NA
+  )
+}
+
+#' @keywords internal
+extract_horizontal <- function(v) {
+  dimension <- extract_horizontal_dimension(attr(v, "view"))
   extract_dimension(v, dimension)
 }
 
 #' @keywords internal
-extract_vertical_dimension <- function(v) {
-  dimension <- switch(attr(v, "view"),
-    "at front" = "up",
-    "at back" = "up",
-    "at top" = "backward",
-    "at bottom" = "forward",
-    NA
-  )
+extract_vertical <- function(v) {
+  dimension <- extract_vertical_dimension(attr(v, "view"))
   extract_dimension(v, dimension)
 }
