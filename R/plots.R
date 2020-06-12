@@ -11,9 +11,9 @@ scale_type.dddr_vector3 <- function(x) "identity"
 #' @export
 StatVector3 <- ggplot2::ggproto(
   "StatVector3", ggplot2::Stat,
-  compute_layer = function(data, params, layout) {
-    data$x <- extract_horizontal_dimension(data$vector3)
-    data$y <- extract_vertical_dimension(data$vector3)
+  compute_layer = function(self, data, params, layout) {
+    data$x <- extract_horizontal(data$vector3)
+    data$y <- extract_vertical(data$vector3)
 
     ggplot2::StatIdentity$compute_layer(data, params, layout)
    },
@@ -41,16 +41,30 @@ tag_views_in_df <- function(df, view) {
   }))
 }
 
+hacky_reverse <- function(x) {
+  1-x
+}
 
 #' @export
-CoordLookAtFront <- ggplot2::ggproto(
-  "CoordLookAtFront", ggplot2::CoordFixed,
+CoordLookAt <- ggplot2::ggproto(
+  "CoordLookAt", ggplot2::CoordFixed,
   setup_data = function(self, data, params) {
     # tag the vectors with the kind of view you should expect to give.
     # data is list of dfs.
     data <- lapply(data, tag_views_in_df, view = self$view)
+    # also specify whether horz / vert need to be mirrored.
 
     ggplot2::CoordFixed$setup_data(data, params)
+  },
+
+  transform = function(self, data, panel_params) {
+    data <- ggplot2::transform_position(data, panel_params$x$rescale, panel_params$y$rescale)
+    data <- ggplot2::transform_position(
+      data,
+      ifelse(substr(get_semantics()[[extract_horizontal_dimension(self$view)]], 1, 1) == "-", hacky_reverse, identity),
+      ifelse(substr(get_semantics()[[extract_vertical_dimension(self$view)]], 1, 1) == "-", hacky_reverse, identity)
+    )
+    ggplot2::transform_position(data, scales::squish_infinite, scales::squish_infinite)
   }
 )
 
@@ -62,7 +76,7 @@ coord_look_at <- function(
   expand = TRUE, clip = "on"
 ) {
   # TODO: ensure that direction is one of the reasonable ones.
-  ggplot2::ggproto(NULL, CoordLookAtFront,
+  ggplot2::ggproto(NULL, CoordLookAt,
           limits = list(x = xlim, y = ylim),
           ratio = 1,
           expand = expand,

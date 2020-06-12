@@ -12,7 +12,7 @@ spiral <- data.frame(i = seq(0, 10 * pi, 0.05)) %>%
 
 test_that("Simple example doppleganger works.", {
 
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "left"))
+  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   points_front <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
@@ -26,3 +26,17 @@ test_that("Simple example doppleganger works.", {
 })
 
 
+test_that("Negative scales are drawn correctly.", {
+
+  set_semantics(semantics_axes(y = "up", z = "forward", hand = "left"))
+
+  points_front <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    stat_vector3(geom = "point") +
+    coord_look_at_front()
+
+  vdiffr::expect_doppelganger(
+    "negative scales",
+    points_front
+  )
+})
