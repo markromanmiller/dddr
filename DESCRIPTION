@@ -21,6 +21,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    covr
+    covr,
+    crayon
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
