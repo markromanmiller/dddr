@@ -1,5 +1,3 @@
-context("vector3 basics")
-
 sqrt_1_3 <- sqrt(1 / 3)
 
 foo_px <- c(1, 0, 0, sqrt_1_3)

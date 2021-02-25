@@ -1,5 +1,3 @@
-context("Rotations")
-
 foo <- vector3(
   x = c(1, 0, 0, -4, 0, 0),
   y = c(0, 2, 0, 0, -5, 0),

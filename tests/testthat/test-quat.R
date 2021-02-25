@@ -1,5 +1,3 @@
-context("quat basics")
-
 s <- sqrt(1 / 2)
 
 foo_qw <- c(1, s, s, s, 0, 0, 0)
