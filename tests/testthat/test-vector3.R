@@ -287,23 +287,23 @@ test_that("format and print work sensibly", {
   )
 
   expect_known_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 27) %>% print(),
+    pillar::pillar_shaft(print_test) %>% format(width = 27) %>% crayon::strip_style() %>% print,
     file = "pillar_shaft_vector3_print_test_27.out"
   )
   expect_known_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 28) %>% print(),
+    pillar::pillar_shaft(print_test) %>% format(width = 28) %>% crayon::strip_style() %>% print,
     file = "pillar_shaft_vector3_print_test_28.out"
   )
   expect_known_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 29) %>% print(),
+    pillar::pillar_shaft(print_test) %>% format(width = 29) %>% crayon::strip_style() %>% print,
     file = "pillar_shaft_vector3_print_test_29.out"
   )
   expect_known_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 30) %>% print(),
+    pillar::pillar_shaft(print_test) %>% format(width = 30) %>% crayon::strip_style() %>% print,
     file = "pillar_shaft_vector3_print_test_30.out"
   )
   expect_known_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 35) %>% print(),
+    pillar::pillar_shaft(print_test) %>% format(width = 35) %>% crayon::strip_style() %>% print,
     file = "pillar_shaft_vector3_print_test_35.out"
   )
 })
