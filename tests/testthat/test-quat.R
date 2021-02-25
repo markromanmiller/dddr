@@ -82,11 +82,10 @@ test_that("Quats can be multiplied if either of their lengths is 1", {
 })
 
 test_that("quat formatting", {
-  expect_known_output(
+  expect_snapshot_output(
     pillar::pillar_shaft(simple_quat_tbl$foo) %>%
       format(width = 34) %>%
-      print(),
-    file = "pillar_shaft_quat_print_test_34.out"
+      print()
   )
 })
 
