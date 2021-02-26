@@ -323,10 +323,7 @@ test_that("Vectors can be written to a character set and back", {
     z = exp(seq(0, 4 * pi, by = 0.5))
   )
 
-  expect_snapshot_output(
-    as.character(print_test)
-  )
-
+  # It doesn't make sense to test raw output, because it's floating-point dependent.
   expect_equal(
     print_test %>% as.character() %>% as_vector3,
     print_test
