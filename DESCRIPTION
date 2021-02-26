@@ -22,7 +22,8 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     covr,
-    crayon
+    crayon,
+    waldo
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0

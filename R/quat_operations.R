@@ -66,29 +66,58 @@ vec_arith.dddr_quat.dddr_quat <- function(op, x, y, ...) {
   )
 }
 
+#' Quaternion equality
+#'
+#' Like most mathematical objects, there is a notion of equality on quaternions.
+#' Because the focus here is on using quaternions to rotate, quaternions are
+#' considered equal if they produce the same rotation.
+#'
+#' In particular, if all entries in a quaternion are negated, the result is the
+#' same exact rotation. This is known as "double cover." In this case, the
+#' quaternions (w,x,y,z) and (-w,-x,-y,-z) are considered equal.
+#'
+#' The assorted proxy methods create a data frame that shows where the unit x
+#' and unit y vectors are mapped in 3d space. This is more numerically stable
+#' than normalizing based on e.g. sign of w.
+#'
+#' @param x Quaternions to form a proxy for.
+#' @param ... arguments passed on the underlying function for all.equal
+#' @param target,current quaternions to compare
+#'
+#' @name quat_equal
+NULL
+
+quat_proxy_equal <- function(x, ...) {
+  q <- x
+  x <- rotate(quat(w = 0, x = 1, y = 0, z = 0), rotator=q)
+  y <- rotate(quat(w = 0, x = 0, y = 1, z = 0), rotator=q)
+
+  data.frame(
+    x_x = x$x,
+    x_y = x$y,
+    x_z = x$z,
+    y_x = y$x,
+    y_y = y$y,
+    y_z = y$z
+  )
+}
+
+#' @rdname quat_equal
+#' @importFrom vctrs vec_proxy_equal
+#' @method vec_proxy_equal dddr_quat
+#' @export
+vec_proxy_equal.dddr_quat <- function(x, ...) {
+  quat_proxy_equal(x, ...)
+}
+
+#' @rdname quat_equal
+#' @method all.equal dddr_quat
 #' @export
 `all.equal.dddr_quat` <- function(target, current, ...) {
-  # should this be done by the quats function, i.e, where it sends two basis
-  # vectors?
-  a <- target
-  b <- current
-  x_basis <- quat(w = 0, x = 1, y = 0, z = 0)
-  y_basis <- quat(w = 0, x = 0, y = 1, z = 0)
+  all.equal(quat_proxy_equal(target), quat_proxy_equal(current), ...)
+}
 
-  # TODO: convert this to an internal rotation function call
-  a_x <- a * x_basis * Conj(a)
-  b_x <- b * x_basis * Conj(b)
-  a_y <- a * y_basis * Conj(a)
-  b_y <- b * y_basis * Conj(b)
-
-  # w's are dropped when converting back to vector
-  # TODO: maybe make this more clear how different they are?
-  all(c(
-    isTRUE(all.equal(a_x$x, b_x$x, ...)),
-    isTRUE(all.equal(a_x$y, b_x$y, ...)),
-    isTRUE(all.equal(a_x$z, b_x$z, ...)),
-    isTRUE(all.equal(a_y$x, b_y$x, ...)),
-    isTRUE(all.equal(a_y$y, b_y$y, ...)),
-    isTRUE(all.equal(a_y$z, b_y$z, ...))
-  ))
+#' @rdname quat_equal
+compare_proxy.dddr_quat <- function(x) {
+  quat_proxy_equal(x)
 }
