@@ -59,11 +59,23 @@ is.na.dddr_vector3 <- function(x) {
   is.na(x$x) | is.na(x$y) | is.na(x$z)
 }
 
+
+#' Vector3 Conversions to and from Character
+#'
+#' @param x an object to be converted
+#' @param ... arguments passed along to underlying methods `as.character` or `format`
+#' @param digits number of decimal digits to produce
+#'
+#' @name vec3_character
+NULL
+
+
 #' @keywords internal
 paste_vector <- function(x, y, z) {
   paste0("(", x, ", ", y, ", ", z, ")")
 }
 
+#' @rdname vec3_character
 #' @export
 format.dddr_vector3 <- function(x, ..., digits = 4) {
   v <- x # don't overwrite the name
@@ -77,6 +89,7 @@ format.dddr_vector3 <- function(x, ..., digits = 4) {
   out
 }
 
+#' @rdname vec3_character
 #' @method as.character dddr_vector3
 #' @export
 as.character.dddr_vector3 <- function(x, ...) {
@@ -88,11 +101,14 @@ as.character.dddr_vector3 <- function(x, ...) {
 }
 
 #' @export
+#' @rdname vec3_character
 as_vector3 <- function(x, ...) {
   UseMethod("as_vector3", x)
 }
 
 #' @method as_vector3 character
+#' @export
+#' @rdname vec3_character
 as_vector3.character <- function(x, ...) {
   # NAs are acceptable...
   regex_results <- regexec("\\((.*),(.*),(.*)\\)", x)
