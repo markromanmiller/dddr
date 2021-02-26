@@ -59,27 +59,51 @@ is.na.dddr_vector3 <- function(x) {
   is.na(x$x) | is.na(x$y) | is.na(x$z)
 }
 
+#' @keywords internal
+paste_vector <- function(x, y, z) {
+  paste0("(", x, ", ", y, ", ", z, ")")
+}
+
 #' @export
 format.dddr_vector3 <- function(x, ..., digits = 4) {
   v <- x # don't overwrite the name
 
-  x <- vctrs::field(v, "x")
-  y <- vctrs::field(v, "y")
-  z <- vctrs::field(v, "z")
-
-  out <- paste0(
-    "(",
-    format(x, ..., digits = digits),
-    ", ",
-    format(y, ..., digits = digits),
-    ", ",
-    format(z, ..., digits = digits), ")"
+  out <- paste_vector(
+    format(v$x, ..., digits = digits),
+    format(v$y, ..., digits = digits),
+    format(v$z, ..., digits = digits)
   )
-
-  out[is.na(x) | is.na(y) | is.na(z)] <- NA
 
   out
 }
+
+#' @method as.character dddr_vector3
+#' @export
+as.character.dddr_vector3 <- function(x, ...) {
+  paste_vector(
+    as.character(x$x, ...),
+    as.character(x$y, ...),
+    as.character(x$z, ...)
+  )
+}
+
+#' @export
+as_vector3 <- function(x, ...) {
+  UseMethod("as_vector3", x)
+}
+
+#' @method as_vector3 character
+as_vector3.character <- function(x, ...) {
+  # NAs are acceptable...
+  regex_results <- regexec("\\((.*),(.*),(.*)\\)", x)
+  regex_matches <- regmatches(x, regex_results)
+  vector3(
+    x = as.numeric(sapply(regex_matches, function(m) m[[2]])),
+    y = as.numeric(sapply(regex_matches, function(m) m[[3]])),
+    z = as.numeric(sapply(regex_matches, function(m) m[[4]]))
+  )
+}
+
 
 #' @importFrom vctrs vec_ptype_abbr
 #' @method vec_ptype_abbr dddr_vector3

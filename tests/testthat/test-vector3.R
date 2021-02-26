@@ -301,6 +301,24 @@ test_that("format and print work sensibly", {
   )
 })
 
+test_that("Vectors can be written to a character set and back", {
+  print_test <- vector3(
+    x = cos(seq(0, 4 * pi, by = 0.5)),
+    y = sin(seq(0, 4 * pi, by = 0.5)),
+    z = exp(seq(0, 4 * pi, by = 0.5))
+  )
+
+  expect_snapshot_output(
+    as.character(print_test)
+  )
+
+  expect_equal(
+    print_test %>% as.character() %>% as_vector3,
+    print_test
+  )
+
+})
+
 test_that("Errors occur in bad arith types", {
   op_error_class <- "vctrs_error_incompatible_op"
   # note: it is possible for "vector3_arith" to come out of sync
