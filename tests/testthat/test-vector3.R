@@ -259,12 +259,13 @@ test_that(
   paste(
     "When multiplying vectors, the user gets an error",
     "and redirects to the operations page."
-  ),
-  expect_error(
-    vector3(1, 0, 0) * vector3(1, 0, 0),
-    class = "vctrs_error_incompatible_op",
-    regexp = "vector3_prod"
-  )
+  ), {
+      expect_error(
+      vector3(1, 0, 0) * vector3(1, 0, 0),
+      class = "vctrs_error_incompatible_op",
+      regexp = "vector3_prod"
+    )
+  }
 )
 
 test_that("format and print work sensibly", {

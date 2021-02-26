@@ -33,7 +33,7 @@ test_that("Simple rotations", {
   # equivalent to xp90 by double cover
   expect_equal(
     rotate(foo, quat(-rh, -rh, 0, 0)),
-    rotate(foo, xp90),
+    rotate(foo, xp90)
   )
 
   # back and forth produces no effect.
