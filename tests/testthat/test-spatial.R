@@ -1,5 +1,3 @@
-context("Spatial tasks")
-
 # angle_between
 test_that("angle_between calculates simple angles", {
   expect_equal(angle_between(vector3(1, 0, 0), vector3(0, 1, 0)), pi / 2)
