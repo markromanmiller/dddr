@@ -63,7 +63,8 @@ is.na.dddr_vector3 <- function(x) {
 #' Vector3 Conversions to and from Character
 #'
 #' @param x an object to be converted
-#' @param ... arguments passed along to underlying methods `as.character` or `format`
+#' @param ... arguments passed along to underlying methods `as.character` or
+#'   `format`
 #' @param digits number of decimal digits to produce
 #'
 #' @name vec3_character

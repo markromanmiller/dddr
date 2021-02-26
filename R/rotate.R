@@ -98,7 +98,9 @@ rotate.dddr_quat <- function(
     rotator <- make_rotator(axis, angle, from, to)
   } else {
     if (!is.null(from) || !is.null(to) || !is.null(axis) || !is.null(angle)) {
-      warning("Argument `rotator` takes precedence over any other rotation arguments.")
+      warning(
+        "Argument `rotator` takes precedence over any other rotation arguments."
+        )
     }
   }
   rotator * rotand * Conj(rotator)

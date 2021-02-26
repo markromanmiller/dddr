@@ -285,19 +285,34 @@ test_that("format and print work sensibly", {
   )
 
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 27) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 27) %>%
+      crayon::strip_style() %>%
+      print
   )
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 28) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 28) %>%
+      crayon::strip_style() %>%
+      print
   )
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 29) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 29) %>%
+      crayon::strip_style() %>%
+      print
   )
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 30) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 30) %>%
+      crayon::strip_style() %>%
+      print
   )
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 35) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 35) %>%
+      crayon::strip_style() %>%
+      print
   )
 })
 
