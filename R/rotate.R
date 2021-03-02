@@ -48,7 +48,7 @@ make_rotator <- function(axis, angle, from, to) {
 #' @param rotator (Optional) Quaternion specifying the rotation to perform. If
 #'   this argument is not specified, it is constructed using the others.
 #' @param origin (Optional) The origin of the rotation, i.e, the point that
-#'   should not change positions during the rotation.
+#'   should not change position during the rotation.
 #' @param axis (Optional) The axis of rotation
 #' @param angle (Optional) The angle of rotation, specified in radians. If this
 #'   is not provided, it is calculated using `from` and `to`
@@ -98,7 +98,9 @@ rotate.dddr_quat <- function(
     rotator <- make_rotator(axis, angle, from, to)
   } else {
     if (!is.null(from) || !is.null(to) || !is.null(axis) || !is.null(angle)) {
-      warning("Argument `rotator` precedes any other rotation arguments.")
+      warning(
+        "Argument `rotator` takes precedence over any other rotation arguments."
+        )
     }
   }
   rotator * rotand * Conj(rotator)

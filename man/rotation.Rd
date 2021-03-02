@@ -30,7 +30,7 @@ this argument is not specified, it is constructed using the others.}
 \item{...}{Additional arguments passed on to underlying S3 methods}
 
 \item{origin}{(Optional) The origin of the rotation, i.e, the point that
-should not change positions during the rotation.}
+should not change position during the rotation.}
 
 \item{axis}{(Optional) The axis of rotation}
 

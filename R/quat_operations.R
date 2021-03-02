@@ -93,12 +93,8 @@ quat_proxy_equal <- function(x, ...) {
   y <- rotate(quat(w = 0, x = 0, y = 1, z = 0), rotator = q)
 
   data.frame(
-    x_x = x$x,
-    x_y = x$y,
-    x_z = x$z,
-    y_x = y$x,
-    y_y = y$y,
-    y_z = y$z
+    x_x = x$x, x_y = x$y, x_z = x$z,
+    y_x = y$x, y_y = y$y, y_z = y$z
   )
 }
 
