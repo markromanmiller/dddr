@@ -50,8 +50,12 @@ tag_views_in_df <- function(df, view) {
   }))
 }
 
-hacky_reverse <- function(x) {
-  1-x
+semantics_reverse <- function(dimension) {
+  if (substr(get_semantics()[[dimension]], 1, 1) == "-") {
+    return(function(x) (1 - x))
+  } else {
+    return(function(x) (x))
+  }
 }
 
 #' Coord proto
@@ -71,13 +75,17 @@ CoordLookAt <- ggplot2::ggproto(
   },
 
   transform = function(self, data, panel_params) {
-    data <- ggplot2::transform_position(data, panel_params$x$rescale, panel_params$y$rescale)
+    data <- ggplot2::transform_position(
+      data, panel_params$x$rescale, panel_params$y$rescale
+    )
     data <- ggplot2::transform_position(
       data,
-      ifelse(substr(get_semantics()[[extract_horizontal_dimension(self$view)]], 1, 1) == "-", hacky_reverse, identity),
-      ifelse(substr(get_semantics()[[extract_vertical_dimension(self$view)]], 1, 1) == "-", hacky_reverse, identity)
+      semantics_reverse(extract_horizontal_dimension(self$view)),
+      semantics_reverse(extract_vertical_dimension(self$view))
     )
-    ggplot2::transform_position(data, scales::squish_infinite, scales::squish_infinite)
+    ggplot2::transform_position(
+      data, scales::squish_infinite, scales::squish_infinite
+    )
   }
 )
 
