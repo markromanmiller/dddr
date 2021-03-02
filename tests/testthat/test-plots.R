@@ -1,5 +1,3 @@
-context("plots")
-
 spiral <- data.frame(i = seq(0, 10 * pi, 0.05)) %>%
   dplyr::mutate(
     # vector3s are created using three numeric vector arguments,

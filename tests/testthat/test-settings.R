@@ -1,5 +1,3 @@
-context("Settings")
-
 test_that("semantics_axes can be created and accessed", {
   axes <- semantics_axes(y = "up", z = "forward", x = "right", hand = "left")
 
