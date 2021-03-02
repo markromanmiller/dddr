@@ -19,7 +19,8 @@ test_that("Simple example doppleganger works.", {
 
   vdiffr::expect_doppelganger(
     "Testing example",
-    points_front
+    points_front,
+    path="plots"
   )
 })
 
@@ -35,6 +36,24 @@ test_that("Negative scales are drawn correctly.", {
 
   vdiffr::expect_doppelganger(
     "negative scales",
-    points_front
+    points_front,
+    path="plots"
   )
 })
+
+test_that("Looking at the top works", {
+
+  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+
+  points_top <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    stat_vector3(geom = "point") +
+    coord_look_at_top()
+
+  vdiffr::expect_doppelganger(
+    "spiral from the top",
+    points_top,
+    path="plots"
+  )
+})
+
