@@ -17,7 +17,8 @@ opposite_direction <- c(
 )
 
 #' @keywords internal
-semantic_cross_table <- read.csv(strip.white = T, text = "
+semantic_cross_table <- read.csv(stringsAsFactors = FALSE, strip.white = T,
+  text = "
      first,   second, lefthand, righthand
         up,     left,  forward,  backward
         up,    right, backward,   forward
