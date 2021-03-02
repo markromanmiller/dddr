@@ -285,20 +285,50 @@ test_that("format and print work sensibly", {
   )
 
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 27) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 27) %>%
+      crayon::strip_style() %>%
+      print
   )
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 28) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 28) %>%
+      crayon::strip_style() %>%
+      print
   )
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 29) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 29) %>%
+      crayon::strip_style() %>%
+      print
   )
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 30) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 30) %>%
+      crayon::strip_style() %>%
+      print
   )
   expect_snapshot_output(
-    pillar::pillar_shaft(print_test) %>% format(width = 35) %>% crayon::strip_style() %>% print
+    pillar::pillar_shaft(print_test) %>%
+      format(width = 35) %>%
+      crayon::strip_style() %>%
+      print
   )
+})
+
+test_that("Vectors can be written to a character set and back", {
+  print_test <- vector3(
+    x = cos(seq(0, 4 * pi, by = 0.5)),
+    y = sin(seq(0, 4 * pi, by = 0.5)),
+    z = exp(seq(0, 4 * pi, by = 0.5))
+  )
+
+  # It doesn't make sense to test raw output, because it's floating-point dependent.
+  expect_equal(
+    print_test %>% as.character() %>% as_vector3,
+    print_test
+  )
+
 })
 
 test_that("Errors occur in bad arith types", {
