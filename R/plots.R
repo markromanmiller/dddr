@@ -121,24 +121,36 @@ coord_look_at <- function(
 
 #' @rdname dddr_coords
 #' @export
-coord_look_at_front <- function(...) {coord_look_at("front", ...)}
+coord_look_at_front <- function(...) {
+  coord_look_at("front", ...)
+}
 
 #' @rdname dddr_coords
 #' @export
-coord_look_at_back <- function(...) {coord_look_at("back", ...)}
+coord_look_at_back <- function(...) {
+  coord_look_at("back", ...)
+}
 
 #' @rdname dddr_coords
 #' @export
-coord_look_at_top <- function(...) {coord_look_at("top", ...)}
+coord_look_at_top <- function(...) {
+  coord_look_at("top", ...)
+}
 
 #' @rdname dddr_coords
 #' @export
-coord_look_at_bottom <- function(...) {coord_look_at("bottom", ...)}
+coord_look_at_bottom <- function(...) {
+  coord_look_at("bottom", ...)
+}
 
 #' @rdname dddr_coords
 #' @export
-coord_look_at_left <- function(...) {coord_look_at("left", ...)}
+coord_look_at_left <- function(...) {
+  coord_look_at("left", ...)
+}
 
 #' @rdname dddr_coords
 #' @export
-coord_look_at_right <- function(...) {coord_look_at("right", ...)}
+coord_look_at_right <- function(...) {
+  coord_look_at("right", ...)
+}
