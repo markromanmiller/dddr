@@ -90,7 +90,7 @@ CoordLookAt <- ggplot2::ggproto(
 
     # create the inherited objects:
     coord_fixed_fg <- ggplot2::CoordFixed$render_fg(panel_params, theme)
-    if (theme$dddr.rose.location == "none") {
+    if (!(theme$dddr.rose.location %in% c("tl", "tr", "bl", "br"))) {
       return(coord_fixed_fg)
     }
 

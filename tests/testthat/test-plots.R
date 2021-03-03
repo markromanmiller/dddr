@@ -41,14 +41,16 @@ test_that("Negative scales are drawn correctly.", {
   )
 })
 
-test_that("Looking back, arrow into screen.", {
+test_that("Looking back, arrow into screen, and top_left", {
 
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   points_front <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
     stat_vector3(geom = "point") +
-    coord_look_at_back()
+    coord_look_at_back() +
+    ggplot2::theme_test() +
+    ggplot2::theme(dddr.rose.location = "bl")
 
   vdiffr::expect_doppelganger(
     "arrow into screen",
