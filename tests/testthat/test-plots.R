@@ -32,7 +32,9 @@ test_that("Negative scales are drawn correctly.", {
   points_front <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
     stat_vector3(geom = "point") +
-    coord_look_at_front()
+    coord_look_at_front() +
+    ggplot2::theme_test() +
+    ggplot2::theme(dddr.rose.location = "none")
 
   vdiffr::expect_doppelganger(
     "negative scales",
