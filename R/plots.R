@@ -69,8 +69,6 @@ CoordLookAt <- ggplot2::ggproto(
     # tag the vectors with the kind of view you should expect to give.
     # data is list of dfs.
     data <- lapply(data, tag_views_in_df, view = self$view)
-    # also specify whether horz / vert need to be mirrored.
-
     ggplot2::CoordFixed$setup_data(data, params)
   },
 
@@ -85,6 +83,109 @@ CoordLookAt <- ggplot2::ggproto(
     )
     ggplot2::transform_position(
       data, scales::squish_infinite, scales::squish_infinite
+    )
+  },
+
+  render_fg = function(self, panel_params, theme) {
+
+    # create the inherited objects:
+    coord_fixed_fg <- ggplot2::CoordFixed$render_fg(panel_params, theme)
+    if (theme$dddr.rose.location == "none") {
+      return(coord_fixed_fg)
+    }
+
+    # calculate the viewport we're working with.
+    rose_margin <- theme$dddr.rose.margin
+    rose_length <- theme$dddr.rose.length
+
+    if (grepl("r", theme$dddr.rose.location)) {
+      origin_x <- grid::unit(1, units="npc") - rose_margin[2] - rose_length
+    } else {
+      origin_x <- grid::unit(0, units="npc") + rose_margin[4] + rose_length
+    }
+    if (grepl("t", theme$dddr.rose.location)) {
+      origin_y <- grid::unit(1, units="npc") - rose_margin[1] - rose_length
+    } else {
+      origin_y <- grid::unit(0, units="npc") + rose_margin[3] + rose_length
+    }
+    rose_viewport <- grid::viewport(
+      x = origin_x, y = origin_y,
+      width = 2*rose_length, height = 2*rose_length
+    )
+
+    # get all the directions for use in placing texts:
+    horz_dim <- get_semantics()[[extract_horizontal_dimension(self$view)]]
+    horz_axis <- get_axis(horz_dim)
+    horz_direction <- get_direction(horz_dim)
+    axis_hjust <- switch(horz_direction, "+" = 1.6, "-" = -0.6)
+    horz_placement <- switch(horz_direction, "+" = 1, "-" = 0)
+
+    vert_dim <- get_semantics()[[extract_vertical_dimension(self$view)]]
+    vert_axis <- get_axis(vert_dim)
+    vert_direction <- get_direction(vert_dim)
+    axis_vjust <- switch(vert_direction, "+" = 1.6, "-" = -0.6)
+    vert_placement <- switch(vert_direction, "+" = 1, "-" = 0)
+
+    norm_dim <- get_semantics()[[extract_normal_dimension(self$view)]]
+    norm_axis <- get_axis(norm_dim)
+    norm_direction <- get_direction(norm_dim)
+
+    # produce horizontal objects
+    horz_line <- ggplot2::element_render(
+      theme, "dddr.rose.line",
+      x = c(0.5, horz_placement),
+      y = c(0.5, 0.5),
+      colour = theme[[paste0("dddr.rose.color.", horz_axis)]]
+    )
+    horz_text <- ggplot2::element_render(
+      theme, "dddr.rose.text.horz",
+      label = toupper(horz_axis),
+      x = horz_placement, y = 0.5,
+      hjust = horz_placement, vjust = axis_vjust
+    )
+
+    # produce vertical objects
+    vert_line <- ggplot2::element_render(
+      theme, "dddr.rose.line",
+      x = c(0.5, 0.5),
+      y = c(0.5, vert_placement),
+      colour = theme[[paste0("dddr.rose.color.", vert_axis)]]
+    )
+    vert_text <- ggplot2::element_render(
+      theme, "dddr.rose.text.vert",
+      label = toupper(vert_axis),
+      x = 0.5, y = vert_placement,
+      hjust = axis_hjust, vjust = vert_placement
+    )
+
+    # produce normal objects
+    norm_point <- ggplot2::element_render(
+      theme,
+      "dddr.rose.point",
+      label = switch(
+        norm_direction,
+        "+" = theme[["dddr.rose.point.towards"]],
+        "-" = theme[["dddr.rose.point.away"]]
+      ),
+      x = 0.5, y = 0.5,
+      hjust = 0.5, vjust = 0.5,
+      colour = theme[[paste0("dddr.rose.color.", norm_axis)]]
+    )
+    norm_text <- ggplot2::element_render(
+      theme, "dddr.rose.text.norm",
+      label = toupper(norm_axis),
+      x = 0.5, y = 0.5,
+      hjust = axis_hjust, vjust = axis_vjust
+    )
+
+    # return the grobs to render
+    grid::gList(
+      coord_fixed_fg,
+      grid::grobTree(
+        horz_line, vert_line, norm_point,
+        horz_text, vert_text, norm_text,
+        vp = rose_viewport
+      )
     )
   }
 )
@@ -141,16 +242,4 @@ coord_look_at_top <- function(...) {
 #' @export
 coord_look_at_bottom <- function(...) {
   coord_look_at("bottom", ...)
-}
-
-#' @rdname dddr_coords
-#' @export
-coord_look_at_left <- function(...) {
-  coord_look_at("left", ...)
-}
-
-#' @rdname dddr_coords
-#' @export
-coord_look_at_right <- function(...) {
-  coord_look_at("right", ...)
 }

@@ -254,6 +254,17 @@ extract_vertical_dimension <- function(view) {
 }
 
 #' @keywords internal
+extract_normal_dimension <- function(view) {
+  switch(view,
+         "at front" = "forward",
+         "at back" = "backward",
+         "at top" = "up",
+         "at bottom" = "down",
+         NA
+  )
+}
+
+#' @keywords internal
 extract_horizontal <- function(v) {
   dimension <- extract_horizontal_dimension(attr(v, "view"))
   extract_dimension(v, dimension)

@@ -147,10 +147,18 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
   result
 }
 
+get_axis <- function(dimension) {
+  substr(dimension, 2, 2)
+}
+
+get_direction <- function(dimension) {
+  substr(dimension, 1, 1)
+}
+
 set_semantics <- function(axes) {
   options("dddr.convention" = axes)
 }
 
-get_semantics <- function(axes) {
+get_semantics <- function() {
   options("dddr.convention")[[1]]
 }

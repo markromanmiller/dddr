@@ -19,7 +19,8 @@ as_vector3(x, ...)
 \arguments{
 \item{x}{an object to be converted}
 
-\item{...}{arguments passed along to underlying methods `as.character` or `format`}
+\item{...}{arguments passed along to underlying methods `as.character` or
+`format`}
 
 \item{digits}{number of decimal digits to produce}
 }

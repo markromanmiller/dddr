@@ -41,6 +41,22 @@ test_that("Negative scales are drawn correctly.", {
   )
 })
 
+test_that("Looking back, arrow into screen.", {
+
+  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+
+  points_front <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    stat_vector3(geom = "point") +
+    coord_look_at_back()
+
+  vdiffr::expect_doppelganger(
+    "arrow into screen",
+    points_front,
+    path="plots"
+  )
+})
+
 test_that("Looking at the top works", {
 
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
