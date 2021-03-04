@@ -73,3 +73,102 @@ extend <- function(
 ) {
   stop("Not Implemented Yet")
 }
+
+count_non_null <- function(x) {
+  sum(!sapply(x, is.null))
+}
+
+#' @export
+reinterpret <- function(
+  vq,
+  new_x_from = NULL, new_y_from = NULL, new_z_from = NULL,
+  old_x_to = NULL, old_y_to = NULL, old_z_to = NULL
+) {
+  # TODO: add entry for "transform" permittied can be "proper" aka proper rigid,
+  # "rigid" (lengths, angles between things, allowing rotations), "similar",
+  # (anlges, lengths are scaled, rotations are still meaningful), "affine" /
+  # "free" (everything goes) right now, only handle
+
+  # TODO: Does it make sense to rewrite this using more explicit matrix
+  # formulations? -> it does if we're allowing more matrix-like transformations
+
+  old_args <- list(x = old_x_to, y = old_y_to, z = old_z_to)
+  new_args <- list(x = new_x_from, y = new_y_from, z = new_z_from)
+
+  old_nns <- count_non_null(old_args)
+  new_nns <- count_non_null(new_args)
+
+  if (old_nns > 0 && new_nns > 0) {
+    # TODO: change error class
+    stop("checking both old and new is not implemented yet")
+  }
+
+  if (old_nns >= 2) {
+    formed_args <- old_args
+    formed_nns <- old_nns
+    arg_source <- "old"
+  } else if (new_nns >= 2) {
+    formed_args <- new_args
+    formed_nns <- new_nns
+    arg_source <- "new"
+  } else {
+    stop("Not enough points to reinterpret upon")
+  }
+
+  # verify individual lengths
+  for (dimension in c("x", "y", "z")) {
+    arg <- formed_args[[dimension]]
+    if (!(is.null(arg) || isTRUE(all.equal(magnitude(arg), 1)))) {
+      stop(paste(
+        "Entries in ", arg_source, dimension, "do not have magnitude 1"
+      ))
+    }
+  }
+
+  if (formed_nns < 3) {
+    # create the cross prod
+    # and verify its length
+    null_dim <- names(which(sapply(formed_args, is.null)))
+
+    replacement <- switch(null_dim,
+        x = cross(formed_args[["y"]], formed_args[["z"]]),
+        y = cross(formed_args[["z"]], formed_args[["x"]]),
+        z = cross(formed_args[["x"]], formed_args[["y"]])
+      )
+
+    if (!isTRUE(all.equal(magnitude(replacement), 1))) {
+      stop(paste("Given entries were not orthogonal."))
+    }
+
+    formed_args[[null_dim]] <- replacement
+  } else {  # formed_nns is equal to 3
+    # check each given pair for orthogonality
+    for (pair in list(c("x", "y"), c("y", "z"), c("x", "z"))) {
+      if (!isTRUE(all.equal(
+        dot(
+          formed_args[[pair[[1]]]],
+          formed_args[[pair[[2]]]]
+        ),
+        0
+      ))) {
+        stop(paste0(
+          "Entries ", arg_source, "_", pair[[1]], " and ",
+          arg_source, "_", pair[[2]], " are not orthogonal."
+        ))
+      }
+    }
+  }
+
+  # now, finally, compute the vectors in the new basis.
+  if (arg_source == "old") {
+    out <- vq$x * formed_args$x + vq$y * formed_args$y + vq$z * formed_args$z
+  } else {
+    # new_x_from, etc.
+    out <- vector3(
+      dot(vq, formed_args$x),
+      dot(vq, formed_args$y),
+      dot(vq, formed_args$z)
+    )
+  }
+  return(out)
+}
