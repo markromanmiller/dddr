@@ -26,7 +26,7 @@ dddr_register_ggplot_theme_elements <- function() {
     dddr.rose.point.away = "\u2715",
     dddr.rose.color = as.character(NA),
     dddr.rose.color.x = "#ff0000",
-    dddr.rose.color.y = "#00ff00",
+    dddr.rose.color.y = "#00cc00",
     dddr.rose.color.z = "#0000ff",
     dddr.rose.text = ggplot2::element_text(),
     dddr.rose.text.horz = ggplot2::element_text(),

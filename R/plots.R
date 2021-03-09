@@ -141,7 +141,8 @@ CoordLookAt <- ggplot2::ggproto(
       theme, "dddr.rose.text.horz",
       label = toupper(horz_axis),
       x = horz_placement, y = 0.5,
-      hjust = horz_placement, vjust = axis_vjust
+      hjust = horz_placement, vjust = axis_vjust,
+      colour = theme[[paste0("dddr.rose.color.", horz_axis)]]
     )
 
     # produce vertical objects
@@ -155,7 +156,8 @@ CoordLookAt <- ggplot2::ggproto(
       theme, "dddr.rose.text.vert",
       label = toupper(vert_axis),
       x = 0.5, y = vert_placement,
-      hjust = axis_hjust, vjust = vert_placement
+      hjust = axis_hjust, vjust = vert_placement,
+      colour = theme[[paste0("dddr.rose.color.", vert_axis)]]
     )
 
     # produce normal objects
@@ -175,7 +177,8 @@ CoordLookAt <- ggplot2::ggproto(
       theme, "dddr.rose.text.norm",
       label = toupper(norm_axis),
       x = 0.5, y = 0.5,
-      hjust = axis_hjust, vjust = axis_vjust
+      hjust = axis_hjust, vjust = axis_vjust,
+      colour = theme[[paste0("dddr.rose.color.", norm_axis)]]
     )
 
     # return the grobs to render
