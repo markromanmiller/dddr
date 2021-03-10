@@ -77,3 +77,53 @@ test_that("Looking at the top works", {
   )
 })
 
+test_that("Stat works for both point and line", {
+
+  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+
+  point_and_line <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    stat_vector3(geom = "point") +
+    stat_vector3(geom = "path") +
+    coord_look_at_top()
+
+  vdiffr::expect_doppelganger(
+    "point_and_line",
+    point_and_line,
+    path="plots"
+  )
+})
+
+test_that("Stat3 bin2d works", {
+  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+
+  stat3_bin2d <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    # x = spiral_part$x, y = spiral_part$y,
+    # x = ggplot2::after_stat(x), y = ggplot2::after_stat(y),
+    stat3_bin_2d() +
+    coord_look_at_top()
+
+  # browser()
+  ggplot2:::ggplot_build.ggplot(stat3_bin2d)
+
+  vdiffr::expect_doppelganger(
+    "stat3_bin2d",
+    stat3_bin2d,
+    path="plots"
+  )
+})
+
+
+test_that("Plots with missing or wrong aesthetics give an error.", {
+
+  expected_error <- "requires the following missing aesthetics: vector3"
+
+  aes_error_plot <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(foobar = spiral_part)) +
+    stat_vector3(geom = "point") +
+    coord_look_at_front()
+
+  expect_error(print(aes_error_plot), expected_error)
+
+})
