@@ -13,7 +13,7 @@ test_that("Simple example doppleganger works.", {
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   points_front <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
     stat_vector3(geom = "point") +
     coord_look_at_front()
 
@@ -30,7 +30,7 @@ test_that("Negative scales are drawn correctly.", {
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "left"))
 
   points_front <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
     stat_vector3(geom = "point") +
     coord_look_at_front() +
     ggplot2::theme_test() +
@@ -48,7 +48,7 @@ test_that("Looking back, arrow into screen, and top_left", {
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   points_front <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
     stat_vector3(geom = "point") +
     coord_look_at_back() +
     ggplot2::theme_test() +
@@ -66,7 +66,7 @@ test_that("Looking at the top works", {
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   points_top <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
     stat_vector3(geom = "point") +
     coord_look_at_top()
 
@@ -82,7 +82,7 @@ test_that("Stat works for both point and line", {
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   point_and_line <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
     stat_vector3(geom = "point") +
     stat_vector3(geom = "path") +
     coord_look_at_top()
@@ -98,9 +98,7 @@ test_that("Stat3 bin2d works", {
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   stat3_bin2d <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
-    # x = spiral_part$x, y = spiral_part$y,
-    # x = ggplot2::after_stat(x), y = ggplot2::after_stat(y),
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
     stat3_bin_2d() +
     coord_look_at_top()
 
@@ -117,7 +115,7 @@ test_that("Stat3 bin2d works", {
 
 test_that("Plots with missing or wrong aesthetics give an error.", {
 
-  expected_error <- "requires the following missing aesthetics: vector3"
+  expected_error <- "requires the following missing aesthetics: v"
 
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
@@ -137,7 +135,7 @@ test_that("a plot without semantics should error", {
   set_semantics(NULL)
 
   axis_semantics <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
     stat_vector3(geom = "point") +
     coord_look_at_front()
 
@@ -150,7 +148,7 @@ test_that("after_stat depth works", {
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   after_stat_depth <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part, color = ggplot2::after_stat(depth))) +
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part, color = ggplot2::after_stat(depth))) +
     stat_vector3(geom = "point") +
     coord_look_at_top()
 

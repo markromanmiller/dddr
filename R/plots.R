@@ -13,7 +13,7 @@ StatVector3 <- ggplot2::ggproto(
    compute_group = function(self, data, scales) {
      extract_vector3(data)
    },
-   required_aes = c("vector3")
+   required_aes = c("v")
 )
 
 Stat3Bin2d <- ggplot2::ggproto(
@@ -22,7 +22,7 @@ Stat3Bin2d <- ggplot2::ggproto(
 
     # if aesthetic is not present, just silently pass;
     # it'll be checked (and error thrown) by the parent class's compute_layer
-    if ("vector3" %in% names(data)) {
+    if ("v" %in% names(data)) {
       data <- extract_vector3(data)
       x_proto <- ggplot2::scale_x_continuous()
       y_proto <- ggplot2::scale_y_continuous()
@@ -33,7 +33,7 @@ Stat3Bin2d <- ggplot2::ggproto(
 
     parent$compute_layer(data, params, layout)
   },
-  required_aes = c("vector3")
+  required_aes = c("v")
 )
 
 #' Spatial Plotting (Layers)

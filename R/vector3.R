@@ -286,8 +286,8 @@ extract_normal <- function(v) {
 #' @keywords internal
 extract_vector3 <- function(data) {
   # TODO: This needs a better name.
-  data$x <- extract_horizontal(data$vector3)
-  data$y <- extract_vertical(data$vector3)
-  data$depth <- extract_normal(data$vector3)
+  data$x <- extract_horizontal(data$v)
+  data$y <- extract_vertical(data$v)
+  data$depth <- extract_normal(data$v)
   data
 }
