@@ -18,7 +18,7 @@ opposite_direction <- c(
 
 #' @keywords internal
 semantic_cross_table <- read.csv(stringsAsFactors = FALSE, strip.white = T,
-  text = "
+                                 text = "
      first,   second, lefthand, righthand
         up,     left,  forward,  backward
         up,    right, backward,   forward
@@ -46,12 +46,12 @@ semantic_cross_table <- read.csv(stringsAsFactors = FALSE, strip.white = T,
   backward,    right,     down,        up
 ")
 
-#' Generate axis and angle semantics
+#' Generate axis semantics
 #'
-#' Axis and angle semantics are created using `semantics_axes` and
-#' `semantics_angle` functions. As there are a lot of conventions, we have both
-#' an interface to define your own as well as using ones contributed by the
-#' community, such as `semantics_unity`.
+#' Axis semantics are created using `semantics_axes` functions. As there are a
+#' lot of conventions, we have both an interface to define your own as well as
+#' using ones contributed by the community, such as `semantics_axes_unity` for
+#' the Unity game engine.
 #'
 #' @param x,y,z String values giving semantic meaning for each positive
 #'   direction, relative to the origin. Acceptable values include `up`, `down`,
@@ -93,8 +93,8 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
 
   if (is.null(x)) {
     x <- sct[[paste0(hand, "hand")]][
-     sct[["first"]] == y &
-       sct[["second"]] == z
+      sct[["first"]] == y &
+        sct[["second"]] == z
       ]
   } else if (is.null(y)) {
     y <- sct[[paste0(hand, "hand")]][
@@ -130,9 +130,9 @@ semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
   if (missing_values == 0) {
     # do a check.
     if (!any(sct[["first"]] == x &
-            sct[["second"]] == y &
-            sct[[paste0(hand, "hand")]] == z)
-        ) {
+             sct[["second"]] == y &
+             sct[[paste0(hand, "hand")]] == z)
+    ) {
       rlang::abort(
         "Values x, y, z, and handedness do not define a valid axes system.",
         class = "dddr_semantics"
@@ -154,49 +154,3 @@ get_axis <- function(dimension) {
 get_direction <- function(dimension) {
   substr(dimension, 1, 1)
 }
-
-#' Semantics access
-#'
-#' Get and set the global semantics. TODO: more documentation.
-#'
-#' @param axes,angles semantics (see `?semantics_axes` for more details)
-#'
-#'   Note that missing values in the `set_dddr_semantics` call are left
-#'   unchanged. Values must be explicitly `NULL` to unset semantics.
-#'
-#' @name semantics_access
-NULL
-
-#' @rdname semantics_access
-#' @export
-set_dddr_semantics <- function(axes, angles) {
-  if (!missing(axes)) {
-    options("dddr.semantics.axes" = axes)
-  }
-  if (!missing(angles)) {
-    options("dddr.semantics.angles" = angles)
-  }
-}
-
-#' @rdname semantics_access
-#' @export
-get_angles_semantics <- function() {
-  getOption("dddr.semantics.angles")
-}
-
-#' @rdname semantics_access
-#' @export
-get_axes_semantics <- function() {
-  getOption("dddr.semantics.axes")
-}
-
-#' @rdname semantics_access
-#' @export
-get_dddr_semantics <- function() {
-  list(
-    axes = get_axes_semantics,
-    angles = get_angles_semantics
-  )
-}
-
-
