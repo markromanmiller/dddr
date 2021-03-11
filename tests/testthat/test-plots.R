@@ -124,7 +124,7 @@ test_that("Plots with missing or wrong aesthetics give an error.", {
     stat_vector3(geom = "point") +
     coord_look_at_front()
 
-  expect_error(print(aes_error_plot), expected_error)
+  expect_error(ggplot2::ggplot_build(aes_error_plot), expected_error)
 
 })
 
@@ -139,7 +139,7 @@ test_that("a plot without semantics should error", {
     stat_vector3(geom = "point") +
     coord_look_at_front()
 
-  expect_error(print(axis_semantics), expected_error)
+  expect_error(ggplot2::ggplot_build(axis_semantics), expected_error)
 
 })
 
