@@ -119,6 +119,8 @@ test_that("Plots with missing or wrong aesthetics give an error.", {
 
   expected_error <- "requires the following missing aesthetics: vector3"
 
+  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+
   aes_error_plot <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(foobar = spiral_part)) +
     stat_vector3(geom = "point") +
@@ -128,12 +130,27 @@ test_that("Plots with missing or wrong aesthetics give an error.", {
 
 })
 
+test_that("a plot without semantics should error", {
+
+  expected_error <- "axis semantics are null"
+
+  set_semantics(NULL)
+
+  axis_semantics <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part)) +
+    stat_vector3(geom = "point") +
+    coord_look_at_front()
+
+  expect_error(print(axis_semantics), expected_error)
+
+})
+
 test_that("after_stat depth works", {
 
   set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
 
   after_stat_depth <- spiral %>%
-    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part, color = after_stat(depth))) +
+    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part, color = ggplot2::after_stat(depth))) +
     stat_vector3(geom = "point") +
     coord_look_at_top()
 

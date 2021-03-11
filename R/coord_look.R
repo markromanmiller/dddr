@@ -27,6 +27,11 @@ CoordLookAt <- ggplot2::ggproto(
   setup_data = function(self, data, params) {
     # tag the vectors with the kind of view you should expect to give.
     # data is list of dfs.
+
+    if (is.null(get_semantics())) {
+      rlang::abort("Plot cannot be rendered because axis semantics are null. See `?semantics` for help.")
+    }
+
     data <- lapply(data, tag_views_in_df, view = self$view)
     ggplot2::CoordFixed$setup_data(data, params)
   },
