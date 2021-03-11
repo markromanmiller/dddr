@@ -127,3 +127,19 @@ test_that("Plots with missing or wrong aesthetics give an error.", {
   expect_error(print(aes_error_plot), expected_error)
 
 })
+
+test_that("after_stat depth works", {
+
+  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+
+  after_stat_depth <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(vector3 = spiral_part, color = after_stat(depth))) +
+    stat_vector3(geom = "point") +
+    coord_look_at_top()
+
+  vdiffr::expect_doppelganger(
+    "after_stat_depth",
+    after_stat_depth,
+    path="plots"
+  )
+})

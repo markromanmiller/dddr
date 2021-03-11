@@ -275,3 +275,19 @@ extract_vertical <- function(v) {
   dimension <- extract_vertical_dimension(attr(v, "view"))
   extract_dimension(v, dimension)
 }
+
+#' @keywords internal
+extract_normal <- function(v) {
+  dimension <- extract_normal_dimension(attr(v, "view"))
+  extract_dimension(v, dimension)
+}
+
+
+#' @keywords internal
+extract_vector3 <- function(data) {
+  # TODO: This needs a better name.
+  data$x <- extract_horizontal(data$vector3)
+  data$y <- extract_vertical(data$vector3)
+  data$depth <- extract_normal(data$vector3)
+  data
+}

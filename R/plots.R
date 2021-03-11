@@ -16,13 +16,6 @@ StatVector3 <- ggplot2::ggproto(
    required_aes = c("vector3")
 )
 
-# TODO: This needs a better name.
-extract_vector3 <- function(data) {
-  data$x <- extract_horizontal(data$vector3)
-  data$y <- extract_vertical(data$vector3)
-  data
-}
-
 Stat3Bin2d <- ggplot2::ggproto(
   "Stat3Bin2d", ggplot2::StatBin2d,
   compute_layer = function(self, data, params, layout) {
