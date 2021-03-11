@@ -222,7 +222,7 @@ pillar_shaft.dddr_vector3 <- function(v) {
 
 #' @keywords internal
 extract_dimension <- function(v, direction) {
-  cartesian_direction <- get_semantics()[[direction]]
+  cartesian_direction <- get_axes_semantics()[[direction]]
   axis <- substr(cartesian_direction, 2, 2)
   `$.dddr_vector3`(v, axis)
 }

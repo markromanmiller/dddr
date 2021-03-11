@@ -10,7 +10,7 @@ tag_views_in_df <- function(df, view) {
 }
 
 semantics_reverse <- function(dimension) {
-  if (substr(get_semantics()[[dimension]], 1, 1) == "-") {
+  if (substr(get_axes_semantics()[[dimension]], 1, 1) == "-") {
     return(function(x) (1 - x))
   } else {
     return(function(x) (x))
@@ -28,7 +28,7 @@ CoordLookAt <- ggplot2::ggproto(
     # tag the vectors with the kind of view you should expect to give.
     # data is list of dfs.
 
-    if (is.null(get_semantics())) {
+    if (is.null(get_axes_semantics())) {
       rlang::abort("Plot cannot be rendered because axis semantics are null. See `?semantics` for help.")
     }
 
@@ -78,19 +78,19 @@ CoordLookAt <- ggplot2::ggproto(
     )
 
     # get all the directions for use in placing texts:
-    horz_dim <- get_semantics()[[extract_horizontal_dimension(self$view)]]
+    horz_dim <- get_axes_semantics()[[extract_horizontal_dimension(self$view)]]
     horz_axis <- get_axis(horz_dim)
     horz_direction <- get_direction(horz_dim)
     axis_hjust <- switch(horz_direction, "+" = 1.6, "-" = -0.6)
     horz_placement <- switch(horz_direction, "+" = 1, "-" = 0)
 
-    vert_dim <- get_semantics()[[extract_vertical_dimension(self$view)]]
+    vert_dim <- get_axes_semantics()[[extract_vertical_dimension(self$view)]]
     vert_axis <- get_axis(vert_dim)
     vert_direction <- get_direction(vert_dim)
     axis_vjust <- switch(vert_direction, "+" = 1.6, "-" = -0.6)
     vert_placement <- switch(vert_direction, "+" = 1, "-" = 0)
 
-    norm_dim <- get_semantics()[[extract_normal_dimension(self$view)]]
+    norm_dim <- get_axes_semantics()[[extract_normal_dimension(self$view)]]
     norm_axis <- get_axis(norm_dim)
     norm_direction <- get_direction(norm_dim)
 

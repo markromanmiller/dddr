@@ -10,7 +10,7 @@ spiral <- data.frame(i = seq(0, 10 * pi, 0.05)) %>%
 
 test_that("Simple example doppleganger works.", {
 
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+  set_dddr_semantics(axes = semantics_axes(y = "up", z = "forward", hand = "right"))
 
   points_front <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
@@ -27,7 +27,7 @@ test_that("Simple example doppleganger works.", {
 
 test_that("Negative scales are drawn correctly.", {
 
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "left"))
+  set_dddr_semantics(axes = semantics_axes(y = "up", z = "forward", hand = "left"))
 
   points_front <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
@@ -45,7 +45,7 @@ test_that("Negative scales are drawn correctly.", {
 
 test_that("Looking back, arrow into screen, and top_left", {
 
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+  set_dddr_semantics(axes = semantics_axes(y = "up", z = "forward", hand = "right"))
 
   points_front <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
@@ -63,7 +63,7 @@ test_that("Looking back, arrow into screen, and top_left", {
 
 test_that("Looking at the top works", {
 
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+  set_dddr_semantics(axes = semantics_axes(y = "up", z = "forward", hand = "right"))
 
   points_top <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
@@ -79,7 +79,7 @@ test_that("Looking at the top works", {
 
 test_that("Stat works for both point and line", {
 
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+  set_dddr_semantics(axes = semantics_axes(y = "up", z = "forward", hand = "right"))
 
   point_and_line <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
@@ -95,7 +95,7 @@ test_that("Stat works for both point and line", {
 })
 
 test_that("Stat3 bin2d works", {
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+  set_dddr_semantics(axes = semantics_axes(y = "up", z = "forward", hand = "right"))
 
   stat3_bin2d <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
@@ -117,7 +117,7 @@ test_that("Plots with missing or wrong aesthetics give an error.", {
 
   expected_error <- "requires the following missing aesthetics: v"
 
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+  set_dddr_semantics(axes = semantics_axes(y = "up", z = "forward", hand = "right"))
 
   aes_error_plot <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(foobar = spiral_part)) +
@@ -132,7 +132,7 @@ test_that("a plot without semantics should error", {
 
   expected_error <- "axis semantics are null"
 
-  set_semantics(NULL)
+  set_dddr_semantics(axes = NULL)
 
   axis_semantics <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
@@ -145,7 +145,7 @@ test_that("a plot without semantics should error", {
 
 test_that("after_stat depth works", {
 
-  set_semantics(semantics_axes(y = "up", z = "forward", hand = "right"))
+  set_dddr_semantics(axes = semantics_axes(y = "up", z = "forward", hand = "right"))
 
   after_stat_depth <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part, color = ggplot2::after_stat(depth))) +
