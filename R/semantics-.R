@@ -37,7 +37,18 @@ get_axes_semantics <- function() {
 #' @export
 get_dddr_semantics <- function() {
   list(
-    axes = get_axes_semantics,
-    angles = get_angles_semantics
+    axes = get_axes_semantics(),
+    angles = get_angles_semantics()
   )
 }
+
+#' Predefined axes semantics
+#'
+#' A collection of predefined axis and angle semantics are provided here.
+#'
+#' The correctness is, of course, dependent upon whether the semantics are
+#' followed in the virtual world. These are no substitute for visual
+#' inspection.
+#'
+#' @name common_semantics
+NULL

@@ -59,3 +59,9 @@ semantics_angles <- function(intrinsic = NULL, extrinsic = NULL, hand = NULL) {
   result$hand <- hand
   result
 }
+
+#' @export
+#' @rdname common_semantics
+semantics_angles_unity <- semantics_angles(
+  intrinsic = "ypr", hand = "left"
+)
