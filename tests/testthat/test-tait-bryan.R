@@ -68,6 +68,59 @@ test_that("multiple nonzero values follow process order", {
   )
 })
 
+# for the loop, use this syntax: show_failure(expect_equal(f(!!i), !!(i * 10)))
+
+f1 <- function(x, y, z, a) {
+  x
+}
+
+test_that("ypr goes back and forth with the right conventions", {
+  # if you're running this test, you might get less of a deluge
+  # if you limit yourself to one hand,
+  # one axes system,
+  # one angle version,
+  # and lower point density.
+
+  angle_versions <- c("pry", "pyr", "rpy", "ryp", "ypr", "yrp")
+  hand <- c("left", "right")
+  axes_versions <- c("unreal", "unity", "opengl")
+
+  pd <- 5 # short for point density
+
+  # use an odd divisor to avoid gimbal lock
+  over_pi_angles <- pi * seq(-pd, pd) / (2 * pd + 1)
+  over_2pi_angles <- pi * seq(-2*pd, 2*pd) / (2 * pd + 1)
+
+  for (ax in axes_versions) {
+
+    axsem <- switch(
+      ax,
+      unity = semantics_axes_unity,
+      unreal = semantics_axes_unreal,
+      opengl = semantics_axes_opengl
+    )
+
+    for (angs in angle_versions) {
+      for (h in hand) {
+        angsem <- semantics_angles(extrinsic = angs, hand = h)
+        set_dddr_semantics(angle = angsem, axes = axsem)
+
+        yaw_angles <- if(angsem$extrinsic[[2]] == "yaw") {over_pi_angles} else {over_2pi_angles}
+        pitch_angles <- if(angsem$extrinsic[[2]] == "pitch") {over_pi_angles} else {over_2pi_angles}
+        roll_angles <- if(angsem$extrinsic[[2]] == "roll") {over_pi_angles} else {over_2pi_angles}
+
+        ypr <- expand.grid(yaw = yaw_angles, pitch = pitch_angles, roll = roll_angles)
+        tb <- tait_bryan(yaw = ypr$yaw, pitch = ypr$pitch, roll = ypr$roll)
+
+        expect_equal(f1(yaw(tb), !!angs, !!ax, !!h), ypr$yaw)
+        expect_equal(f1(pitch(tb), !!angs, !!ax, !!h), ypr$pitch)
+        expect_equal(f1(roll(tb), !!angs, !!ax, !!h), ypr$roll)
+      }
+    }
+  }
+
+})
+
 
 set_dddr_semantics(axes = NULL, angles = NULL)
 

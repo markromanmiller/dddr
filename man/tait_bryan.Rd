@@ -6,9 +6,9 @@
 \usage{
 tait_bryan(yaw, pitch, roll)
 }
+\arguments{
+\item{yaw, pitch, roll}{Angles specified in radians}
+}
 \description{
 aka euler angles
-}
-\details{
-currently, it assumts valyes are in radians
 }

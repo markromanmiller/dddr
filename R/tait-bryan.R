@@ -1,9 +1,8 @@
-
 #' Tait-Bryan angles
 #'
 #' aka euler angles
 #'
-#' currently, it assumts valyes are in radians
+#' @param yaw,pitch,roll Angles specified in radians
 #'
 #' @export
 tait_bryan <- function(yaw, pitch, roll) {
@@ -44,8 +43,7 @@ tait_bryan <- function(yaw, pitch, roll) {
     }
   )
 
-  # perform the extrinsic rotations, in order.
-  # I think it's outside then inside... we'll see.
+  # perform the extrinsic rotations, in order. Note that left-multiplication rules are in effect here.
   make_rotator(axis = extrinsic_axes[[3]],
                angle = hand_factor * extrinsic_angles[[3]],
                from = NULL, to = NULL) *
@@ -58,6 +56,103 @@ tait_bryan <- function(yaw, pitch, roll) {
 }
 
 
+name_to_axis <- function(n) {
+  switch(n,
+    "pitch" = get_axis(get_axes_semantics()$right),
+    "roll" = get_axis(get_axes_semantics()$forward),
+    "yaw" = get_axis(get_axes_semantics()$up)
+  )
+}
+
+
+fudge_negative <- function(a, b) {
+
+  # there are fudge factors in the atan2 that flip a lot.
+  # it matters whether a cross b is positive or negative,
+  # and also whether angle and axis hands match
+
+  prod <- cross(
+    get_vector_from_dim(a), #  * ifelse(get_direction(a) == "+", 1, -1),
+    get_vector_from_dim(b)  #  * ifelse(get_direction(b) == "+", 1, -1)
+  )
+
+  direction <- sum(sapply(c("x", "y", "z"), function(x) {(`$.dddr_vector3`(prod, x))}))
+
+  sems <- get_dddr_semantics()
+
+  if (sems$angle$hand == sems$axes$hand) {
+    hand_factor <- 1
+  } else {
+    hand_factor <- -1
+  }
+
+  sign(direction) * hand_factor
+}
+
+
+
+
+# get the first intrinsic rot (global frame)
+
+first_intrinsic_angle <- function(q) {
+  sems <- get_dddr_semantics()
+
+  axis_3 <- name_to_axis(sems$angles$intrinsic[[3]])
+  axis_2 <- name_to_axis(sems$angles$intrinsic[[2]])
+
+  # z is chosen because it's the axis of the last intrinsic rotation
+  start_vector <- get_vector_from_dim(axis_3)
+
+  v <- rotate(start_vector, q)
+
+  atan2(
+    fudge_negative(axis_3, axis_2) * `$.dddr_vector3`(v, axis_2),
+    `$.dddr_vector3`(v, axis_3)
+  )
+}
+
+
+second_intrinsic_angle <- function(q) {
+  sems <- get_dddr_semantics()
+
+  axis_3 <- name_to_axis(sems$angles$intrinsic[[3]])
+  axis_2 <- name_to_axis(sems$angles$intrinsic[[2]])
+  axis_1 <- name_to_axis(sems$angles$intrinsic[[1]])
+
+  start_vector <- get_vector_from_dim(axis_3)
+  v <- rotate(start_vector, q)
+  atan2(
+    fudge_negative(axis_3, axis_1) * `$.dddr_vector3`(v, axis_1),
+    sqrt(
+      `$.dddr_vector3`(v, axis_3)^2 +
+        `$.dddr_vector3`(v, axis_2)^2)
+  )
+}
+
+third_intrinsic_angle <- function(q) {
+  sems <- get_dddr_semantics()
+
+  axis_3 <- name_to_axis(sems$angles$intrinsic[[3]])
+  axis_2 <- name_to_axis(sems$angles$intrinsic[[2]])
+  axis_1 <- name_to_axis(sems$angles$intrinsic[[1]])
+
+  v <- get_vector_from_dim(axis_2)
+  w <- get_vector_from_dim(axis_1)
+  atan2(
+    fudge_negative(axis_2, axis_1) * `$.dddr_vector3`(rotate(v, q), axis_1),
+    `$.dddr_vector3`(rotate(w, q), axis_1)
+  )
+}
+
+get_rotation <- function(q, rotname) {
+  sems <- get_dddr_semantics()
+  switch(
+    which(rotname == sems$angles$intrinsic),
+    `1` = first_intrinsic_angle(q),
+    `2` = second_intrinsic_angle(q),
+    `3` = third_intrinsic_angle(q),
+  )
+}
 
 #' Euler angles
 #'
@@ -71,29 +166,22 @@ tait_bryan <- function(yaw, pitch, roll) {
 #' @name euler_angles
 NULL
 
-
 #' @rdname euler_angles
 #' @export
 yaw <- function(q) {
-  # make z
-  z <- rotate(vector3(0, 0, 1), q)
-  # use x and z in atan2.
-  atan2(z$x, z$z)
+  get_rotation(q, "yaw")
 }
 
 #' @rdname euler_angles
 #' @export
 pitch <- function(q) {
-  z <- rotate(vector3(0, 0, 1), q)
-  atan2(-z$y, sqrt(z$z^2 + z$x^2))
+  get_rotation(q, "pitch")
 }
 
 #' @rdname euler_angles
 #' @export
 roll <- function(q) {
-  x <- rotate(vector3(1, 0, 0), q)
-  y <- rotate(vector3(0, 1, 0), q)
-  atan2(x$y, y$y)
+  get_rotation(q, "roll")
 }
 
 
