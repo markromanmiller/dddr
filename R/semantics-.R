@@ -41,5 +41,3 @@ get_dddr_semantics <- function() {
     angles = get_angles_semantics
   )
 }
-
-

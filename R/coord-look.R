@@ -29,7 +29,10 @@ CoordLookAt <- ggplot2::ggproto(
     # data is list of dfs.
 
     if (is.null(get_axes_semantics())) {
-      rlang::abort("Plot cannot be rendered because axis semantics are null. See `?semantics` for help.")
+      rlang::abort(paste(
+        "Plot cannot be rendered because axis semantics",
+        "are null. See `?semantics` for help."
+      ))
     }
 
     data <- lapply(data, tag_views_in_df, view = self$view)
@@ -63,18 +66,18 @@ CoordLookAt <- ggplot2::ggproto(
     rose_length <- theme$dddr.rose.length
 
     if (grepl("r", theme$dddr.rose.location)) {
-      origin_x <- grid::unit(1, units="npc") - rose_margin[2] - rose_length
+      origin_x <- grid::unit(1, units = "npc") - rose_margin[2] - rose_length
     } else {
-      origin_x <- grid::unit(0, units="npc") + rose_margin[4] + rose_length
+      origin_x <- grid::unit(0, units = "npc") + rose_margin[4] + rose_length
     }
     if (grepl("t", theme$dddr.rose.location)) {
-      origin_y <- grid::unit(1, units="npc") - rose_margin[1] - rose_length
+      origin_y <- grid::unit(1, units = "npc") - rose_margin[1] - rose_length
     } else {
-      origin_y <- grid::unit(0, units="npc") + rose_margin[3] + rose_length
+      origin_y <- grid::unit(0, units = "npc") + rose_margin[3] + rose_length
     }
     rose_viewport <- grid::viewport(
       x = origin_x, y = origin_y,
-      width = 2*rose_length, height = 2*rose_length
+      width = 2 * rose_length, height = 2 * rose_length
     )
 
     # get all the directions for use in placing texts:

@@ -16,11 +16,11 @@ dddr_register_s3_deps <- function() {
 }
 
 # Register the custom dddr elements in ggplot's theme tree
-dddr_register_ggplot_theme_elements <- function() {
+dddr_register_theme_elements <- function() {
   ggplot2::register_theme_elements(
     # specify all the new entries a theme can have,
     dddr.rose.line = ggplot2::element_line(),
-    dddr.rose.length = grid::unit(30, units="pt"),
+    dddr.rose.length = grid::unit(30, units = "pt"),
     dddr.rose.point = ggplot2::element_text(),
     dddr.rose.point.towards = "\u25CB",
     dddr.rose.point.away = "\u2715",
@@ -33,7 +33,7 @@ dddr_register_ggplot_theme_elements <- function() {
     dddr.rose.text.vert = ggplot2::element_text(),
     dddr.rose.text.norm = ggplot2::element_text(),
     dddr.rose.location = "tr",
-    dddr.rose.margin = ggplot2::margin(24, 24, 24, 24, unit="pt"),
+    dddr.rose.margin = ggplot2::margin(24, 24, 24, 24, unit = "pt"),
     # and specify the inheritance and type structures
     element_tree = list(
       dddr.rose.line = ggplot2::el_def("element_line", "line"),
@@ -59,7 +59,7 @@ dddr_register_ggplot_theme_elements <- function() {
 
   dddr_set_options()
   dddr_register_s3_deps()
-  dddr_register_ggplot_theme_elements()
+  dddr_register_theme_elements()
 
   invisible()
 }

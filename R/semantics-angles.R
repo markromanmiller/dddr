@@ -2,15 +2,18 @@
 #'
 semantics_angles <- function(intrinsic = NULL, extrinsic = NULL, hand = NULL) {
 
-  if (is.null(hand) || !xor(is.null(intrinsic), is.null(extrinsic) )) {
+  if (is.null(hand) || !xor(is.null(intrinsic), is.null(extrinsic))) {
     rlang::abort(paste0(
       "The arguments `hand` and and exactly one of ",
       "`intrinsic` and `extrinsic` must be specified."
-    ), class="dddr_semantics")
+    ), class = "dddr_semantics")
   }
 
   if (!(hand %in% c("left", "right"))) {
-    rlang::abort('`hand` must be either "right" or "left".', class="dddr_semantics")
+    rlang::abort(
+      '`hand` must be either "right" or "left".',
+      class = "dddr_semantics"
+    )
   }
 
   pry <- c(p = "pitch", r = "roll", y = "yaw")
@@ -28,9 +31,9 @@ semantics_angles <- function(intrinsic = NULL, extrinsic = NULL, hand = NULL) {
   if (length(given) == 3) {
     if (any(!(given %in% pry))) {
       rlang::abort(paste0(
-        'Only "yaw", "pitch", and "roll" and abbreviations are ',
-        'accepted values in `semantics_angles`.'
-      ), class="dddr_semantics")
+        "Only \"yaw\", \"pitch\", and \"roll\" and abbreviations are ",
+        "accepted values in `semantics_angles`."
+      ), class = "dddr_semantics")
     } else {
       clean <- given
     }
@@ -38,9 +41,9 @@ semantics_angles <- function(intrinsic = NULL, extrinsic = NULL, hand = NULL) {
     clean <- unname(pry[strsplit(given, "")[[1]]])
     if (any(is.na(clean))) {
       rlang::abort(paste0(
-        'Only "yaw", "pitch", and "roll" and abbreviations are ',
-        'accepted values in `semantics_angles`.'
-      ), class="dddr_semantics")
+        "(Only \"yaw\", \"pitch\", and \"roll\" and abbreviations are ",
+        "accepted values in `semantics_angles`."
+      ), class = "dddr_semantics")
     }
   } else {
     rlang::abort(paste0(
