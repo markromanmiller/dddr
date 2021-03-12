@@ -154,3 +154,33 @@ get_axis <- function(dimension) {
 get_direction <- function(dimension) {
   substr(dimension, 1, 1)
 }
+
+
+#' Predefined axes semantics
+#'
+#' A collection of predefined axes semantics are provided here.
+#'
+#' The correctness is, of course, dependent upon whether the semantics are
+#' followed in the virtual world. These are no substitute for visual
+#' inspection.
+#'
+#' @name common_axes_semantics
+NULL
+
+#' @export
+#' @rdname common_axes_semantics
+semantics_axes_unity <- semantics_axes(
+  y = "up", z = "forward", hand = "left"
+)
+
+#' @export
+#' @rdname common_axes_semantics
+semantics_axes_unreal <- semantics_axes(
+  z = "up", x = "forward", hand = "left"
+)
+
+#' @export
+#' @rdname common_axes_semantics
+semantics_axes_opengl <- semantics_axes(
+  y = "up", z = "backward", hand = "right"
+)
