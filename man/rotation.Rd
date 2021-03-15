@@ -18,7 +18,8 @@ rotate(rotand, rotator = NULL, ...)
   axis = NULL,
   angle = NULL,
   from = NULL,
-  to = NULL
+  to = NULL,
+  as = NULL
 )
 }
 \arguments{
@@ -40,9 +41,27 @@ is not provided, it is calculated using `from` and `to`}
 \item{from, to}{(Optional) Instead of specifying an axis-angle pair, or angle
 amount, a rotation is performed mapping the direction of `from` to the
 direction of `to`.}
+
+\item{as}{Specify the rotation to apply to the quaternion as the type of
+object the quaternion represents or the mathematical operation to be
+applied. Accepted values are `"action"`, `"orientation"`, `"multiplying"`,
+and `"conjugating"`.}
 }
 \description{
 Rotate points or quaternions using a handful of ways to define a rotation.
+}
+\details{
+Note that with quaternions, there are two operations that might be called
+"rotations." The operation is selected using the `as` argument. When
+quaternions represent orientations, rotation is merely quaternion
+multiplication. This operation is perfomed by the arguments `"orientation"` or
+`"multipliying"`. When quaternions represent actions, rotation is
+conjugating the first quaternion by the second.  This operation is performed
+by the arguments `"action"` or `"conjugating"`.
+
+If it is not clear which to use, ask whether the identity quaternion (no
+rotation at all) should become something other than the identity quaternion
+after rotation. If so, use `"orientation"`; if not, use `"action"`.
 }
 \examples{
 example_vector <- vector3(x = 1:4, y = 2:5, z = 3:6)
