@@ -80,7 +80,8 @@ the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
-\item{geom}{The geom used to render the statistical transform - a segment by default}
+\item{geom}{The geom used to render the statistical transform - a segment by
+default}
 
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
@@ -119,6 +120,6 @@ layer, as a string.}
 \description{
 Specify a line `segment` with `vector3` endpoints using the `v` and `vend`
 aesthetics, or specify a `spoke` with and endpoint (`v`), rotation (`rot`),
-and `radius`. For the spoke, the segment is produced by rotating `radius` by `rot` and
-appending it to the end of `v`.
+and `radius`. For the spoke, the segment is produced by rotating `radius` by
+`rot` and appending it to the end of `v`.
 }

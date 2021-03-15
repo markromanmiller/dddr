@@ -54,8 +54,8 @@ Rotate points or quaternions using a handful of ways to define a rotation.
 Note that with quaternions, there are two operations that might be called
 "rotations." The operation is selected using the `as` argument. When
 quaternions represent orientations, rotation is merely quaternion
-multiplication. This operation is perfomed by the arguments `"orientation"` or
-`"multipliying"`. When quaternions represent actions, rotation is
+multiplication. This operation is perfomed by the arguments `"orientation"`
+or `"multipliying"`. When quaternions represent actions, rotation is
 conjugating the first quaternion by the second.  This operation is performed
 by the arguments `"action"` or `"conjugating"`.
 

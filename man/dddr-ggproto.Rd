@@ -10,6 +10,7 @@
 \alias{StatSpoke3}
 \title{Spatial Plotting (Prototypes)}
 \description{
-The plotting in `dddr` is performed using the `ggplot2` extension system. Read more about it at \link[ggplot2]{ggplot2-ggproto}.
+The plotting in `dddr` is performed using the `ggplot2` extension system.
+Read more about it at \link[ggplot2]{ggplot2-ggproto}.
 }
 \keyword{datasets}
