@@ -220,6 +220,11 @@ pillar_shaft.dddr_vector3 <- function(v) {
   out
 }
 
+#' @importFrom ggplot2 scale_type
+#' @method scale_type dddr_vector3
+#' @export
+scale_type.dddr_vector3 <- function(x) "identity"
+
 #' @keywords internal
 extract_dimension <- function(v, direction) {
   cartesian_direction <- get_axes_semantics()[[direction]]

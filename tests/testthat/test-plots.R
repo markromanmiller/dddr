@@ -5,7 +5,8 @@ spiral <- data.frame(i = seq(0, 10 * pi, 0.05)) %>%
     circular_part = vector3(x = cos(i), y = sin(i), z = 0),
     forward_part = vector3(x = 0, y = 0, z = i / 15),
     # vector3s can be added together and multiplied by numerics
-    spiral_part = circular_part * i / 30 + forward_part
+    spiral_part = circular_part * i / 30 + forward_part,
+    sample_quat = axis_angle(axis = circular_part, angle = i)
   )
 
 test_that("Simple example doppleganger works.", {
@@ -27,7 +28,7 @@ test_that("Simple example doppleganger works.", {
 })
 
 
-test_that("Negative scales are drawn correctly.", {
+test_that("Negative scales are drawn correctly and geom_point3 works", {
 
   set_dddr_semantics(
     axes = semantics_axes(y = "up", z = "forward", hand = "left")
@@ -35,7 +36,7 @@ test_that("Negative scales are drawn correctly.", {
 
   points_front <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
-    stat_vector3(geom = "point") +
+    geom_point3() +
     coord_look_at_front() +
     ggplot2::theme_test() +
     ggplot2::theme(dddr.rose.location = "none")
@@ -93,13 +94,71 @@ test_that("Stat works for both point and line", {
 
   point_and_line <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
+    geom_point3() +
+    geom_path3() +
+    coord_look_at_top()
+
+  vdiffr::expect_doppelganger(
+    "point_and_line_stat",
+    point_and_line,
+    path = "plots"
+  )
+})
+
+test_that("Geom works for both point and line", {
+
+  set_dddr_semantics(
+    axes = semantics_axes(y = "up", z = "forward", hand = "right")
+  )
+
+  point_and_line <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
     stat_vector3(geom = "point") +
     stat_vector3(geom = "path") +
     coord_look_at_top()
 
   vdiffr::expect_doppelganger(
-    "point_and_line",
+    "point_and_line_geom",
     point_and_line,
+    path = "plots"
+  )
+})
+
+test_that("segment3 works", {
+  set_dddr_semantics(
+    axes = semantics_axes(y = "up", z = "forward", hand = "right")
+  )
+
+  segment_plot <- spiral %>%
+    # only take every nth row (overplotting)
+    subset(1:nrow(spiral) %% 10 == 0) %>%
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part, vend = forward_part)) +
+    geom_segment3(ggplot2::aes(vend = circular_part), color = "red") +
+    stat_segment3(color = "blue") +
+    coord_look_at_top()
+
+  vdiffr::expect_doppelganger(
+    "segment plot",
+    segment_plot,
+    path = "plots"
+  )
+})
+
+test_that("spoke3 works", {
+  set_dddr_semantics(
+    axes = semantics_axes(y = "up", z = "forward", hand = "right"),
+    angles = semantics_angles_unity
+  )
+
+  spoke_plot <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part, rot = sample_quat)) +
+    geom_spoke3(ggplot2::aes(radius = vector3(0.1, 0, 0)), color = "red") +
+    stat_spoke3(ggplot2::aes(radius = vector3(0, 0, 0.1)), color = "blue") +
+    coord_look_at_top()
+
+  vdiffr::expect_doppelganger(
+    "spoke plot",
+    spoke_plot,
     path = "plots"
   )
 })
@@ -111,10 +170,8 @@ test_that("Stat3 bin2d works", {
 
   stat3_bin2d <- spiral %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
-    stat3_bin_2d() +
+    stat_bin_2d3() +
     coord_look_at_top()
-
-  ggplot2:::ggplot_build.ggplot(stat3_bin2d)
 
   vdiffr::expect_doppelganger(
     "stat3_bin2d",
