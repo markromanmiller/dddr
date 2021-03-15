@@ -1,5 +1,11 @@
-#' Stat proto
+#' Spatial Plotting (Prototypes)
 #'
+#' The plotting in `dddr` is performed using the `ggplot2` extension system. Read more about it at \link[ggplot2]{ggplot2-ggproto}.
+#'
+#' @name dddr-ggproto
+NULL
+
+#' @rdname dddr-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -12,13 +18,13 @@ StatVector3 <- ggplot2::ggproto(
 )
 
 
-#' Spatial Plotting (Layers)
+#' Spatial Plotting (Points and Paths)
 #'
-#' In order to create layers that use vector3 objects sensibly, they need to be
-#' specified within a stat. This ensures clarity (for the reader and for the
-#' computer) that the vectors passed in are indeed vectors. Under the hood,
-#' these vectors are converted into the right XYZ vectors, so you don't have to
-#' think about that conversion yourself.
+#' In order to create geoms and stats that use vector3 objects, the vector must
+#' be transformed into the common x and y ggplot aesthetics. This ensures
+#' clarity (for the reader and for the computer) that the vectors passed in are
+#' indeed vectors. Under the hood, these vectors are converted into the right
+#' XYZ values, so you don't have to think about that conversion yourself.
 #'
 #' @inheritParams ggplot2::stat_identity
 #' @export
@@ -32,8 +38,8 @@ stat_vector3 <- function(mapping = NULL, data = NULL, geom = "point",
   )
 }
 
-
-
+#' @rdname stat_vector3
+#' @inheritParams ggplot2::geom_point
 #' @export
 geom_point3 <- function(mapping = NULL, data = NULL,
                         stat = "vector3", position = "identity",
@@ -56,6 +62,8 @@ geom_point3 <- function(mapping = NULL, data = NULL,
   )
 }
 
+#' @rdname stat_vector3
+#' @inheritParams ggplot2::geom_path
 #' @export
 geom_path3 <- function(mapping = NULL, data = NULL,
                        stat = "vector3", position = "identity",
@@ -86,7 +94,9 @@ geom_path3 <- function(mapping = NULL, data = NULL,
   )
 }
 
-
+#' @rdname dddr-ggproto
+#' @format NULL
+#' @usage NULL
 #' @export
 StatSegment3 <- ggplot2::ggproto(
   "StatSegment3", ggplot2::Stat,
@@ -100,6 +110,8 @@ StatSegment3 <- ggplot2::ggproto(
   required_aes = c("v", "vend")
 )
 
+#' @rdname geom_segment3
+#' @param geom The geom used to render the statistical transform - a segment by default
 #' @export
 stat_segment3 <- function(mapping = NULL, data = NULL,
                           geom = "segment", position = "identity",
@@ -130,6 +142,14 @@ stat_segment3 <- function(mapping = NULL, data = NULL,
   )
 }
 
+#' Spatial Plotting (Segments and Spokes)
+#'
+#' Specify a line `segment` with `vector3` endpoints using the `v` and `vend`
+#' aesthetics, or specify a `spoke` with and endpoint (`v`), rotation (`rot`),
+#' and `radius`. For the spoke, the segment is produced by rotating `radius` by `rot` and
+#' appending it to the end of `v`.
+#'
+#' @inheritParams ggplot2::geom_segment
 #' @export
 geom_segment3 <- function(mapping = NULL, data = NULL,
                           stat = "segment3", position = "identity",
@@ -160,7 +180,9 @@ geom_segment3 <- function(mapping = NULL, data = NULL,
   )
 }
 
-
+#' @rdname dddr-ggproto
+#' @format NULL
+#' @usage NULL
 #' @export
 StatSpoke3 <- ggplot2::ggproto(
   "StatSpoke3", ggplot2::Stat,
@@ -191,6 +213,7 @@ StatSpoke3 <- ggplot2::ggproto(
 )
 
 
+#' @rdname geom_segment3
 #' @export
 stat_spoke3 <- function(mapping = NULL, data = NULL,
                         geom = "segment", position = "identity",
@@ -213,6 +236,9 @@ stat_spoke3 <- function(mapping = NULL, data = NULL,
   )
 }
 
+#' @rdname geom_segment3
+#' @inheritParams ggplot2::geom_spoke
+#' @export
 geom_spoke3 <- function(mapping = NULL, data = NULL,
                        stat = "spoke3", position = "identity",
                        ...,

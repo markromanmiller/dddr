@@ -1,5 +1,18 @@
-#' @export
+#' Generate angle semantics
 #'
+#' Angle semantics are created using `semantics_angles` functions. As there are
+#' a lot of conventions, we have both an interface to define your own as well as
+#' using ones contributed by the community, such as `semantics_angles_unity` for
+#' the Unity game engine.
+#'
+#' @param intrinsic,extrinsic The intrinsic or extrinsic rotations specified in
+#'   order. This can either be a three-letter string like `"ypr"` or a
+#'   three-element character vector like `c("yaw", "pitch", "roll")`.
+#' @param hand `left` or `right` specifying the handedness of the positive angle
+#'
+#' @seealso semantics_angles
+#'
+#' @export
 semantics_angles <- function(intrinsic = NULL, extrinsic = NULL, hand = NULL) {
 
   if (is.null(hand) || !xor(is.null(intrinsic), is.null(extrinsic))) {

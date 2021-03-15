@@ -20,3 +20,6 @@ lot of conventions, we have both an interface to define your own as well as
 using ones contributed by the community, such as `semantics_axes_unity` for
 the Unity game engine.
 }
+\seealso{
+semantics_angles
+}

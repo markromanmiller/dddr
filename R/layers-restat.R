@@ -1,5 +1,9 @@
 # Some objects are simple to convert to 3D. These are not those objects.
 
+#' @rdname dddr-ggproto
+#' @format NULL
+#' @usage NULL
+#' @export
 StatBin2d3 <- ggplot2::ggproto(
   "StatBin2d3", ggplot2::StatBin2d,
   compute_layer = function(self, data, params, layout) {
@@ -20,7 +24,8 @@ StatBin2d3 <- ggplot2::ggproto(
   required_aes = c("v")
 )
 
-
+#' @rdname geom_bin2d3
+#' @inheritParams ggplot2::stat_bin_2d
 #' @export
 stat_bin_2d3 <- function(mapping = NULL, data = NULL,
                          geom = "tile", position = "identity",
@@ -49,9 +54,17 @@ stat_bin_2d3 <- function(mapping = NULL, data = NULL,
   )
 }
 
+#' @rdname geom_bin2d3
 #' @export
 stat_bin2d3 <- stat_bin_2d3
 
+#' Spatial Plotting (Binned Data)
+#'
+#' To bin data points according to a view, the points need to be converted from
+#' vectors into 2D points. These geoms and stats perform this transformation.
+#' Only `v` is a required aesthetics.
+#'
+#' @inheritParams ggplot2::geom_bin2d
 #' @export
 geom_bin2d3 <- function(mapping = NULL, data = NULL,
                          stat = "bin2d3", position = "identity",

@@ -59,6 +59,8 @@ semantic_cross_table <- read.csv(stringsAsFactors = FALSE, strip.white = T,
 #' @param hand `left` or `right` specifying the handedness of the coordinate
 #'   system.
 #'
+#' @seealso semantics_angles
+#'
 #' @export
 semantics_axes <- function(x=NULL, y=NULL, z=NULL, hand=NULL) {
 

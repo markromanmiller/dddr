@@ -43,6 +43,5 @@ legend, the plot title, or the plot margins.}
 }
 \description{
 To render the view of some spatial object, one must select the way to view
-it, both by the method (orthogonal, perspective) and the placement of the
-camera. This is performed using a ggplot2 coord.
+it. This is performed using a ggplot2 coord.
 }

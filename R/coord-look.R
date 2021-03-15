@@ -17,8 +17,7 @@ semantics_reverse <- function(dimension) {
   }
 }
 
-#' Coord proto
-#'
+#' @rdname dddr-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -163,8 +162,7 @@ CoordLookAt <- ggplot2::ggproto(
 #' Spatial Plotting (Coordinates)
 #'
 #' To render the view of some spatial object, one must select the way to view
-#' it, both by the method (orthogonal, perspective) and the placement of the
-#' camera. This is performed using a ggplot2 coord.
+#' it. This is performed using a ggplot2 coord.
 #'
 #' @inheritParams ggplot2::coord_fixed
 #' @param direction String representing the face being looked at.

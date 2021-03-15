@@ -2,17 +2,18 @@
 % Please edit documentation in R/quat.R
 \name{quat}
 \alias{quat}
+\alias{axis_angle}
 \title{Create a quaternion}
 \usage{
 quat(w, x, y, z)
+
+axis_angle(axis, angle)
 }
 \arguments{
 \item{w, x, y, z}{Numeric vectors of the quaternion values. It is rare to need
 to access these fields.}
 
 \item{axis, angle}{Define a quaternion using axis-angle convention}
-
-\item{from, to}{Define a quaternion using the shortest rotation from `from` to `to`}
 }
 \description{
 Creates a quaternion, a four-dimensional number that represents 3D rotation
