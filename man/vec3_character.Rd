@@ -14,7 +14,7 @@
 
 as_vector3(x, ...)
 
-\method{as_vector3}{character}(x, ...)
+\method{as_vector3}{character}(x, ..., regex = "\\\\((.*),(.*),(.*)\\\\)")
 }
 \arguments{
 \item{x}{an object to be converted}
@@ -23,6 +23,8 @@ as_vector3(x, ...)
 `format`}
 
 \item{digits}{number of decimal digits to produce}
+
+\item{regex}{regular expression used to parse. The three groups should produce x, y, and z values in order.}
 }
 \description{
 Vector3 Conversions to and from Character

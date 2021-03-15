@@ -66,6 +66,7 @@ is.na.dddr_vector3 <- function(x) {
 #' @param ... arguments passed along to underlying methods `as.character` or
 #'   `format`
 #' @param digits number of decimal digits to produce
+#' @param regex regular expression used to parse. The three groups should produce x, y, and z values in order.
 #'
 #' @name vec3_character
 NULL
@@ -110,9 +111,9 @@ as_vector3 <- function(x, ...) {
 #' @method as_vector3 character
 #' @export
 #' @rdname vec3_character
-as_vector3.character <- function(x, ...) {
+as_vector3.character <- function(x, ..., regex = "\\((.*),(.*),(.*)\\)") {
   # NAs are acceptable...
-  regex_results <- regexec("\\((.*),(.*),(.*)\\)", x)
+  regex_results <- regexec(regex, x)
   regex_matches <- regmatches(x, regex_results)
   vector3(
     x = as.numeric(sapply(regex_matches, function(m) m[[2]])),
