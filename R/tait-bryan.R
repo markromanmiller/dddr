@@ -22,7 +22,7 @@ tait_bryan <- function(yaw, pitch, roll) {
 
   extrinsic_axes <- lapply(
     sems$angles$extrinsic,
-    function (x) {
+    function(x) {
       switch(x,
         # note this always returns the + side of the given dimension
         "yaw" = get_vector_from_dim(get_axis(sems$axes$up)),
@@ -34,7 +34,7 @@ tait_bryan <- function(yaw, pitch, roll) {
 
   extrinsic_angles <- lapply(
     sems$angles$extrinsic,
-    function (x) {
+    function(x) {
       switch(x,
         "yaw" = yaw,
         "pitch" = pitch,
@@ -43,7 +43,8 @@ tait_bryan <- function(yaw, pitch, roll) {
     }
   )
 
-  # perform the extrinsic rotations, in order. Note that left-multiplication rules are in effect here.
+  # perform the extrinsic rotations, in order. Note that left-multiplication
+  # rules are in effect here.
   make_rotator(axis = extrinsic_axes[[3]],
                angle = hand_factor * extrinsic_angles[[3]],
                from = NULL, to = NULL) *
@@ -72,11 +73,15 @@ fudge_negative <- function(a, b) {
   # and also whether angle and axis hands match
 
   prod <- cross(
-    get_vector_from_dim(a), #  * ifelse(get_direction(a) == "+", 1, -1),
-    get_vector_from_dim(b)  #  * ifelse(get_direction(b) == "+", 1, -1)
+    get_vector_from_dim(a),
+    get_vector_from_dim(b)
   )
 
-  direction <- sum(sapply(c("x", "y", "z"), function(x) {(`$.dddr_vector3`(prod, x))}))
+  direction <- sum(sapply(
+    c("x", "y", "z"),
+    function(x) {
+      `$.dddr_vector3`(prod, x)
+    }))
 
   sems <- get_dddr_semantics()
 
@@ -132,7 +137,6 @@ second_intrinsic_angle <- function(q) {
 third_intrinsic_angle <- function(q) {
   sems <- get_dddr_semantics()
 
-  axis_3 <- name_to_axis(sems$angles$intrinsic[[3]])
   axis_2 <- name_to_axis(sems$angles$intrinsic[[2]])
   axis_1 <- name_to_axis(sems$angles$intrinsic[[1]])
 
@@ -183,6 +187,3 @@ pitch <- function(q) {
 roll <- function(q) {
   get_rotation(q, "roll")
 }
-
-
-

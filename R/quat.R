@@ -86,5 +86,5 @@ scale_type.dddr_quat <- function(x) "identity"
 #'
 #' @export
 axis_angle <- function(axis, angle) {
-  make_rotator(axis, angle, from=NULL, to=NULL)
+  make_rotator(axis, angle, from = NULL, to = NULL)
 }

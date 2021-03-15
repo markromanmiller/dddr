@@ -1,6 +1,7 @@
 #' Spatial Plotting (Prototypes)
 #'
-#' The plotting in `dddr` is performed using the `ggplot2` extension system. Read more about it at \link[ggplot2]{ggplot2-ggproto}.
+#' The plotting in `dddr` is performed using the `ggplot2` extension system.
+#' Read more about it at \link[ggplot2]{ggplot2-ggproto}.
 #'
 #' @name dddr-ggproto
 NULL
@@ -111,7 +112,8 @@ StatSegment3 <- ggplot2::ggproto(
 )
 
 #' @rdname geom_segment3
-#' @param geom The geom used to render the statistical transform - a segment by default
+#' @param geom The geom used to render the statistical transform - a segment by
+#'   default
 #' @export
 stat_segment3 <- function(mapping = NULL, data = NULL,
                           geom = "segment", position = "identity",
@@ -146,8 +148,8 @@ stat_segment3 <- function(mapping = NULL, data = NULL,
 #'
 #' Specify a line `segment` with `vector3` endpoints using the `v` and `vend`
 #' aesthetics, or specify a `spoke` with and endpoint (`v`), rotation (`rot`),
-#' and `radius`. For the spoke, the segment is produced by rotating `radius` by `rot` and
-#' appending it to the end of `v`.
+#' and `radius`. For the spoke, the segment is produced by rotating `radius` by
+#' `rot` and appending it to the end of `v`.
 #'
 #' @inheritParams ggplot2::geom_segment
 #' @export
@@ -189,15 +191,24 @@ StatSpoke3 <- ggplot2::ggproto(
   compute_layer = function(self, data, scales, ...) {
     # this is done in layer not group in order to type-check arguments.
     if (!inherits(data$v, "dddr_vector3")) {
-      rlang::abort("In geom_spoke3 and stat_spoke3, `v` aesthetic must be a vector3.", class="dddr_plotting")
+      rlang::abort(
+        "In geom_spoke3 and stat_spoke3, `v` aesthetic must be a vector3.",
+        class = "dddr_plotting"
+      )
     } else if (!inherits(data$rot, "dddr_quat")) {
-      rlang::abort("In geom_spoke3 and stat_spoke3, `rot` aesthetic must be a quat.", class="dddr_plotting")
+      rlang::abort(
+        "In geom_spoke3 and stat_spoke3, `rot` aesthetic must be a quat.",
+        class = "dddr_plotting"
+      )
     } else if (!inherits(data$radius, "dddr_vector3")) {
-      rlang::abort("In geom_spoke3 and stat_spoke3, `radius` aesthetic must be a vector3.", class="dddr_plotting")
+      rlang::abort(
+        paste(
+          "In geom_spoke3 and stat_spoke3,",
+          "`radius` aesthetic must be a vector3."
+        ),
+        class = "dddr_plotting"
+      )
     }
-
-    # radius, if specified outside a df, doesn't have the tag for what view the coord is wanting...
-    # so borrow the tag from data$v
 
     # pull out the right values.
     data <- extract_vector3(data)
@@ -208,8 +219,7 @@ StatSpoke3 <- ggplot2::ggproto(
     data$depthend <- extract_normal(data$vend)
     data
   },
-  required_aes = c("v", "rot", "radius")#,
-  #default_aes = c(radius = ) # I want the 'forward' vector.
+  required_aes = c("v", "rot", "radius")
 )
 
 
@@ -259,10 +269,3 @@ geom_spoke3 <- function(mapping = NULL, data = NULL,
     )
   )
 }
-
-
-
-
-
-
-

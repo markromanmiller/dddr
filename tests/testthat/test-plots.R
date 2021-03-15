@@ -131,7 +131,7 @@ test_that("segment3 works", {
 
   segment_plot <- spiral %>%
     # only take every nth row (overplotting)
-    subset(1:nrow(spiral) %% 10 == 0) %>%
+    subset(seq_len(nrow(spiral)) %% 10 == 0) %>%
     ggplot2::ggplot(ggplot2::aes(v = spiral_part, vend = forward_part)) +
     geom_segment3(ggplot2::aes(vend = circular_part), color = "red") +
     stat_segment3(color = "blue") +
