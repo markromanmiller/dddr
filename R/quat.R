@@ -24,6 +24,7 @@ new_quat <- function(w = double(), x = double(), y = double(), z = double()) {
 #'
 #' @param w,x,y,z Numeric vectors of the quaternion values. It is rare to need
 #'   to access these fields.
+#' @param axis,angle Define a quaternion using axis-angle convention
 #'
 #' @export
 quat <- function(w, x, y, z) {
@@ -74,4 +75,16 @@ format.dddr_quat <- function(x, ..., digits = 4) {
 #' @export
 vec_ptype_abbr.dddr_quat <- function(x, ...) {
   "quat"
+}
+
+#' @importFrom ggplot2 scale_type
+#' @method scale_type dddr_quat
+#' @export
+scale_type.dddr_quat <- function(x) "identity"
+
+#' @rdname quat
+#'
+#' @export
+axis_angle <- function(axis, angle) {
+  make_rotator(axis, angle, from = NULL, to = NULL)
 }

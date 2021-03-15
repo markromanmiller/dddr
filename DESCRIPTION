@@ -18,12 +18,14 @@ Imports:
     rlang,
     vctrs
 Suggests:
+    covr,
+    crayon,
+    glue,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    covr,
-    crayon,
+    vdiffr,
     waldo
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

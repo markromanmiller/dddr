@@ -43,6 +43,18 @@ make_rotator <- function(axis, angle, from, to) {
 #'
 #' Rotate points or quaternions using a handful of ways to define a rotation.
 #'
+#' Note that with quaternions, there are two operations that might be called
+#' "rotations." The operation is selected using the `as` argument. When
+#' quaternions represent orientations, rotation is merely quaternion
+#' multiplication. This operation is perfomed by the arguments `"orientation"`
+#' or `"multipliying"`. When quaternions represent actions, rotation is
+#' conjugating the first quaternion by the second.  This operation is performed
+#' by the arguments `"action"` or `"conjugating"`.
+#'
+#' If it is not clear which to use, ask whether the identity quaternion (no
+#' rotation at all) should become something other than the identity quaternion
+#' after rotation. If so, use `"orientation"`; if not, use `"action"`.
+#'
 #' @param rotand Object to be rotated; can be either a vector or a quaternion
 #' @param ... Additional arguments passed on to underlying S3 methods
 #' @param rotator (Optional) Quaternion specifying the rotation to perform. If
@@ -55,6 +67,10 @@ make_rotator <- function(axis, angle, from, to) {
 #' @param from,to (Optional) Instead of specifying an axis-angle pair, or angle
 #'   amount, a rotation is performed mapping the direction of `from` to the
 #'   direction of `to`.
+#' @param as Specify the rotation to apply to the quaternion as the type of
+#'   object the quaternion represents or the mathematical operation to be
+#'   applied. Accepted values are `"action"`, `"orientation"`, `"multiplying"`,
+#'   and `"conjugating"`.
 #'
 #' @examples
 #' example_vector <- vector3(x = 1:4, y = 2:5, z = 3:6)
@@ -79,7 +95,7 @@ rotate.dddr_vector3 <- function(rotand, rotator=NULL, ..., origin=NULL) {
     rotand <- rotand - origin
   }
   rotand <- quat(0, rotand$x, rotand$y, rotand$z)
-  result <- rotate.dddr_quat(rotand, rotator, ...)
+  result <- rotate.dddr_quat(rotand, rotator, ..., as = "conjugating")
   vec3_result <- vector3(result$x, result$y, result$z)
   if (!is.null(origin)) {
     vec3_result <- vec3_result + origin
@@ -92,7 +108,7 @@ rotate.dddr_vector3 <- function(rotand, rotator=NULL, ..., origin=NULL) {
 #' @export
 rotate.dddr_quat <- function(
   rotand, rotator = NULL, ...,
-  axis = NULL, angle = NULL, from = NULL, to = NULL
+  axis = NULL, angle = NULL, from = NULL, to = NULL, as = NULL
 ) {
   if (is.null(rotator)) {
     rotator <- make_rotator(axis, angle, from, to)
@@ -103,5 +119,21 @@ rotate.dddr_quat <- function(
         )
     }
   }
-  rotator * rotand * Conj(rotator)
+
+  if (is.null(as) ||
+      !(as %in% c("action", "orientation", "multiplying", "conjugating"))
+    ) {
+    rlang::abort(paste(
+      "To rotate a quaternion, `as` should be specified as",
+      "\"action\", \"orientation\", \"multiplying\", or \"conjugating\"."
+    ))
+  }
+
+  result <- rotator * rotand
+
+  if (as %in% c("action", "conjugating")) {
+    result <- result * Conj(rotator)
+  }
+
+  result
 }

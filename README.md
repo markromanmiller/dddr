@@ -61,10 +61,10 @@ spiral %>% head(10)
 ``` r
 spiral %>%
   # field access uses the $ operator
-  ggplot(aes(x=spiral_part$x, y=spiral_part$y)) +
-  geom_point() +
-  geom_path() +
-  coord_equal()
+  ggplot(aes(vector3=spiral_part)) +
+  stat_point3(geom="point") +
+  #geom_path3() +
+  coord_look_at_front()
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
@@ -82,6 +82,24 @@ spiral %>%
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+# Plotting
+
+``` r
+simple_dddr_plot <- function() {
+  spiral <- tibble(i = seq(0, 10*pi, 0.05)) %>%
+    mutate(
+      circular_part = vector3(x=cos(i), y=sin(i), z=i/15),
+      forward_part = vector3(x=0, y=0, z=i/15),
+      spiral_part = circular_part * i / 30 + forward_part
+    )
+
+  spiral %>%
+    ggplot() +
+    stat_point3(aes(vector3=spiral_part)) +
+    coord_look_at_front()
+}
+```
 
 # Installation
 

@@ -219,3 +219,80 @@ pillar_shaft.dddr_vector3 <- function(v) {
   attr(out, "min_width") <- min_width
   out
 }
+
+#' @importFrom ggplot2 scale_type
+#' @method scale_type dddr_vector3
+#' @export
+scale_type.dddr_vector3 <- function(x) "identity"
+
+#' @keywords internal
+extract_dimension <- function(v, direction) {
+  cartesian_direction <- get_axes_semantics()[[direction]]
+  axis <- substr(cartesian_direction, 2, 2)
+  `$.dddr_vector3`(v, axis)
+}
+
+#' @keywords internal
+extract_horizontal_dimension <- function(view) {
+    # if I'm looking at the front, it means forward is pointing towards me.
+    # Up is on the top, as usual.
+    # I need another function to call the right extract functions.
+  switch(view,
+    "at front" = "left", # positive X is to the left of the object.
+    "at back" = "right",
+    "at top" = "left",
+    "at bottom" = "left",
+    #"at left", "" conventions...
+    NA
+  )
+}
+
+#' @keywords internal
+extract_vertical_dimension <- function(view) {
+  switch(view,
+         "at front" = "up",
+         "at back" = "up",
+         "at top" = "backward",
+         "at bottom" = "forward",
+         NA
+  )
+}
+
+#' @keywords internal
+extract_normal_dimension <- function(view) {
+  switch(view,
+         "at front" = "forward",
+         "at back" = "backward",
+         "at top" = "up",
+         "at bottom" = "down",
+         NA
+  )
+}
+
+#' @keywords internal
+extract_horizontal <- function(v) {
+  dimension <- extract_horizontal_dimension(attr(v, "view"))
+  extract_dimension(v, dimension)
+}
+
+#' @keywords internal
+extract_vertical <- function(v) {
+  dimension <- extract_vertical_dimension(attr(v, "view"))
+  extract_dimension(v, dimension)
+}
+
+#' @keywords internal
+extract_normal <- function(v) {
+  dimension <- extract_normal_dimension(attr(v, "view"))
+  extract_dimension(v, dimension)
+}
+
+
+#' @keywords internal
+extract_vector3 <- function(data) {
+  # TODO: This needs a better name.
+  data$x <- extract_horizontal(data$v)
+  data$y <- extract_vertical(data$v)
+  data$depth <- extract_normal(data$v)
+  data
+}
