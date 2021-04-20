@@ -239,10 +239,12 @@ extract_horizontal_dimension <- function(view) {
     # Up is on the top, as usual.
     # I need another function to call the right extract functions.
   switch(view,
-    "at front" = "left", # positive X is to the left of the object.
+    "at front" = "left", # positive X (in ggplot space) is to the left of the object.
     "at back" = "right",
     "at top" = "left",
     "at bottom" = "left",
+    "at port" = "backward",
+    "at starboard" = "forward",
     #"at left", "" conventions...
     NA
   )
@@ -255,6 +257,8 @@ extract_vertical_dimension <- function(view) {
          "at back" = "up",
          "at top" = "backward",
          "at bottom" = "forward",
+         "at port" = "up",
+         "at starboard" = "up",
          NA
   )
 }
@@ -266,6 +270,8 @@ extract_normal_dimension <- function(view) {
          "at back" = "backward",
          "at top" = "up",
          "at bottom" = "down",
+         "at port" = "left",
+         "at starboard" = "right",
          NA
   )
 }

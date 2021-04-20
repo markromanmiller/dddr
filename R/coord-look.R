@@ -211,3 +211,15 @@ coord_look_at_top <- function(...) {
 coord_look_at_bottom <- function(...) {
   coord_look_at("bottom", ...)
 }
+
+#' @rdname dddr_coords
+#' @export
+coord_look_at_port <- function(...) {
+  coord_look_at("port", ...)
+}
+
+#' @rdname dddr_coords
+#' @export
+coord_look_at_starboard <- function(...) {
+  coord_look_at("starboard", ...)
+}

@@ -7,6 +7,8 @@
 \alias{coord_look_at_back}
 \alias{coord_look_at_top}
 \alias{coord_look_at_bottom}
+\alias{coord_look_at_port}
+\alias{coord_look_at_starboard}
 \title{Spatial Plotting (Coordinates)}
 \usage{
 coord_look_at(direction, xlim = NULL, ylim = NULL, expand = TRUE, clip = "on")
@@ -18,6 +20,10 @@ coord_look_at_back(...)
 coord_look_at_top(...)
 
 coord_look_at_bottom(...)
+
+coord_look_at_port(...)
+
+coord_look_at_starboard(...)
 }
 \arguments{
 \item{direction}{String representing the face being looked at.}
