@@ -2,10 +2,22 @@
 #'
 #' aka euler angles
 #'
-#' @param yaw,pitch,roll Angles specified in radians
+#' @param yaw,pitch,roll
+#' @param unit Units of the angles, valid values are `"radians"` and `"degrees"`
 #'
 #' @export
-tait_bryan <- function(yaw, pitch, roll) {
+tait_bryan <- function(yaw, pitch, roll, unit="radians") {
+
+  if (unit == "degrees") {
+    yaw <- yaw / 180 * pi
+    pitch <- pitch / 180 * pi
+    roll <- roll / 180 * pi
+  } else if (unit == "radians") {
+    # pass
+  } else {
+    # TODO: what's the right kind of error to throw here? is it a stop?
+    stop(paste("unit argument is not valid: '", unit, "'"))
+  }
 
   # cast to double and set length equivalent.
   l <- vctrs::vec_cast_common(yaw, pitch, roll, .to = double())
