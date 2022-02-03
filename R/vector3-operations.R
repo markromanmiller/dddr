@@ -185,9 +185,34 @@ NULL
 
 #' @rdname vector3_prop
 #' @export
-magnitude <- function(v) {
-  # TODO: make that type-safety call here.
-  sqrt(v$x^2 + v$y^2 + v$z^2)
+magnitude <- function(v, norm = c("euclidean", "manhattan", "L1", "L2", "infinity")) {
+  if (!inherits(v, "dddr_vector3")) {
+    rlang::abort(
+      message = paste0(
+        "`magnitude` expects first argument to inherit from `dddr_vector3`. ",
+        "Instead, the first argument was `",
+        paste0(class(v), collapse = "/"),
+        "`."
+      ),
+      class = "dddr_error_math"
+    )
+  }
+  
+  if (missing(norm)) {
+    sqrt(v$x^2 + v$y^2 + v$z^2)
+  } 
+  else {
+    norm <- match.arg(norm)
+    
+    switch(
+      norm,
+      "euclidean" = sqrt(v$x^2 + v$y^2 + v$z^2),
+      "manhattan" = abs(v$x) + abs(v$y) + abs(v$z),
+      "L1" = abs(v$x) + abs(v$y) + abs(v$z),
+      "L2" = sqrt(v$x^2 + v$y^2 + v$z^2),
+      "infinity" = pmax(abs(v$x), abs(v$y), abs(v$z)),
+    )
+  }
 }
 
 #' @rdname vector3_prop

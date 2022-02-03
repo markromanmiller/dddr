@@ -13,17 +13,17 @@ angle_between <- function(a, b, origin = vector3(0, 0, 0)) {
   # angle between is dot divided by length.
   a <- a - origin
   b <- b - origin
-  acos(dot(a, b) / (magnitude(a) * magnitude(b)))
+  acos(dot(a, b) / (magnitude(a, "L2") * magnitude(b, "L2")))
 }
 
-#' Cacluate distance between vectors
+#' Calculate distance between vectors
 #'
 #' Measure the distance between two points `from` and `to`
 #'
 #' @param from,to Endpoints of the distance to be calculated
 #' @export
-distance_between <- function(from, to) {
-  magnitude(from - to)
+distance_between <- function(from, to, norm) {
+  magnitude(from - to, norm)
 }
 
 #' Vector projection and rejection

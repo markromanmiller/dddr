@@ -144,7 +144,7 @@ test_that("Vector3 magnitudes are correctly computed", {
   expect_equal(magnitude(distances), c(1, 1, 1, 5))
 })
 
-test_that("Vector3 distances are correctly computed", {
+test_that("Vector3 distances are correctly computed with no inputted norm", {
   froms <- vector3(
     x = c(1, -4, 4, 3),
     y = c(0, -3, 5, 4),
@@ -155,6 +155,81 @@ test_that("Vector3 distances are correctly computed", {
     distance_between(froms, to = vector3(0, 2, -3)),
     c(sqrt(6), sqrt(105), sqrt(41), sqrt(22))
   )
+})
+
+test_that("Vector3 distances are correctly computed with euclidean norm", {
+  froms <- vector3(
+    x = c(1, -4, 4, 3),
+    y = c(0, -3, 5, 4),
+    z = c(-2, 5, -7, 0)
+  )
+  
+  expect_equal(
+    distance_between(froms, to = vector3(0, 2, -3), "euclidean"),
+    c(sqrt(6), sqrt(105), sqrt(41), sqrt(22))
+  )
+})
+
+test_that("Vector3 distances are correctly computed with manhattan norm", {
+  froms <- vector3(
+    x = c(1, -4, 4, 3),
+    y = c(0, -3, 5, 4),
+    z = c(-2, 5, -7, 0)
+  )
+  
+  expect_equal(
+    distance_between(froms, to = vector3(0, 2, -3), "manhattan"),
+    c(4, 17, 11, 8)
+  )
+})
+
+test_that("Vector3 distances are correctly computed with L1 norm", {
+  froms <- vector3(
+    x = c(1, -4, 4, 3),
+    y = c(0, -3, 5, 4),
+    z = c(-2, 5, -7, 0)
+  )
+  
+  expect_equal(
+    distance_between(froms, to = vector3(0, 2, -3), "L1"),
+    c(4, 17, 11, 8)
+  )
+})
+
+test_that("Vector3 distances are correctly computed with L2 norm", {
+  froms <- vector3(
+    x = c(1, -4, 4, 3),
+    y = c(0, -3, 5, 4),
+    z = c(-2, 5, -7, 0)
+  )
+  
+  expect_equal(
+    distance_between(froms, to = vector3(0, 2, -3), "L2"),
+    c(sqrt(6), sqrt(105), sqrt(41), sqrt(22))
+  )
+})
+
+test_that("Vector3 distances are correctly computed with infinity norm", {
+  froms <- vector3(
+    x = c(1, -4, 4, 3),
+    y = c(0, -3, 5, 4),
+    z = c(-2, 5, -7, 0)
+  )
+  
+  expect_equal(
+    distance_between(froms, to = vector3(0, 2, -3), "infinity"),
+    c(2, 8, 4, 3)
+  )
+})
+
+test_that("Vector3 distances throws an error with unknown norm", {
+  froms <- vector3(
+    x = c(1, -4, 4, 3),
+    y = c(0, -3, 5, 4),
+    z = c(-2, 5, -7, 0)
+  )
+  
+  expect_error(distance_between(froms, to = vector3(0, 2, -3), "unknown"))
 })
 
 test_that("Vector3 can be normalized", {
