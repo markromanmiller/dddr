@@ -20,11 +20,8 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'devel'}
           - {os: macOS-latest,   r: 'release'}
           - {os: macOS-latest,   r: 'oldrel-1'}
-          # - {os: macOS-latest,   r: '3.6'} ignored, due to rmarkdown incompatibility?
-          - {os: windows-latest, r: 'devel'}
           - {os: windows-latest, r: 'release'}
           - {os: windows-latest, r: 'oldrel-1'}
           # from r-lib/vctrs actions: Use older ubuntu to maximise backward compatibility
