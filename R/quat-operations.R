@@ -114,6 +114,6 @@ vec_proxy_equal.dddr_quat <- function(x, ...) {
 }
 
 #' @rdname quat_equal
-compare_proxy.dddr_quat <- function(x) {
-  quat_proxy_equal(x)
+compare_proxy.dddr_quat <- function(x, path) {
+  list(object = quat_proxy_equal(x), path = "unsure")
 }
