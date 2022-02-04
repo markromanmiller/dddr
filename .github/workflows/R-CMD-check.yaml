@@ -61,10 +61,9 @@ jobs:
           restore-keys: ${{ runner.os }}-r-${{ matrix.config.r }}-2-
 
       - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
-        shell: Rscript {0}
+        uses: r-lib/actions/setup-r-dependencies@v1
+        with:
+          extra-packages: rcmdcheck
 
       - name: Session info
         run: |
