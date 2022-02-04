@@ -83,6 +83,7 @@ vec_arith.dddr_quat.dddr_quat <- function(op, x, y, ...) {
 #' @param x Quaternions to form a proxy for.
 #' @param ... arguments passed on the underlying function for all.equal
 #' @param target,current quaternions to compare
+#' @param path Path describing the proxy operation
 #'
 #' @name quat_equal
 NULL
@@ -114,6 +115,7 @@ vec_proxy_equal.dddr_quat <- function(x, ...) {
 }
 
 #' @rdname quat_equal
+#' @export
 compare_proxy.dddr_quat <- function(x, path) {
-  list(object = quat_proxy_equal(x), path = "unsure")
+  list(object = quat_proxy_equal(x), path = paste0("quat_proxy_equal(", path, ")"))
 }

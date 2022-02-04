@@ -11,7 +11,7 @@
 
 \method{all.equal}{dddr_quat}(target, current, ...)
 
-compare_proxy.dddr_quat(x)
+compare_proxy.dddr_quat(x, path)
 }
 \arguments{
 \item{x}{Quaternions to form a proxy for.}
@@ -19,6 +19,8 @@ compare_proxy.dddr_quat(x)
 \item{...}{arguments passed on the underlying function for all.equal}
 
 \item{target, current}{quaternions to compare}
+
+\item{path}{Path describing the proxy operation}
 }
 \description{
 Like most mathematical objects, there is a notion of equality on quaternions.
