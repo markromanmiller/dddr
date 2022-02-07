@@ -179,6 +179,7 @@ vec_math.dddr_vector3 <- function(.fn, .x, ...) {
 #' accessible through the `magnitude` and `direction` functions.
 #'
 #' @param v vectors
+#' @param norm optional norm argument from list 'euclidean', 'manhattan', 'L1', 'L2', 'infinity'
 #'
 #' @name vector3_prop
 NULL
@@ -197,13 +198,13 @@ magnitude <- function(v, norm = c("euclidean", "manhattan", "L1", "L2", "infinit
       class = "dddr_error_math"
     )
   }
-  
+
   if (missing(norm)) {
     sqrt(v$x^2 + v$y^2 + v$z^2)
-  } 
+  }
   else {
     norm <- match.arg(norm)
-    
+
     switch(
       norm,
       "euclidean" = sqrt(v$x^2 + v$y^2 + v$z^2),

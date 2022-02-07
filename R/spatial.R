@@ -21,6 +21,8 @@ angle_between <- function(a, b, origin = vector3(0, 0, 0)) {
 #' Measure the distance between two points `from` and `to`
 #'
 #' @param from,to Endpoints of the distance to be calculated
+#' @param norm optional norm argument from list 'euclidean', 'manhattan', 'L1', 'L2', 'infinity'
+#'
 #' @export
 distance_between <- function(from, to, norm) {
   magnitude(from - to, norm)
