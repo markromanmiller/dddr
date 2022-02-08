@@ -6,12 +6,14 @@
 \alias{direction}
 \title{Vector properties}
 \usage{
-magnitude(v)
+magnitude(v, norm = c("euclidean", "manhattan", "L1", "L2", "infinity"))
 
 direction(v)
 }
 \arguments{
 \item{v}{vectors}
+
+\item{norm}{optional norm argument from list 'euclidean', 'manhattan', 'L1', 'L2', 'infinity'}
 }
 \description{
 Vectors have properties such as magnitude and direction. These are easily
