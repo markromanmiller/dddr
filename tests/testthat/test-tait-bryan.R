@@ -20,7 +20,7 @@ test_that("null rotations have no effect.", {
 })
 
 
-# test single nonzero valyes, those are easiest to think about
+# test single nonzero values, those are easiest to think about
 
 test_that("single nonzero values perform sensible rotations", {
   set_dddr_semantics(
@@ -147,6 +147,15 @@ test_that("ypr goes back and forth with the right conventions", {
     }
   }
 
+})
+
+test_that("throws error if angles are specified in degrees.", {
+
+  set_dddr_semantics(
+    axes = semantics_axes_unity,
+    angles = semantics_angles(intrinsic = "ypr", hand = "left")
+  )
+  expect_error(tait_bryan(280, 300, 320))
 })
 
 set_dddr_semantics(axes = NULL, angles = NULL)

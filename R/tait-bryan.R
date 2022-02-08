@@ -6,6 +6,12 @@
 #'
 #' @export
 tait_bryan <- function(yaw, pitch, roll) {
+  # throw error if angles are clearly in degrees
+  if (yaw > 2*pi || pitch > 2*pi || roll > 2*pi || yaw < -2*pi || pitch < -2*pi
+      || roll < -2*pi) {
+    stop("Expected angles 'yaw', 'pitch', and 'roll' to be specified in radians")
+  }
+
 
   # cast to double and set length equivalent.
   l <- vctrs::vec_cast_common(yaw, pitch, roll, .to = double())
