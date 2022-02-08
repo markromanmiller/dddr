@@ -70,7 +70,7 @@ will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{geom}{Use to override the default connection between
-\code{geom_bin2d} and \code{stat_bin2d}.}
+\code{geom_bin_2d()} and \code{stat_bin_2d()}.}
 
 \item{position}{Position adjustment, either as a string, or the result of
 a call to a position adjustment function.}
@@ -103,7 +103,7 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
 \item{stat}{Use to override the default connection between
-\code{geom_bin2d} and \code{stat_bin2d}.}
+\code{geom_bin_2d()} and \code{stat_bin_2d()}.}
 }
 \description{
 To bin data points according to a view, the points need to be converted from
