@@ -2,16 +2,19 @@
 #'
 #' aka euler angles
 #'
-#' @param yaw,pitch,roll Angles specified in radians
-#'
+#' @param yaw,pitch,roll angles
+#' @param unit Units of the angles, valid values are `"radians"` and `"degrees"`
 #' @export
-tait_bryan <- function(yaw, pitch, roll) {
-  # throw error if angles are clearly in degrees
-  if (yaw > 2*pi || pitch > 2*pi || roll > 2*pi || yaw < -2*pi || pitch < -2*pi
-      || roll < -2*pi) {
-    stop("Expected angles 'yaw', 'pitch', and 'roll' to be specified in radians")
+tait_bryan <- function(yaw, pitch, roll, unit = c("radians", 'degrees')) {
+  if (missing(unit)) {
+    stop("Expected units argument to be either 'radians' or 'degrees'")
   }
 
+  if (unit == "degrees") {
+    yaw <- yaw / 180 * pi
+    pitch <- pitch / 180 * pi
+    roll <- roll / 180 * pi
+  }
 
   # cast to double and set length equivalent.
   l <- vctrs::vec_cast_common(yaw, pitch, roll, .to = double())

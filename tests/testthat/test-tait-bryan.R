@@ -1,3 +1,7 @@
+test_that("unspecified unit argument throws error", {
+  expect_error(tait_bryan(yaw = 0, pitch = 0, roll - 0))
+})
+
 test_that("null rotations have no effect.", {
 
   set_dddr_semantics(
@@ -5,7 +9,11 @@ test_that("null rotations have no effect.", {
     angles = semantics_angles(intrinsic = "ypr", hand = "left")
   )
   expect_equal(
-    tait_bryan(yaw = 0, pitch = 0, roll = 0),
+    tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="radians"),
+    quat(1, 0, 0, 0)
+  )
+  expect_equal(
+    tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="degrees"),
     quat(1, 0, 0, 0)
   )
 
@@ -14,7 +22,13 @@ test_that("null rotations have no effect.", {
     angles = semantics_angles(extrinsic = "pyr", hand = "right")
   )
   expect_equal(
-    tait_bryan(yaw = rep(0, 3), pitch = rep(0, 3), roll = rep(0, 3)),
+    tait_bryan(yaw = rep(0, 3), pitch = rep(0, 3), roll = rep(0, 3),
+               unit="radians"),
+    rep(quat(1, 0, 0, 0), 3)
+  )
+  expect_equal(
+    tait_bryan(yaw = rep(0, 3), pitch = rep(0, 3), roll = rep(0, 3),
+               unit="degrees"),
     rep(quat(1, 0, 0, 0), 3)
   )
 })
@@ -28,7 +42,11 @@ test_that("single nonzero values perform sensible rotations", {
     angles = semantics_angles(intrinsic = "ypr", hand = "left")
   )
   expect_equal(
-    tait_bryan(yaw = 0, pitch = pi / 3, roll = 0),
+    tait_bryan(yaw = 0, pitch = pi / 3, roll = 0, unit="radians"),
+    quat(cos(pi / 6), sin(pi / 6), 0, 0)
+  )
+  expect_equal(
+    tait_bryan(yaw = 0, pitch = 60, roll = 0, unit="degrees"),
     quat(cos(pi / 6), sin(pi / 6), 0, 0)
   )
 
@@ -41,7 +59,21 @@ test_that("single nonzero values perform sensible rotations", {
     tait_bryan(
       yaw = c(pi / 3, 0, 0),
       pitch = c(0, 2 * pi / 3, 0),
-      roll = c(0, 0, -pi / 3)
+      roll = c(0, 0, -pi / 3),
+      unit="radians"
+    ),
+    c(
+      quat(cos(pi / 6), 0, -sin(pi / 6), 0),
+      quat(cos(pi / 3), -sin(pi / 3), 0, 0),
+      quat(cos(pi / 6), 0, 0, sin(pi / 6))
+    )
+  )
+  expect_equal(
+    tait_bryan(
+      yaw = c(60, 0, 0),
+      pitch = c(0, 120, 0),
+      roll = c(0, 0, -60),
+      unit="degrees"
     ),
     c(
       quat(cos(pi / 6), 0, -sin(pi / 6), 0),
@@ -59,7 +91,14 @@ test_that("multiple nonzero values follow process order", {
   expect_equal(
     rotate(
       vector3(0, 0, 1),
-      tait_bryan(yaw = pi / 4, pitch = pi / 4, roll = 0)
+      tait_bryan(yaw = pi / 4, pitch = pi / 4, roll = 0, unit="radians")
+    ),
+    vector3(0.5, -sin(pi / 4), 0.5) # this says it's negative.
+  )
+  expect_equal(
+    rotate(
+      vector3(0, 0, 1),
+      tait_bryan(yaw = 45, pitch = 45, roll = 0, unit="degrees")
     ),
     vector3(0.5, -sin(pi / 4), 0.5) # this says it's negative.
   )
@@ -72,7 +111,14 @@ test_that("multiple nonzero values follow process order", {
   expect_equal(
     rotate(
       vector3(1, 0, 0),
-      tait_bryan(yaw = pi / 6, pitch = 0, roll = -pi / 6)
+      tait_bryan(yaw = pi / 6, pitch = 0, roll = -pi / 6, unit="radians")
+    ),
+    vector3(cos(pi / 6), -sin(pi / 6)^2, cos(pi / 6) * sin(pi / 6))
+  )
+  expect_equal(
+    rotate(
+      vector3(1, 0, 0),
+      tait_bryan(yaw = 30, pitch = 0, roll = -30, unit="degrees")
     ),
     vector3(cos(pi / 6), -sin(pi / 6)^2, cos(pi / 6) * sin(pi / 6))
   )
@@ -138,7 +184,8 @@ test_that("ypr goes back and forth with the right conventions", {
           pitch = pitch_angles,
           roll = roll_angles
         )
-        tb <- tait_bryan(yaw = ypr$yaw, pitch = ypr$pitch, roll = ypr$roll)
+        tb <- tait_bryan(yaw = ypr$yaw, pitch = ypr$pitch, roll = ypr$roll,
+                         unit="radians")
 
         expect_equal(f1(yaw(tb), !!angs, !!ax, !!h), ypr$yaw)
         expect_equal(f1(pitch(tb), !!angs, !!ax, !!h), ypr$pitch)
@@ -147,15 +194,6 @@ test_that("ypr goes back and forth with the right conventions", {
     }
   }
 
-})
-
-test_that("throws error if angles are specified in degrees.", {
-
-  set_dddr_semantics(
-    axes = semantics_axes_unity,
-    angles = semantics_angles(intrinsic = "ypr", hand = "left")
-  )
-  expect_error(tait_bryan(280, 300, 320))
 })
 
 set_dddr_semantics(axes = NULL, angles = NULL)

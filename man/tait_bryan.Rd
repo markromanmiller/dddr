@@ -4,10 +4,12 @@
 \alias{tait_bryan}
 \title{Tait-Bryan angles}
 \usage{
-tait_bryan(yaw, pitch, roll)
+tait_bryan(yaw, pitch, roll, unit = c("radians", "degrees"))
 }
 \arguments{
-\item{yaw, pitch, roll}{Angles specified in radians}
+\item{yaw, pitch, roll}{angles}
+
+\item{unit}{Units of the angles, valid values are `"radians"` and `"degrees"`}
 }
 \description{
 aka euler angles
