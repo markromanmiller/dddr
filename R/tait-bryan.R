@@ -9,6 +9,7 @@ tait_bryan <- function(yaw, pitch, roll, unit = c("radians", 'degrees')) {
   if (missing(unit)) {
     stop("Expected units argument to be either 'radians' or 'degrees'")
   }
+  unit <- match.arg(unit)
 
   if (unit == "degrees") {
     yaw <- yaw / 180 * pi

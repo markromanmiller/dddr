@@ -1,6 +1,16 @@
-test_that("unspecified unit argument throws error", {
-  expect_error(tait_bryan(yaw = 0, pitch = 0, roll - 0))
+test_that("missing unit argument throws error", {
+  expect_error(tait_bryan(yaw = 0, pitch = 0, roll = 0))
 })
+
+test_that("unexpected unit argument throws error", {
+  # match.arg should not throw error for degree
+  expect_equal(
+    tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="degree"),
+    quat(1, 0, 0, 0)
+  )
+  expect_error(tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="aef"))
+})
+
 
 test_that("null rotations have no effect.", {
 
