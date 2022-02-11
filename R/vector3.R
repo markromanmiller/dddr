@@ -297,6 +297,12 @@ extract_normal <- function(v) {
 
 #' @keywords internal
 extract_vector3 <- function(data) {
+  if (is.null(attr(data$v, "view"))) {
+    rlang::abort(
+      message = "No view direction specified. Did you forget to specify a `coord_*` system?",
+      class = "dddr_semantics"
+    )
+  }
   # TODO: This needs a better name.
   data$x <- extract_horizontal(data$v)
   data$y <- extract_vertical(data$v)

@@ -27,6 +27,19 @@ test_that("Simple example doppleganger works.", {
   )
 })
 
+test_that("If no coordinate system is set, there is a warning", {
+  set_dddr_semantics(
+    axes = semantics_axes(y = "up", z = "forward", hand = "right")
+  )
+
+  plot <- spiral %>%
+    ggplot2::ggplot(ggplot2::aes(v = spiral_part)) +
+    stat_vector3(geom = "point")
+
+  expect_warning(ggplot2::ggplot_build(plot), regexp = "Did you forget to specify a `coord")
+
+})
+
 
 test_that("Negative scales are drawn correctly and geom_point3 works", {
 
