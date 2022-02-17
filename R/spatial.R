@@ -13,7 +13,14 @@ angle_between <- function(a, b, origin = vector3(0, 0, 0)) {
   # angle between is dot divided by length.
   a <- a - origin
   b <- b - origin
-  acos(dot(a, b) / (magnitude(a, "L2") * magnitude(b, "L2")))
+  eps <- .Machine$double.eps * 16
+  ccos <- dot(a, b) / (magnitude(a, "L2") * magnitude(b, "L2"))
+  ifelse(
+    (ccos > 1 & ccos - 1 < eps) |
+      (ccos < -1 & ccos + 1 > eps),
+    acos(sign(ccos)),
+    acos(ccos)
+  )
 }
 
 #' Calculate distance between vectors
