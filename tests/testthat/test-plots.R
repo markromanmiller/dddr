@@ -22,8 +22,7 @@ test_that("Simple example doppleganger works.", {
 
   vdiffr::expect_doppelganger(
     "Testing example",
-    points_front,
-    path = "plots"
+    points_front
   )
 })
 
@@ -56,8 +55,7 @@ test_that("Negative scales are drawn correctly and geom_point3 works", {
 
   vdiffr::expect_doppelganger(
     "negative scales",
-    points_front,
-    path = "plots"
+    points_front
   )
 })
 
@@ -76,8 +74,7 @@ test_that("Looking back, arrow into screen, and top_left", {
 
   vdiffr::expect_doppelganger(
     "arrow into screen",
-    points_front,
-    path = "plots"
+    points_front
   )
 })
 
@@ -94,8 +91,7 @@ test_that("Looking at the top works", {
 
   vdiffr::expect_doppelganger(
     "spiral from the top",
-    points_top,
-    path = "plots"
+    points_top
   )
 })
 
@@ -113,8 +109,7 @@ test_that("Stat works for both point and line", {
 
   vdiffr::expect_doppelganger(
     "point_and_line_stat",
-    point_and_line,
-    path = "plots"
+    point_and_line
   )
 })
 
@@ -132,8 +127,7 @@ test_that("Geom works for both point and line", {
 
   vdiffr::expect_doppelganger(
     "point_and_line_geom",
-    point_and_line,
-    path = "plots"
+    point_and_line
   )
 })
 
@@ -152,8 +146,7 @@ test_that("segment3 works", {
 
   vdiffr::expect_doppelganger(
     "segment plot",
-    segment_plot,
-    path = "plots"
+    segment_plot
   )
 })
 
@@ -171,8 +164,7 @@ test_that("spoke3 works", {
 
   vdiffr::expect_doppelganger(
     "spoke plot",
-    spoke_plot,
-    path = "plots"
+    spoke_plot
   )
 })
 
@@ -188,8 +180,7 @@ test_that("Stat3 bin2d works", {
 
   vdiffr::expect_doppelganger(
     "stat3_bin2d",
-    stat3_bin2d,
-    path = "plots"
+    stat3_bin2d
   )
 })
 
@@ -244,7 +235,6 @@ test_that("after_stat depth works", {
 
   vdiffr::expect_doppelganger(
     "after_stat_depth",
-    after_stat_depth,
-    path = "plots"
+    after_stat_depth
   )
 })
