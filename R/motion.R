@@ -1,3 +1,13 @@
+#' Linear or constant approximation of vector3
+#'
+#' Using `stats::approx`, create a linear or constant approximation
+#' (interpolation) of a value or vector
+#'
+#' @param x Indexes for the input values
+#' @param y The values or vectors to be interpolated between
+#' @param xout Indexes for the output values
+#' @param ... Additional arguments passed on to stats::approx
+#'
 #' @export
 approx <- function(x, y, xout, ...) {
   UseMethod("approx", y)
