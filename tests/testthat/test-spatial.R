@@ -34,7 +34,7 @@ test_that("angle_between tolerates error near machine precision", {
     -0.02235231534128476541,
     0.93002514362248289714
   )
-  expect_equal(angle_between(special_case, special_case), 0)
+  expect_equal(angle_between(special_case, special_case), 0, tolerance = 2e-8)
 })
 
 # project
