@@ -19,6 +19,7 @@ Imports:
 Suggests:
     covr,
     crayon,
+    dplyr,
     glue,
     knitr,
     rmarkdown,
