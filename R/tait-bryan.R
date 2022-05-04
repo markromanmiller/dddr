@@ -5,11 +5,10 @@
 #' @param yaw,pitch,roll angles
 #' @param unit Units of the angles, valid values are `"radians"` and `"degrees"`
 #' @export
-tait_bryan <- function(yaw, pitch, roll, unit = c("radians", 'degrees')) {
-  if (missing(unit)) {
-    stop("Expected units argument to be either 'radians' or 'degrees'")
+tait_bryan <- function(yaw, pitch, roll, unit) {
+  if (missing(unit) || !unit %in% c("radians", 'degrees')) {
+    stop("Expected `unit` argument to be either 'radians' or 'degrees'")
   }
-  unit <- match.arg(unit)
 
   if (unit == "degrees") {
     yaw <- yaw / 180 * pi

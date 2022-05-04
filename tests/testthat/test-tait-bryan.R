@@ -1,14 +1,14 @@
 test_that("missing unit argument throws error", {
-  expect_error(tait_bryan(yaw = 0, pitch = 0, roll = 0))
+  expect_error(tait_bryan(yaw = 0, pitch = 0, roll = 0), "Expected `unit` argument")
 })
 
 test_that("unexpected unit argument throws error", {
-  # match.arg should not throw error for degree
-  expect_equal(
-    tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="degree"),
-    quat(1, 0, 0, 0)
+  set_dddr_semantics(
+    axes = semantics_axes_unity,
+    angles = semantics_angles(intrinsic = "ypr", hand = "left")
   )
-  expect_error(tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="aef"))
+
+  expect_error(tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="aef"), "Expected `unit` argument")
 })
 
 
@@ -22,10 +22,6 @@ test_that("null rotations have no effect.", {
     tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="radians"),
     quat(1, 0, 0, 0)
   )
-  expect_equal(
-    tait_bryan(yaw = 0, pitch = 0, roll = 0, unit="degrees"),
-    quat(1, 0, 0, 0)
-  )
 
   set_dddr_semantics(
     axes = semantics_axes_unity,
@@ -34,11 +30,6 @@ test_that("null rotations have no effect.", {
   expect_equal(
     tait_bryan(yaw = rep(0, 3), pitch = rep(0, 3), roll = rep(0, 3),
                unit="radians"),
-    rep(quat(1, 0, 0, 0), 3)
-  )
-  expect_equal(
-    tait_bryan(yaw = rep(0, 3), pitch = rep(0, 3), roll = rep(0, 3),
-               unit="degrees"),
     rep(quat(1, 0, 0, 0), 3)
   )
 })
@@ -53,10 +44,6 @@ test_that("single nonzero values perform sensible rotations", {
   )
   expect_equal(
     tait_bryan(yaw = 0, pitch = pi / 3, roll = 0, unit="radians"),
-    quat(cos(pi / 6), sin(pi / 6), 0, 0)
-  )
-  expect_equal(
-    tait_bryan(yaw = 0, pitch = 60, roll = 0, unit="degrees"),
     quat(cos(pi / 6), sin(pi / 6), 0, 0)
   )
 
@@ -78,6 +65,9 @@ test_that("single nonzero values perform sensible rotations", {
       quat(cos(pi / 6), 0, 0, sin(pi / 6))
     )
   )
+})
+
+test_that("degree rotations are computed properly", {
   expect_equal(
     tait_bryan(
       yaw = c(60, 0, 0),
@@ -105,13 +95,6 @@ test_that("multiple nonzero values follow process order", {
     ),
     vector3(0.5, -sin(pi / 4), 0.5) # this says it's negative.
   )
-  expect_equal(
-    rotate(
-      vector3(0, 0, 1),
-      tait_bryan(yaw = 45, pitch = 45, roll = 0, unit="degrees")
-    ),
-    vector3(0.5, -sin(pi / 4), 0.5) # this says it's negative.
-  )
 
   set_dddr_semantics(
     axes = semantics_axes(x = "forward", y = "up", hand = "left"),
@@ -122,13 +105,6 @@ test_that("multiple nonzero values follow process order", {
     rotate(
       vector3(1, 0, 0),
       tait_bryan(yaw = pi / 6, pitch = 0, roll = -pi / 6, unit="radians")
-    ),
-    vector3(cos(pi / 6), -sin(pi / 6)^2, cos(pi / 6) * sin(pi / 6))
-  )
-  expect_equal(
-    rotate(
-      vector3(1, 0, 0),
-      tait_bryan(yaw = 30, pitch = 0, roll = -30, unit="degrees")
     ),
     vector3(cos(pi / 6), -sin(pi / 6)^2, cos(pi / 6) * sin(pi / 6))
   )
