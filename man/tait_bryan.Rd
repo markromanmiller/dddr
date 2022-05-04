@@ -4,7 +4,7 @@
 \alias{tait_bryan}
 \title{Tait-Bryan angles}
 \usage{
-tait_bryan(yaw, pitch, roll, unit = c("radians", "degrees"))
+tait_bryan(yaw, pitch, roll, unit)
 }
 \arguments{
 \item{yaw, pitch, roll}{angles}
