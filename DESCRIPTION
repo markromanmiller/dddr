@@ -12,7 +12,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr (>= 1.0.0),
     ggplot2,
     pillar,
     rlang,
@@ -20,6 +19,7 @@ Imports:
 Suggests:
     covr,
     crayon,
+    dplyr,
     glue,
     knitr,
     rmarkdown,
