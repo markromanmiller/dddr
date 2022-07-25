@@ -29,7 +29,7 @@ pull_bundle <- function(spec) {
 #' Bundle columns into a vector or quaternion
 #'
 #'
-#'
+#' @export
 bundle <- function(df, ..., .keep = "unused") {
   bv_args <- list(...)
   result_list <- lapply(bv_args, pull_bundle)
