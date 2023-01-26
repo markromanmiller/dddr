@@ -41,6 +41,58 @@ bundle <- function(df, ..., .keep = "unused") {
   )
 }
 
+pull_unbundle <- function(name, enquo_val) {
+  m <- regmatches(name, regexpr("\\{[a-zA-Z]+\\}", name), invert = NA)[[1]]
+
+  # this ought to be a string, let's start with V first.
+  switch(
+    m[[2]],
+    "{v}" = {
+      res <- list(
+        call("$", eval(enquo_val), "x"),
+        call("$", eval(enquo_val), "y"),
+        call("$", eval(enquo_val), "z")
+      )
+      names(res) <- paste0(m[1], c("x", "y", "z"), m[3])
+      res
+    },
+    "{ed}" = {
+      res <- list(
+        call("*", call("pitch", eval(enquo_val)), 180/pi),
+        call("*", call("yaw", eval(enquo_val)), 180/pi),
+        call("*", call("roll", eval(enquo_val)), 180/pi)
+      )
+      names(res) <- paste0(m[1], c("x", "y", "z"), m[3])
+      res
+    },
+    # TODO: add in other values too.
+    {
+      warning("unsupported unbundle spec")
+      NULL
+    }
+  )
+}
+
 unbundle <- function(df, ..., .keep = "unused") {
   # opposite syntax of bundle
+  bv_args <- enquos(...)
+  for (i in seq_along(bv_args)) {
+    df <- mutate(df, !!!pull_unbundle(names(bv_args)[[i]], bv_args[[i]]), .keep = .keep)
+  }
+  df
 }
+
+# when it comes time for tsting, use this:
+# select(starts_with("Head_Rot")) %>%
+#   bundle(
+#     RootRot = "Head_Rot{ed}", .keep = "all"
+#   ) %>%
+#   unbundle(
+#     "PostRot{ed}" = RootRot
+#   ) %>%
+#   mutate(
+#     rotx_diff = Head_Rotx %% 360 - PostRotx %% 360,
+#     roty_diff = Head_Roty %% 360 - PostRoty %% 360,
+#     rotz_diff = Head_Rotz %% 360 - PostRotz %% 360
+#   ) %>%
+#   filter(rotx_diff > 1e-10 | roty_diff > 1e-10 | rotz_diff > 1e-10)
