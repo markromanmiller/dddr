@@ -65,6 +65,16 @@ pull_unbundle <- function(name, enquo_val) {
       names(res) <- paste0(m[1], c("x", "y", "z"), m[3])
       res
     },
+    "{q}" = {
+      res <- list(
+        call("$", eval(enquo_val), "w"),
+        call("$", eval(enquo_val), "x"),
+        call("$", eval(enquo_val), "y"),
+        call("$", eval(enquo_val), "z")
+      )
+      names(res) <- paste0(m[1], c("w", "x", "y", "z"), m[3])
+      res
+    },
     # TODO: add in other values too.
     {
       warning("unsupported unbundle spec")
