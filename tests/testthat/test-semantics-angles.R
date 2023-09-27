@@ -2,49 +2,49 @@ test_that("errors with improper arguments", {
 
   expect_error(
     semantics_angles(intrinsic = "ypr", extrinsic = "rpy"),
-    pattern = "exactly one",
+    regexp = "exactly one",
     class = "dddr_semantics"
   )
 
   expect_error(
     semantics_angles(intrinsic = "ypr", extrinsic = "rpy", hand = "right"),
-    pattern = "exactly one",
+    regexp = "exactly one",
     class = "dddr_semantics"
   )
 
   expect_error(
     semantics_angles(hand = "right"),
-    pattern = "exactly one",
+    regexp = "exactly one",
     class = "dddr_semantics"
   )
 
   expect_error(
     semantics_angles(),
-    pattern = "exactly one",
+    regexp = "exactly one",
     class = "dddr_semantics"
   )
 
   expect_error(
     semantics_angles(extrinsic = "ypr", hand = "robotic"),
-    pattern = "must be either",
+    regexp = "must be either",
     class = "dddr_semantics"
   )
 
   expect_error(
     semantics_angles(intrinsic = "foobar", hand = "left"),
-    pattern = "character vector of length 3",
+    regexp = "character vector of length 3",
     class = "dddr_semantics"
   )
 
   expect_error(
     semantics_angles(extrinsic = c("roll", "pitch", "naw"), hand = "right"),
-    pattern = '"yaw", "pitch", and "roll"',
+    regexp = '"yaw", "pitch", and "roll"',
     class = "dddr_semantics"
   )
 
   expect_error(
     semantics_angles(extrinsic = "rpn", hand = "right"),
-    pattern = '"yaw", "pitch", and "roll"',
+    regexp = '"yaw", "pitch", and "roll"',
     class = "dddr_semantics"
   )
 

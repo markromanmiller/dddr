@@ -21,7 +21,8 @@ StatBin2d3 <- ggplot2::ggproto(
 
     parent$compute_layer(data, params, layout)
   },
-  required_aes = c("v")
+  required_aes = c("v"),
+  dropped_aes = c("v", "depth"),
 )
 
 #' @rdname geom_bin2d3
